@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sense Energy Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/assets/css/app.css" />
+
+  <!-- Chart.js local (versionado) -->
+  <script src="/assets/chart/chart.umd.min.4.4.1.js" defer></script>
+
+  <!-- App -->
+  <script src="/assets/js/app.js" defer></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar__left">
+      <div class="brand">
+        <div class="brand__title">Sense Energy Dashboard</div>
+        <div class="brand__meta">
+          <span id="tzNote" class="muted"></span>
+          <span class="dot">•</span>
+          <span id="lastUpdated" class="muted">Última actualización: —</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topbar__right">
+      <button id="refreshBtn" class="btn btn--primary" type="button" aria-label="Actualizar ahora">
+        Actualizar
+      </button>
+
+      <label class="toggle" title="Actualizar automáticamente cada 5 minutos">
+        <input id="autoRefreshToggle" type="checkbox" />
+        <span class="toggle__track" aria-hidden="true"></span>
+        <span class="toggle__label">Auto</span>
+      </label>
+
+      <button id="logoutBtn" class="btn btn--ghost" type="button">
+        Cerrar sesión
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls card">
+      <div class="controls__row">
+        <div class="field">
+          <label for="rangeSelect">Rango</label>
+          <select id="rangeSelect">
+            <option value="1h">Última hora</option>
+            <option value="6h" selected>Últimas 6 horas</option>
+            <option value="24h">Últimas 24 horas</option>
+            <option value="7d">Últimos 7 días</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="limitInput">Puntos</label>
+          <input id="limitInput" type="number" min="12" max="5000" step="12" value="72" />
+          <div class="hint">Tip: 5 min/pt → 72 ≈ 6h</div>
+        </div>
+
+        <div class="field field--grow">
+          <label>Estado</label>
+          <div id="status" class="status status--idle">Listo</div>
+        </div>
+      </div>
+
+      <div id="errorBanner" class="banner banner--error" role="alert" hidden>
+        <div class="banner__title">No se pudieron cargar los datos.</div>
+        <div class="banner__body">
+          <span id="errorMsg">—</span>
+          <span id="errorMeta" class="muted"></span>
+        </div>
+        <div class="banner__actions">
+          <button id="retryBtn" class="btn btn--primary" type="button">Reintentar</button>
+          <button id="dismissErrorBtn" class="btn btn--ghost" type="button">Cerrar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpis">
+      <div class="kpi card">
+        <div class="kpi__label">Potencia actual</div>
+        <div id="kpiPowerNow" class="kpi__value skeleton skeleton--text">—</div>
+      </div>
+      <div class="kpi card">
+        <div class="kpi__label">Promedio 15 min</div>
+        <div id="kpiAvg15" class="kpi__value skeleton skeleton--text">—</div>
+      </div>
+      <div class="kpi card">
+        <div class="kpi__label">Máximo</div>
+        <div id="kpiMax" class="kpi__value skeleton skeleton--text">—</div>
+      </div>
+      <div class="kpi card">
+        <div class="kpi__label">kWh día</div>
+        <div id="kpiKwhDay" class="kpi__value skeleton skeleton--text">—</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="card__header">
+          <h2>Potencia activa (W)</h2>
+          <div class="muted small" id="chartMeta">—</div>
+        </div>
+
+        <div class="chartWrap">
+          <canvas id="powerChart"></canvas>
+          <div id="chartSkeleton" class="chartSkeleton" hidden aria-hidden="true">
+            <div class="skeleton skeleton--block"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__header">
+          <h2>Últimas lecturas</h2>
+          <div class="muted small" id="tableMeta">—</div>
+        </div>
+
+        <div class="tableWrap">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th>Hora (local)</th>
+                <th>Potencia (W)</th>
+                <th>kWh día</th>
+                <th>Dispositivos</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
