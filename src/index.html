@@ -5,49 +5,133 @@
   <title>Sense Energy Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="/assets/css/app.css" />
-
-  <!-- Chart.js local (versionado) -->
-  <script src="/assets/chart/chart.umd.min.4.4.1.js" defer></script>
-
-  <!-- App -->
-  <script src="/assets/js/app.js" defer></script>
+  <!-- ✅ Relativo: sirve en / y en /releases/<id>/ -->
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 
 <body>
-  <h1>Sense Energy Dashboard</h1>
-  <div class="subtitle">
-    Datos cada 5 minutos desde Sense → AWS (API Gateway + Lambda + DynamoDB)<br>
-    <span id="tzNote" style="color:#60a5fa;"></span>
-  </div>
-
-  <div class="layout">
-    <div class="card">
-      <h2>Potencia activa (W)</h2>
-
-      <canvas id="powerChart"></canvas>
-
-      <!-- Estado / mensajes -->
-      <div id="status" class="status">Iniciando…</div>
-
-      <!-- ✅ BOTÓN LOGOUT (sin onclick inline) -->
-      <button id="logoutBtn" type="button">Cerrar sesión</button>
+  <header class="header">
+    <div class="header-left">
+      <h1>Sense Energy Dashboard</h1>
+      <p class="subtitle">
+        Datos cada 5 minutos (Sense → AWS)
+        <br />
+        Timezone: <span id="tzNote"></span>
+      </p>
     </div>
 
-    <div class="card">
-      <h2>Últimas lecturas</h2>
-      <table id="dataTable">
-        <thead>
-          <tr>
-            <th>Hora (local)</th>
-            <th>Potencia (W)</th>
-            <th>kWh día</th>
-            <th>Dispositivos</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <div class="actions">
+      <button id="btnRefresh" class="btn" type="button">Actualizar</button>
+      <button id="btnLogout" class="btn btn-ghost" type="button">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- KPI CARDS -->
+  <section class="kpis">
+    <div class="kpi">
+      <div class="kpi-head">
+        <h3>Potencia actual</h3>
+        <span class="kpi-chip" id="kpiDelta">—</span>
+      </div>
+      <div class="kpi-value" id="kpiPowerNow">—</div>
+      <div class="kpi-foot" id="kpiPowerNowFoot">—</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-head">
+        <h3>Promedio (últimas 8h)</h3>
+        <span class="kpi-chip" id="kpiAvgDelta">—</span>
+      </div>
+      <div class="kpi-value" id="kpiPowerAvg">—</div>
+      <div class="kpi-foot" id="kpiPowerAvgFoot">—</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-head">
+        <h3>Máximo (últimas 8h)</h3>
+        <span class="kpi-chip" id="kpiPeakTag">Pico</span>
+      </div>
+      <div class="kpi-value" id="kpiPowerMax">—</div>
+      <div class="kpi-foot" id="kpiPowerMaxFoot">—</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-head">
+        <h3>Energía del día</h3>
+        <span class="kpi-chip" id="kpiKwhTag">Hoy</span>
+      </div>
+      <div class="kpi-value" id="kpiKwhToday">—</div>
+      <div class="kpi-unit">kWh</div>
+    </div>
+  </section>
+
+  <main class="layout">
+    <section class="card chart-card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <h2>Potencia activa (W)</h2>
+
+          <!-- meta del rango seleccionado -->
+          <div class="small-note" id="rangeMeta"></div>
+
+          <!-- ✅ Opción A: aquí se renderizan presets dinámicos -->
+          <div class="quickbar" aria-label="Controles rápidos del gráfico">
+            <div id="rangeControls" class="seg" title="Presets de ventana"></div>
+          </div>
+        </div>
+
+        <div class="card-head-right">
+          <div class="small-note" id="statusText">Listo</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="powerChart"></canvas>
+      </div>
+
+      <div class="card-foot">
+        <span class="small-note" id="apiNote">—</span>
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <div class="card-head">
+        <h2>Últimas lecturas</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>Hora (local)</th>
+              <th>Potencia (W)</th>
+              <th>kWh día</th>
+              <th>Dispositivos</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- AUTH MODAL -->
+  <div id="authModal" class="auth-modal" hidden>
+    <div class="auth-box">
+      <h3>Sesión expirada</h3>
+      <p>Tu sesión expiró o no estás autenticado. Debes reautenticarte para continuar.</p>
+      <div class="auth-actions">
+        <button id="btnReauth" class="btn" type="button">Reautenticar</button>
+        <button id="btnCloseAuth" class="btn btn-ghost" type="button">Cerrar</button>
+      </div>
+      <div class="auth-hint" id="authHint"></div>
     </div>
   </div>
+
+  <!-- ✅ Relativo -->
+  <script src="assets/chart/chart.umd.min.4.4.1.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js" defer></script>
 </body>
 </html>

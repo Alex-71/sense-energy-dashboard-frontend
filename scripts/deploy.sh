@@ -1,33 +1,80 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BUCKET="${BUCKET:-sense-dashboard-alex}"
+# deploy.sh
+# Publica a PROD (root del bucket) desde:
+#   - stable/ (default), o
+#   - releases/<BUILD_ID>/ si se indica BUILD_ID
+#
+# Garantiza que /assets/* quede publicado en root (evita 403 en CloudFront).
+# No cambia configuración AWS; solo copia archivos.
 
-# 1) Build (genera dist con app.<BUILD>.js/css y reescribe index)
-./scripts/build.sh
+S3_BUCKET="${S3_BUCKET:-sense-dashboard-alex}"
+RELEASES_PREFIX="${RELEASES_PREFIX:-releases}"
+STABLE_PREFIX="${STABLE_PREFIX:-stable}"
+CF_DISTRIBUTION_ID="${CF_DISTRIBUTION_ID:-E32H0GVSNM7RAE}"
 
-# 2) Limpieza preventiva: elimina versiones anteriores de app.* (por si quedaron huérfanas)
-#    Esto evita acumulación incluso si alguna vez cambiaste rutas/estructura.
-aws s3 rm "s3://$BUCKET/assets/js/"  --recursive --exclude "*" --include "app.*.js"  2>/dev/null || true
-aws s3 rm "s3://$BUCKET/assets/css/" --recursive --exclude "*" --include "app.*.css" 2>/dev/null || true
+BUILD_ID="${1:-${BUILD_ID:-}}"
 
-# (Opcional) elimina legacy si alguna vez reaparecen
-aws s3 rm "s3://$BUCKET/assets/js/app.js"   2>/dev/null || true
-aws s3 rm "s3://$BUCKET/assets/css/app.css" 2>/dev/null || true
+if [[ -n "${BUILD_ID}" ]]; then
+  SRC="s3://${S3_BUCKET}/${RELEASES_PREFIX}/${BUILD_ID}/"
+  echo "==> Deploy PROD desde RELEASE: ${BUILD_ID}"
+else
+  SRC="s3://${S3_BUCKET}/${STABLE_PREFIX}/"
+  echo "==> Deploy PROD desde STABLE"
+fi
 
-# 3) Assets: cache largo (incluye app.<BUILD>.js/css, chart, favicon)
-aws s3 sync dist "s3://$BUCKET/" \
+DST="s3://${S3_BUCKET}/"
+
+echo "    Desde: $SRC"
+echo "    Hacia: $DST"
+
+# -------------------------------------------------------------------
+# 1) Sync TOP-LEVEL (excluye assets/ porque lo sincronizamos aparte)
+# -------------------------------------------------------------------
+aws s3 sync "$SRC" "$DST" \
   --delete \
-  --exclude "index.html" \
-  --exclude ".DS_Store" \
-  --exclude "*.map" \
-  --cache-control "public,max-age=31536000,immutable" \
-  --metadata-directive REPLACE
+  --exact-timestamps \
+  --exclude "${STABLE_PREFIX}/*" \
+  --exclude "${RELEASES_PREFIX}/*" \
+  --exclude "assets/*"
 
-# 4) index.html: sin cache para que se vea el último build
-aws s3 cp dist/index.html "s3://$BUCKET/index.html" \
-  --cache-control "no-cache,no-store,must-revalidate" \
+# -------------------------------------------------------------------
+# 2) Sync ASSETS (esto es lo que evita tus 403)
+# -------------------------------------------------------------------
+aws s3 sync "${SRC}assets/" "${DST}assets/" \
+  --delete \
+  --exact-timestamps
+
+# -------------------------------------------------------------------
+# 3) Headers siempre frescos para index.html y config.js
+# -------------------------------------------------------------------
+aws s3 cp "${SRC}index.html" "${DST}index.html" \
   --content-type "text/html; charset=utf-8" \
+  --cache-control "no-cache, no-store, must-revalidate" \
   --metadata-directive REPLACE
 
-echo "✅ Deploy OK: s3://$BUCKET/"
+if aws s3 ls "${SRC}assets/js/config.js" >/dev/null 2>&1; then
+  aws s3 cp "${SRC}assets/js/config.js" "${DST}assets/js/config.js" \
+    --content-type "text/javascript; charset=utf-8" \
+    --cache-control "no-cache, no-store, must-revalidate" \
+    --metadata-directive REPLACE
+fi
+
+# (Opcional) favicon fresco
+if aws s3 ls "${SRC}favicon.ico" >/dev/null 2>&1; then
+  aws s3 cp "${SRC}favicon.ico" "${DST}favicon.ico" \
+    --content-type "image/x-icon" \
+    --cache-control "no-cache, no-store, must-revalidate" \
+    --metadata-directive REPLACE
+fi
+
+# -------------------------------------------------------------------
+# 4) Invalidación CloudFront
+# -------------------------------------------------------------------
+echo "==> Invalidando CloudFront (index + assets)"
+aws cloudfront create-invalidation \
+  --distribution-id "$CF_DISTRIBUTION_ID" \
+  --paths "/index.html" "/favicon.ico" "/assets/*"
+
+echo "✅ Deploy completado"

@@ -1,0 +1,435 @@
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+:root {
+  --bg: #0b1220;
+  --bg-grad-top: #070d1a;
+  --card: #121a2b;
+  --card-soft: #151f33;
+
+  --text: #e6ebf2;
+  --muted: #9aa4b2;
+
+  --accent: #4da3ff;
+  --good: #58d19f;
+  --bad: #ff6b6b;
+
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+
+/* =========================
+   RESET / BASE
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, var(--bg-grad-top), var(--bg));
+  color: var(--text);
+  overflow-x: hidden;
+
+  /* ✅ CLAVE: permite que el main use el alto restante */
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 28px;
+  gap: 16px;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.subtitle {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #27314a;
+  background: #1a2338;
+  color: var(--text);
+  font-size: 0.75rem;
+  cursor: pointer;
+  line-height: 1;
+  user-select: none;
+}
+
+.btn:hover {
+  background: #222d48;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: #2a3552;
+}
+
+/* Botón pequeño para quickbar */
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  border-radius: 999px;
+}
+
+/* (Opcional) estado activo (si lo agregas en JS con classList.toggle("is-active")) */
+.btn.is-active {
+  border-color: rgba(77, 163, 255, 0.75);
+  box-shadow: 0 0 0 2px rgba(77, 163, 255, 0.15);
+}
+
+/* =========================
+   KPI CARDS
+========================= */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 0 28px 16px;
+}
+
+.kpi {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.kpi-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kpi h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.kpi-value {
+  margin-top: 6px;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.kpi-foot,
+.kpi-unit {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.kpi-chip {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #2a3552;
+  color: var(--muted);
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+.layout {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 20px;
+  padding: 0 28px 28px;
+
+  /* ✅ CLAVE: ocupa el alto restante del viewport */
+  flex: 1;
+  min-height: 0;
+
+  /* ✅ CLAVE: ambos cards se estiran igual */
+  align-items: stretch;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+
+  /* ✅ para permitir que hijos con overflow funcionen */
+  min-height: 0;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  /* ✅ importante: evita overlays extraños cuando hay wraps */
+  flex-wrap: nowrap;
+}
+
+.card-head h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Columna izquierda del head (título + quickbar) */
+.card-head-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0; /* permite wrap correcto */
+}
+
+/* Columna derecha del head (status) */
+.card-head-right {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+}
+
+.card-foot {
+  margin-top: 6px;
+}
+
+/* =========================
+   QUICKBAR (controles)
+========================= */
+.quickbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+
+  /* ✅ CLAVE: NO permitir que se “meta” arriba del canvas */
+  position: static;
+  z-index: auto;
+
+  /* look */
+  padding-top: 2px;
+}
+
+.seg {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid #26314a;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.chk {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  user-select: none;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #26314a;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.chk input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+}
+
+/* Meta del rango (opcional) */
+#rangeMeta {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* =========================
+   CHART
+========================= */
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.chart-container {
+  position: relative;
+
+  /* ✅ CLAVE: SIN altura fija; llena el espacio disponible */
+  flex: 1;
+  min-height: 320px; /* ✅ evita que se “colapse” */
+}
+
+/* ✅ Importante para que Chart.js use bien el tamaño del contenedor */
+#powerChart {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.small-note {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* =========================
+   TABLE
+========================= */
+.table-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.table-wrap {
+  /* ✅ CLAVE: scroll interno, sin max-height fijo */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  max-height: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  font-size: 0.75rem;
+  border-bottom: 1px solid #1e2638;
+  vertical-align: top;
+}
+
+th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Pills (dispositivos) */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pill {
+  background: #1f2a44;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  color: var(--text);
+}
+
+.dim {
+  color: var(--muted);
+}
+
+/* =========================
+   AUTH MODAL
+========================= */
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: none; /* oculto por defecto */
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* cuando JS quita el atributo hidden */
+.auth-modal:not([hidden]) {
+  display: flex;
+}
+
+.auth-box {
+  background: var(--card-soft);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 340px;
+  text-align: center;
+}
+
+.auth-box h3 {
+  margin-top: 0;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.auth-hint {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* en mobile: deja que crezca naturalmente */
+  .table-wrap {
+    max-height: none;
+  }
+
+  /* en mobile: pon un mínimo cómodo para el gráfico */
+  .chart-container {
+    min-height: 360px;
+  }
+
+  .card-head {
+    flex-wrap: wrap;
+  }
+
+  .card-head-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
