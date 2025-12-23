@@ -20,3 +20,4 @@ window.SENSE_DASH_CONFIG = {
     }
   }
 };
+

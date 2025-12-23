@@ -1,21 +1,51 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# OS
+# OS / editor
 .DS_Store
+.vscode/
+.idea/
 
 # Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Keys
+*id_rsa*
+*id_ed25519*
+
+# SSH keys (names vary) - keep local only
+.ssh/
 
 # Build outputs
 dist/
-releases/
-stable/
-
-# Backups / restores
-*_backup*
-_restore_*
 *.zip
 
-# Env / secrets
+# Private keys (avoid storing in repo at all)
+*.pem
+*.key
+*.p12
+*.pfx
+
+# src
+src/config.js
+
+# Local backups / restore folders
+*_backup_*/
+_restore_*/
+src_backup_*/
+
+# Local env / secrets
 .env
 .env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*id_rsa*
+*id_ed25519*
+
+# Reports / scans
+gitleaks-report.json
+secrets-scan.txt
+repo_tree.txt
+repo_tree_final.txt
