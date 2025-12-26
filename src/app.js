@@ -67,6 +67,13 @@
   const kpiDelta = el("kpiDelta");
   const kpiAvgDelta = el("kpiAvgDelta");
 
+// Trends (dentro de cada KPI)
+const trendPowerNow = el("trendPowerNow");
+const trendPowerAvg = el("trendPowerAvg");
+const trendPowerMax = el("trendPowerMax");
+const trendKwhToday = el("trendKwhToday");
+
+
   const tableBody = document.querySelector("#dataTable tbody");
 
   // =========================
@@ -178,15 +185,21 @@
   // OAuth2 URLs
   // =========================
   function ensureTrailingSlash(u) {
-    return u.endsWith("/") ? u : u + "/";
-  }
+  return u.endsWith("/") ? u : u + "/";
+}
 
-  function getRedirectUri() {
-    const base = CFG.redirectUri ? String(CFG.redirectUri) : window.location.origin;
-    return ensureTrailingSlash(base);
-  }
+function getRedirectUri() {
+  // Respeta redirectUri del config si existe
+  if (CFG.redirectUri) return ensureTrailingSlash(String(CFG.redirectUri));
 
-  function clearUrlArtifacts() {
+  // Auto-detect según path (Opción A: root vs /qa/)
+  const path = window.location.pathname || "/";
+  const basePath = path.startsWith("/qa") ? "/qa/" : "/";
+
+  return ensureTrailingSlash(window.location.origin + basePath);
+}
+
+function clearUrlArtifacts() {
     // ✅ NO salir de /releases/<id>/...
     const p = window.location.pathname || "/";
     history.replaceState({}, "", p);
@@ -308,31 +321,32 @@
   // =========================
   // API
   // =========================
+  // ✅ FIX: función única, sin duplicados debajo
   async function fetchData(limit) {
-    const token = localStorage.getItem(K_ACCESS);
-    const url = `${API_URL}?limit=${encodeURIComponent(String(limit))}`;
+  const token = localStorage.getItem(K_ACCESS);
+  const url = `${API_URL}?limit=${encodeURIComponent(String(limit))}`;
 
-    if (apiNote) apiNote.textContent = `GET ${url}`;
+  if (apiNote) apiNote.textContent = `GET ${url}`;
 
-    const res = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    });
+  const headers = { Accept: "application/json" };
+  if (token) headers.Authorization = `Bearer ${token}`;
 
-    if (res.status === 401) {
-      clearAuth();
-      throw new Error("401 Unauthorized: token expirado o inválido");
-    }
+  const res = await fetch(url, { headers });
 
-    if (!res.ok) {
-      const txt = await res.text().catch(() => "");
-      throw new Error(`Error API (${res.status}): ${txt}`);
-    }
-
-    return res.json();
+  if (res.status === 401) {
+    clearAuth();
+    throw new Error("401 Unauthorized: token expirado o inválido");
   }
+
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Error API (${res.status}): ${txt}`);
+  }
+
+  return res.json();
+}
+
+
 
   // =========================
   // Normalize data
@@ -400,30 +414,64 @@
   }
 
   function computeKPIs(rows) {
-    if (!rows.length) return null;
+  if (!rows.length) return null;
 
-    const sorted = [...rows]
-      .filter((r) => r.ts != null)
-      .sort((a, b) => new Date(a.ts) - new Date(b.ts));
+  const sorted = [...rows]
+    .filter((r) => r.ts != null)
+    .sort((a, b) => new Date(a.ts) - new Date(b.ts));
 
-    const latest = sorted[sorted.length - 1];
-    if (!latest) return null;
+  const latest = sorted[sorted.length - 1];
+  if (!latest) return null;
 
-    const end = new Date(latest.ts).getTime();
-    const start = end - 8 * 60 * 60 * 1000;
+  const end = new Date(latest.ts).getTime();
+  const start = end - 8 * 60 * 60 * 1000;
 
-    const last8h = sorted.filter((r) => r.ts != null && new Date(r.ts).getTime() >= start);
+  const last8h = sorted.filter((r) => r.ts != null && new Date(r.ts).getTime() >= start);
 
-    const powers = last8h.map((r) => r.powerW).filter((v) => Number.isFinite(v));
-    const avg = powers.length ? powers.reduce((a, b) => a + b, 0) / powers.length : null;
-    const max = powers.length ? Math.max(...powers) : null;
+  const powers = last8h.map((r) => r.powerW).filter((v) => Number.isFinite(v));
+  const avg = powers.length ? powers.reduce((a, b) => a + b, 0) / powers.length : null;
+  const max = powers.length ? Math.max(...powers) : null;
 
-    const prev = sorted.length >= 2 ? sorted[sorted.length - 2] : null;
-    const delta = latest?.powerW != null && prev?.powerW != null ? latest.powerW - prev.powerW : null;
-    const avgDelta = latest?.powerW != null && avg != null ? latest.powerW - avg : null;
+  // Ventana anterior (8h previas)
+  const prevStart = start - 8 * 60 * 60 * 1000;
+  const prev8h = sorted.filter((r) => {
+    const t = r.ts != null ? new Date(r.ts).getTime() : 0;
+    return t >= prevStart && t < start;
+  });
+  const prevPowers = prev8h.map((r) => r.powerW).filter((v) => Number.isFinite(v));
+  const prevAvg = prevPowers.length ? prevPowers.reduce((a, b) => a + b, 0) / prevPowers.length : null;
+  const prevMax = prevPowers.length ? Math.max(...prevPowers) : null;
 
-    return { latest, avg, max, start, end, delta, avgDelta };
-  }
+  const prev = sorted.length >= 2 ? sorted[sorted.length - 2] : null;
+
+  // Deltas corto plazo
+  const deltaPower = latest?.powerW != null && prev?.powerW != null ? latest.powerW - prev.powerW : null;
+  const deltaKwh = latest?.kwhDay != null && prev?.kwhDay != null ? latest.kwhDay - prev.kwhDay : null;
+
+  // Deltas contexto
+  const deltaNowVsAvg = latest?.powerW != null && avg != null ? latest.powerW - avg : null;
+  const deltaAvgVsPrev = avg != null && prevAvg != null ? avg - prevAvg : null;
+  const deltaMaxVsPrev = max != null && prevMax != null ? max - prevMax : null;
+  const deltaMaxVsAvg = max != null && avg != null ? max - avg : null;
+
+  return {
+    latest,
+    avg,
+    max,
+    start,
+    end,
+    prevAvg,
+    prevMax,
+    deltaPower,
+    deltaKwh,
+    deltaNowVsAvg,
+    deltaAvgVsPrev,
+    deltaMaxVsPrev,
+    deltaMaxVsAvg
+  };
+}
+
+
 
   function chip(node, delta, suffix = "") {
     if (!node) return;
@@ -440,33 +488,125 @@
       delta >= 0 ? "rgba(88,209,159,.35)" : "rgba(255,107,107,.35)";
   }
 
+function formatDelta(v, unit = "", decimals = 0) {
+  if (v == null || !Number.isFinite(v)) return "—";
+  const sign = v > 0 ? "+" : v < 0 ? "−" : "";
+  const abs = Math.abs(v);
+  const num = decimals > 0 ? abs.toFixed(decimals) : String(Math.round(abs));
+  return `${sign}${num}${unit}`;
+}
+
+function renderTrend(container, items) {
+  if (!container) return;
+  container.innerHTML = "";
+
+  (items || []).forEach((it) => {
+    const delta = it?.delta;
+    const unit = it?.unit || "";
+    const decimals = Number(it?.decimals || 0);
+
+    const cls =
+      delta == null || !Number.isFinite(delta) ? "trend-flat" :
+      delta > 0 ? "trend-up" :
+      delta < 0 ? "trend-down" : "trend-flat";
+
+    const arrow =
+      delta == null || !Number.isFinite(delta) ? "•" :
+      delta > 0 ? "▲" :
+      delta < 0 ? "▼" : "■";
+
+    const elItem = document.createElement("span");
+    elItem.className = `trend-item ${cls}`;
+
+    const a = document.createElement("span");
+    a.className = "trend-arrow";
+    a.textContent = arrow;
+
+    const label = document.createElement("span");
+    label.className = "trend-label";
+    label.textContent = it?.label ? String(it.label) : "";
+
+    const d = document.createElement("span");
+    d.className = "trend-delta";
+    d.textContent = formatDelta(delta, unit, decimals);
+
+    elItem.appendChild(a);
+    elItem.appendChild(label);
+    elItem.appendChild(d);
+
+    container.appendChild(elItem);
+  });
+}
+
+
+
   function renderKPIs(kpis) {
-    if (!kpis) {
-      setText(kpiPowerNow, "—");
-      setText(kpiPowerNowFoot, "—");
-      setText(kpiPowerAvg, "—");
-      setText(kpiPowerAvgFoot, "—");
-      setText(kpiPowerMax, "—");
-      setText(kpiPowerMaxFoot, "—");
-      setText(kpiKwhToday, "—");
-      chip(kpiDelta, null);
-      chip(kpiAvgDelta, null);
-      return;
-    }
+  if (!kpis) {
+    setText(kpiPowerNow, "—");
+    setText(kpiPowerNowFoot, "—");
+    setText(kpiPowerAvg, "—");
+    setText(kpiPowerAvgFoot, "—");
+    setText(kpiPowerMax, "—");
+    setText(kpiPowerMaxFoot, "—");
+    setText(kpiKwhToday, "—");
+    chip(kpiDelta, null);
+    chip(kpiAvgDelta, null);
 
-    setText(kpiPowerNow, fmtW(kpis.latest.powerW ?? null));
-    setText(kpiPowerNowFoot, kpis.latest.ts ? `Actualizado: ${fmtLocal(kpis.latest.ts)}` : "—");
-
-    setText(kpiPowerAvg, kpis.avg != null ? fmtW(kpis.avg) : "—");
-    setText(kpiPowerAvgFoot, "Ventana: 8h");
-
-    setText(kpiPowerMax, kpis.max != null ? fmtW(kpis.max) : "—");
-    setText(kpiPowerMaxFoot, kpis.latest.ts ? `Último punto: ${fmtLocal(kpis.latest.ts)}` : "—");
-
-    setText(kpiKwhToday, fmtKwh(kpis.latest.kwhDay));
-    chip(kpiDelta, kpis.delta, " W");
-    chip(kpiAvgDelta, kpis.avgDelta, " W");
+    renderTrend(trendPowerNow, [
+      { label: "vs prev", delta: null, unit: " W" },
+      { label: "vs avg8h", delta: null, unit: " W" }
+    ]);
+    renderTrend(trendPowerAvg, [
+      { label: "vs prev8h", delta: null, unit: " W" },
+      { label: "vs now", delta: null, unit: " W" }
+    ]);
+    renderTrend(trendPowerMax, [
+      { label: "vs prev8h", delta: null, unit: " W" },
+      { label: "vs avg8h", delta: null, unit: " W" }
+    ]);
+    renderTrend(trendKwhToday, [
+      { label: "Δ since last", delta: null, unit: "", decimals: 3 }
+    ]);
+    return;
   }
+
+  setText(kpiPowerNow, fmtW(kpis.latest.powerW ?? null));
+  setText(kpiPowerNowFoot, kpis.latest.ts ? `Actualizado: ${fmtLocal(kpis.latest.ts)}` : "—");
+
+  setText(kpiPowerAvg, kpis.avg != null ? fmtW(kpis.avg) : "—");
+  setText(kpiPowerAvgFoot, "Ventana: 8h");
+
+  setText(kpiPowerMax, kpis.max != null ? fmtW(kpis.max) : "—");
+  setText(kpiPowerMaxFoot, kpis.latest.ts ? `Último punto: ${fmtLocal(kpis.latest.ts)}` : "—");
+
+  setText(kpiKwhToday, fmtKwh(kpis.latest.kwhDay));
+
+  // Chips existentes
+  chip(kpiDelta, kpis.deltaPower, " W");
+  chip(kpiAvgDelta, kpis.deltaNowVsAvg, " W");
+
+  // Trends (C): dentro de cada KPI
+  renderTrend(trendPowerNow, [
+    { label: "vs prev", delta: kpis.deltaPower, unit: " W" },
+    { label: "vs avg8h", delta: kpis.deltaNowVsAvg, unit: " W" }
+  ]);
+
+  renderTrend(trendPowerAvg, [
+    { label: "vs prev8h", delta: kpis.deltaAvgVsPrev, unit: " W" },
+    { label: "vs now", delta: (kpis.avg != null && kpis.latest?.powerW != null) ? (kpis.avg - kpis.latest.powerW) : null, unit: " W" }
+  ]);
+
+  renderTrend(trendPowerMax, [
+    { label: "vs prev8h", delta: kpis.deltaMaxVsPrev, unit: " W" },
+    { label: "vs avg8h", delta: kpis.deltaMaxVsAvg, unit: " W" }
+  ]);
+
+  renderTrend(trendKwhToday, [
+    { label: "Δ since last", delta: kpis.deltaKwh, unit: "", decimals: 3 }
+  ]);
+}
+
+
 
   // =========================
   // Table
@@ -761,6 +901,12 @@
   }
 
   window.addEventListener("load", () => {
+    // 🔖 Mostrar versión de la app
+    const versionEl = document.getElementById("appVersion");
+    if (versionEl && window.SENSE_DASH_CONFIG?.version) {
+      versionEl.textContent = `v${window.SENSE_DASH_CONFIG.version}`;
+    }
+
     boot().catch((e) => {
       console.error(e);
       showAuthModal(`Error inicializando: ${e?.message || e}`);

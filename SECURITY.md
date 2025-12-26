@@ -6,7 +6,7 @@ Este documento define prácticas de seguridad para evitar que se commiteen secre
 
 ## Información sensible (NO debe commitearse)
 Nunca commits de:
-- Credenciales de AWS (access keys / secret keys)
+- Variables de credenciales de AWS
 - Secretos de Cognito (client secret)
 - API keys privadas
 - Claves privadas SSH

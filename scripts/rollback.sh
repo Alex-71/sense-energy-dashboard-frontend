@@ -1,42 +1,43 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# rollback.sh
-# Rollback rápido:
-# - sin args: despliega stable/ a prod root
-# - con BUILD_ID: despliega releases/<BUILD_ID>/ a prod root
+# Rollback a "estable" en 1 comando.
 #
-# Nota: esto NO cambia AWS config. Solo vuelve a publicar archivos.
+# Uso:
+#   ./scripts/rollback.sh               # despliega stable/ a prod
+#   ./scripts/rollback.sh <BUILD_ID>    # despliega releases/<BUILD_ID>/ a prod (forzado)
+#
+# Requiere:
+#   - aws cli configurado
+#   - CloudFront distribution id disponible (default abajo)
 
 S3_BUCKET="${S3_BUCKET:-sense-dashboard-alex}"
+RELEASES_PREFIX="${RELEASES_PREFIX:-releases}"
 STABLE_PREFIX="${STABLE_PREFIX:-stable}"
+CF_DISTRIBUTION_ID="${CF_DISTRIBUTION_ID:-E32H0GVSNM7RAE}"
 
+# Si pasas BUILD_ID, se usa ese release. Si no, se usa stable.
 BUILD_ID="${1:-${BUILD_ID:-}}"
 
-# Resolver ruta absoluta del directorio scripts/ (donde está este archivo)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DEPLOY_SH="${SCRIPT_DIR}/deploy.sh"
-
-if [[ ! -x "${DEPLOY_SH}" ]]; then
-  echo "❌ No encuentro deploy.sh ejecutable en: ${DEPLOY_SH}"
-  echo "   (Tip) ejecuta: chmod +x scripts/*.sh"
-  exit 1
-fi
-
-if [[ -z "${BUILD_ID}" ]]; then
-  echo "==> ROLLBACK a STABLE"
-
-  STABLE_ID="$(aws s3 cp "s3://${S3_BUCKET}/${STABLE_PREFIX}/STABLE_BUILD_ID.txt" - 2>/dev/null || true)"
-  STABLE_ID="$(echo "${STABLE_ID}" | tr -d ' \n\r\t')"
-
-  if [[ -n "${STABLE_ID}" ]]; then
-    echo "    STABLE_BUILD_ID: ${STABLE_ID}"
-  else
-    echo "    STABLE_BUILD_ID: (no disponible)"
-  fi
-
-  exec "${DEPLOY_SH}"
+if [[ -n "${BUILD_ID}" ]]; then
+  SRC="s3://${S3_BUCKET}/${RELEASES_PREFIX}/${BUILD_ID}/"
+  echo "==> ROLLBACK: desplegando release específico: ${BUILD_ID}"
 else
-  echo "==> ROLLBACK a release específico: ${BUILD_ID}"
-  exec "${DEPLOY_SH}" "${BUILD_ID}"
+  SRC="s3://${S3_BUCKET}/${STABLE_PREFIX}/"
+  echo "==> ROLLBACK: desplegando STABLE"
+  echo "    (build actual stable: $(aws s3 cp "s3://${S3_BUCKET}/${STABLE_PREFIX}/STABLE_BUILD_ID.txt" - 2>/dev/null || echo "desconocido"))"
 fi
+
+DST="s3://${S3_BUCKET}/"
+
+echo "    Desde: $SRC"
+echo "    Hacia: $DST"
+
+aws s3 sync "$SRC" "$DST" --delete
+
+echo "==> Invalidando CloudFront (index + assets js/css)"
+aws cloudfront create-invalidation \
+  --distribution-id "$CF_DISTRIBUTION_ID" \
+  --paths "/index.html" "/assets/js/*" "/assets/css/*"
+
+echo "✅ Rollback completado"

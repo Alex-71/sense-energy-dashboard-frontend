@@ -5,7 +5,7 @@
   <title>Sense Energy Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- ✅ Relativo: sirve en / y en /releases/<id>/ -->
+  <!-- ✅ Relativo: sirve en / y en /qa/ y en /releases/<id>/ -->
   <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" href="assets/css/app.css" />
 </head>
@@ -36,6 +36,7 @@
       </div>
       <div class="kpi-value" id="kpiPowerNow">—</div>
       <div class="kpi-foot" id="kpiPowerNowFoot">—</div>
+      <div class="kpi-trend" id="trendPowerNow"></div>
     </div>
 
     <div class="kpi">
@@ -45,6 +46,7 @@
       </div>
       <div class="kpi-value" id="kpiPowerAvg">—</div>
       <div class="kpi-foot" id="kpiPowerAvgFoot">—</div>
+      <div class="kpi-trend" id="trendPowerAvg"></div>
     </div>
 
     <div class="kpi">
@@ -54,6 +56,7 @@
       </div>
       <div class="kpi-value" id="kpiPowerMax">—</div>
       <div class="kpi-foot" id="kpiPowerMaxFoot">—</div>
+      <div class="kpi-trend" id="trendPowerMax"></div>
     </div>
 
     <div class="kpi">
@@ -62,6 +65,7 @@
         <span class="kpi-chip" id="kpiKwhTag">Hoy</span>
       </div>
       <div class="kpi-value" id="kpiKwhToday">—</div>
+      <div class="kpi-trend" id="trendKwhToday"></div>
       <div class="kpi-unit">kWh</div>
     </div>
   </section>
@@ -129,9 +133,14 @@
     </div>
   </div>
 
-  <!-- ✅ Relativo -->
+  <!-- ✅ Scripts (relativos) -->
   <script src="assets/chart/chart.umd.min.4.4.1.js"></script>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/app.js" defer></script>
+
+  <!-- ✅ Footer dentro del body (al final) -->
+  <footer class="footer">
+    <span id="appVersion" class="app-version"></span>
+  </footer>
 </body>
 </html>

@@ -125,8 +125,13 @@ body {
 .kpi {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 14px 16px;
+  padding: 16px 16px;
+  min-height: 124px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
 
 .kpi-head {
   display: flex;
@@ -433,3 +438,53 @@ th {
     justify-content: flex-start;
   }
 }
+
+/* ============================
+   App version (footer)
+   ============================ */
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px;
+  opacity: 0.85;
+}
+
+.app-version {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  opacity: 0.7;
+  user-select: none;
+}
+
+/* =========================
+   KPI trend (inside cards)
+   ========================= */
+.kpi-trend {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.trend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #2a3552;
+  background: rgba(255,255,255,0.02);
+  user-select: none;
+}
+
+.trend-item .trend-delta {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.trend-up .trend-arrow { color: var(--good); }
+.trend-down .trend-arrow { color: var(--bad); }
+.trend-flat .trend-arrow { color: var(--muted); }

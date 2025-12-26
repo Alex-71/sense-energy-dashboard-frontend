@@ -2,12 +2,39 @@
    Copia a config.js y completa SOLO valores públicos.
 */
 window.SENSE_DASH_CONFIG = {
+  // =========================
+  // Cognito Hosted UI
+  // =========================
   domain: "https://<tu-domain>.auth.<region>.amazoncognito.com",
   clientId: "<tu-client-id-publico>",
-  apiUrl: "https://<api-id>.execute-api.<region>.amazonaws.com/data",
   scope: "openid email profile",
+
+  // =========================
+  // API (GET /data)
+  // =========================
+  apiUrl: "https://<api-id>.execute-api.<region>.amazonaws.com/data",
+
+  // =========================
+  // Defaults
+  // =========================
   defaultLimit: 96,
-  redirectUri: "https://<tu-cloudfront>.cloudfront.net",
+
+  // =========================
+  // Redirect URI (CONTROLADO POR ENTORNO)
+  // ⚠️ IMPORTANTE:
+  // - QA  → https://<cloudfront>.cloudfront.net/qa/
+  // - PROD → https://<cloudfront>.cloudfront.net/
+  // =========================
+  redirectUri: "<REDIRECT_URI>",
+
+  // =========================
+  // Build info
+  // =========================
+  version: "<BUILD_ID>",
+
+  // =========================
+  // UI options
+  // =========================
   ui: {
     pointsPerHour: 12,
     filterZeroRows: true,
@@ -20,4 +47,3 @@ window.SENSE_DASH_CONFIG = {
     }
   }
 };
-
