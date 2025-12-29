@@ -1,0 +1,27 @@
+flowchart TB
+  subgraph Dev["Developer machine"]
+    A["Edit src/*"] --> B["scripts/build.sh\nENV=qa|prod"]
+    B --> C["dist/\n(index.html + assets + config.js)"]
+  end
+
+  subgraph AWS["AWS"]
+    subgraph S3["S3 bucket (sense-dashboard-alex)"]
+      QA["qa/ (QA site)"]
+      REL["releases/<BUILD_ID>/ (optional/history)"]
+      ST["stable/ (blessed)"]
+      ROOT["/ (Prod root)"]
+    end
+    CF["CloudFront Distribution\n(d1y8bixpgd5w0a.cloudfront.net)"]
+  end
+
+  C -->|deploy_qa.sh| QA
+  QA --> CF
+
+  REL -->|promote_stable.sh| ST
+  ST -->|deploy.sh (default)| ROOT
+  ROOT --> CF
+
+  CF --> UQA["Users (QA)\nhttps://<CF>/qa/"]
+  CF --> UPR["Users (Prod)\nhttps://<CF>/"]
+
+  RB["rollback.sh"] --> ROOT
