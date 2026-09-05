@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Complejidad y Competencias: 18 Reportes CMF</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{color-scheme:light;--bg:#f3f5f8;--surface:#fff;--surface-2:#eaeef3;--ink:#141a24;--ink-2:#4a5464;--muted:#7c8697;--line:#d9dfe7;--line-2:#c3cbd6;--accent:#1c5cab;--soft:#e4eefb;--h1:#cde2fb;--h2:#6da7ec;--h3:#1c5cab;--amber:#8a4b00;--amber-bg:#fff4e0;--fd:"Source Serif 4",Georgia,serif;--fb:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--fm:"IBM Plex Mono",Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1319;--surface:#171c24;--surface-2:#1f2630;--ink:#f1f4f8;--ink-2:#b6bfcb;--muted:#7f8a9b;--line:#2a323e;--line-2:#3a4452;--accent:#6da7ec;--soft:#1b2a40;--h1:#184f95;--h2:#3987e5;--h3:#9ec5f4;--amber:#f1d18a;--amber-bg:#2b2412}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1319;--surface:#171c24;--surface-2:#1f2630;--ink:#f1f4f8;--ink-2:#b6bfcb;--muted:#7f8a9b;--line:#2a323e;--line-2:#3a4452;--accent:#6da7ec;--soft:#1b2a40;--h1:#184f95;--h2:#3987e5;--h3:#9ec5f4;--amber:#f1d18a;--amber-bg:#2b2412}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--fb)}
+.wrap{max-width:1160px;margin:0 auto;padding:40px 24px 72px}
+.eyebrow{font:12px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:600 clamp(28px,4vw,42px)/1.12 var(--fd);margin:10px 0 12px;max-width:24ch;text-wrap:balance}
+h2{font:600 24px/1.2 var(--fd);margin:44px 0 8px;text-wrap:balance}h3{font:600 16px/1.3 var(--fd);margin:0}
+p{max-width:72ch}.lede{color:var(--ink-2);font-size:16px;max-width:70ch}.sub{color:var(--ink-2);margin:0 0 16px;max-width:72ch}
+.notice{background:var(--amber-bg);color:var(--amber);border-left:3px solid currentColor;padding:12px 16px;border-radius:4px;font-size:14px;max-width:80ch;margin:20px 0 0}
+.args{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.arg{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}.arg h3{margin-bottom:6px}.arg p{margin:0;font-size:14px;color:var(--ink-2)}
+.arg .ev{display:block;margin-top:8px;font-size:13px;color:var(--ink)}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:900px;font-size:13px}th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;background:var(--surface-2);position:sticky;top:0}
+th.grp{text-align:center;color:var(--ink-2)}
+td.code,.code{font:500 12.5px var(--fm);white-space:nowrap}td.nm{min-width:220px}td.fq{white-space:nowrap;color:var(--ink-2)}
+td.h{text-align:center;font:500 12px var(--fm);width:38px}td.h0{color:var(--muted)}td.h1{background:var(--h1);color:#0b2a4d}td.h2{background:var(--h2);color:#fff}td.h3{background:var(--h3);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) td.h1{color:#fff} :root:not([data-theme="light"]) td.h3{color:#0b2a4d}}
+:root[data-theme="dark"] td.h1{color:#fff}:root[data-theme="dark"] td.h3{color:#0b2a4d}
+td.tot{text-align:center;font:600 14px var(--fm)}td.b3{color:var(--accent)}td.gr{font:500 12px var(--fm);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--ink-2);margin:10px 0 0}.legend span{display:inline-flex;align-items:center;gap:6px}.sw{width:14px;height:14px;border-radius:3px;display:inline-block}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px 10px}
+svg.bars{width:100%;height:auto;display:block}.bars .g{stroke:var(--line);stroke-width:1}.bars .tick,.bars .lab{fill:var(--muted);font:11.5px var(--fm)}.bars .lab{fill:var(--ink)}.bars .val{fill:var(--ink-2);font:600 11.5px var(--fm)}
+.bars .c3{fill:var(--h3)}.bars .c2{fill:var(--h2)}.bars .c1{fill:var(--h1)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.card header{display:flex;gap:12px;align-items:flex-start}.card .big{font-size:14px;font-weight:500;background:var(--soft);color:var(--accent);padding:3px 8px;border-radius:4px}
+.card .meta{font-size:12.5px;color:var(--muted);margin-top:2px}.card .score{margin-left:auto;font:600 22px/1 var(--fm);color:var(--accent);white-space:nowrap}.card .score small{font-size:11px;color:var(--muted)}
+.card dl{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;margin:12px 0 0;font-size:13.5px}.card dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding-top:2px}.card dd{margin:0}
+.tag{display:inline-block;font-size:11px;padding:0 7px;border-radius:10px;border:1px solid var(--line-2);color:var(--ink-2)}.tag.a{border-color:var(--accent);color:var(--accent)}.tag.c{border-style:dashed}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 40px}td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+ul.plain{padding-left:18px;margin:6px 0}ul.plain li{margin:5px 0}.src li{margin:6px 0;font-size:13.5px;color:var(--ink-2)}.small{font-size:13px;color:var(--muted)}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+@media (max-width:760px){.args,.cards,.two{grid-template-columns:1fr}.card dl{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="eyebrow">Análisis de cargos · Reportes normativos CMF y SERNAC · Septiembre 2026</div>
+<h1>Complejidad y competencias de los 18 reportes normativos</h1>
+<p class="lede">Análisis reporte por reporte de lo que exige cada envío: la norma que lo sustenta, la frecuencia, la consecuencia de un error, las competencias que requiere y el nivel de cargo que debería prepararlo y firmarlo. Su propósito es fundamentar la reevaluación de la escala de remuneraciones y del perfil de los especialistas que hoy sostienen la función.</p>
+<div class="notice"><b>Base de evidencia.</b> Los nombres, normas y sanciones marcados "Verificado" provienen de comunicados y documentos públicos de la CMF, del SERNAC y de textos legales (enlaces al final). Los puntajes de complejidad y de competencias son una valoración del analista con una rúbrica declarada; deben validarse con el equipo y con Personas. Cuatro códigos (R05, E23, T01, D51) no tienen referencia pública encontrada y quedan por confirmar.</div>
+
+<h2>Los fundamentos, en orden de peso</h2>
+<p class="sub">Siete argumentos, cada uno con su evidencia. Están pensados para responder a la pregunta que hará un directivo: por qué estos cargos deben valorarse distinto a un cargo operativo.</p>
+<div class="args">
+<div class="arg"><h3>1. La responsabilidad es sancionable y tiene precedentes recientes</h3><p>La CMF sanciona errores de contenido en archivos normativos, no solo atrasos. Quien decide qué deudor se incluye en D10 o qué monto se informa en RDC01 está tomando una decisión con consecuencia legal para el banco.</p><span class="ev">Evidencia: julio de 2024, multas de UF 2.500 a Banco Santander y UF 1.000 a Coopeuch por incluir en el Estado de Deudores a personas que no cumplían las condiciones (RAN 18-5 y art. 14 LGB). Enero de 2026, UF 2.500 a Santander por informar en el archivo R13 una medición inexacta entre abril de 2023 y enero de 2025; la CMF citó "debilidades en los controles". Noviembre de 2024, UF 450 y UF 250 a dos bancos por envío tardío de información.</span></div>
+<div class="arg"><h3>2. El Registro de Deuda Consolidada cambió la escala del riesgo</h3><p>Desde el 1 de abril de 2026 tres de los 18 reportes (RDC01, RDC02, RDC40) están bajo la Ley 21.680, cuyo régimen sancionatorio es de otro orden y cuya sanción más grave no es una multa sino la suspensión del acceso al Registro: el banco perdería la capacidad de consultar deuda consolidada al originar créditos.</p><span class="ev">Evidencia: Ley 21.680 y NCG N° 540. Infracciones leves hasta 100 UTM; graves (datos inexactos) hasta 5.000 UTM; gravísimas (datos falsos) hasta 10.000 UTM; suspensión del acceso hasta por un año. RDC40 es diario y RDC02 semanal, con rectificaciones trazables a solicitudes de deudores.</span></div>
+<div class="arg"><h3>3. La complejidad es interpretativa, no solo operativa</h3><p>Once de los 18 reportes exigen nivel intermedio o avanzado en normativa y 16 exigen nivel intermedio o avanzado en datos y SQL. El trabajo consiste en traducir una norma (qué es un deudor informable, cómo se clasifica una colocación, qué es una rectificación) a reglas de datos y en defender esa traducción ante el supervisor.</p><span class="ev">Evidencia: rúbrica de competencias de este documento; descripción de cargo 2024 (SQL intermedio, Power BI, Databricks, normativa CMF) frente a la de 2020 (Excel básico).</span></div>
+<div class="arg"><h3>4. La frecuencia elimina el margen de error</h3><p>Dos reportes diarios, tres con componente semanal y doce mensuales concentrados en los primeros días hábiles: el equipo no tiene días sin obligación regulatoria. En este régimen la confiabilidad depende de controles diseñados por especialistas, no del esfuerzo de analistas.</p><span class="ev">Evidencia: frecuencias declaradas por el área; RDC02 se envía los viernes; el reporte al SERNAC en los primeros cinco días del mes; D10 en transición de mensual a semanal según consulta pública de la CMF.</span></div>
+<div class="arg"><h3>5. El perímetro cambia de forma permanente</h3><p>En un mismo año entran en régimen tres archivos del REDEC, se eliminan tres (D02, P15, P22 con último envío en septiembre de 2026) y se armoniza D10 con el nuevo registro. Cada cambio exige leer la norma, estimar impacto, reconstruir extracciones y probar en paralelo. Esa capacidad es la que distingue a un especialista de un operador.</p><span class="ev">Evidencia: Circular N° 2.376 de la CMF; circular de armonización de la nómina de deudores con el REDEC; consulta pública sobre D10 y D27.</span></div>
+<div class="arg"><h3>6. El perfil es escaso y disputado</h3><p>La combinación de conocimiento normativo bancario con SQL, plataformas de datos y control de calidad es la que buscan Riesgo, Contabilidad, las áreas de datos y los bancos pares. Formar a un reemplazo toma meses de curva de aprendizaje sobre 18 archivos.</p><span class="ev">Evidencia: Guía Salarial Robert Half 2026 para Chile destaca la demanda de profesionales de finanzas que combinen conocimiento financiero con herramientas tecnológicas avanzadas, y la escasez de perfiles con certificaciones normativas (IFRS). Referencia cualitativa; sin cifras en este documento.</span></div>
+<div class="arg"><h3>7. El equipo ya demostró el nivel; falta reconocerlo en la escala</h3><p>Con dotación constante pasó de 1 a 18 reportes y sostiene una eficacia de envío de 98,78 % (indicador interno) con margen permitido de 3 %. El propio diseño organizacional de 2024 dejó escrito que faltaba el pesaje de remuneración respecto a responsabilidad.</p><span class="ev">Evidencia: presentaciones internas "Evolución de la responsabilidad" y "Diseño organizacional Compliance 2024".</span></div>
+</div>
+
+<h2>Matriz de complejidad y competencias</h2>
+<p class="sub">Cinco dimensiones de complejidad y cinco competencias, cada una de 0 a 3. El total de complejidad (0 a 15) ordena los reportes. La última columna indica el grado mínimo que debería preparar el reporte y el que debería validarlo y firmarlo.</p>
+<div class="tbl"><table>
+<thead><tr><th rowspan="2">Código</th><th rowspan="2">Reporte</th><th rowspan="2">Frecuencia</th><th colspan="5" class="grp">Complejidad</th><th rowspan="2">Total</th><th colspan="5" class="grp">Competencia requerida</th><th rowspan="2">Prepara → firma</th></tr>
+<tr><th title="Interpretación normativa">Interpretación</th><th title="Integración de fuentes de datos">Integración</th><th title="Cálculo y validación">Cálculo</th><th title="Frecuencia y tolerancia al atraso">Frecuencia</th><th title="Consecuencia de un error">Consecuencia</th><th title="Normativa CMF y leyes">Normativa</th><th title="Datos y SQL">Datos</th><th title="Contable y financiero">Contable</th><th title="Calidad de datos y controles">Calidad</th><th title="Interlocución con el regulador">Interlocución</th></tr></thead>
+<tbody><tr><td class="code">RDC01</td><td class="nm">Deuda positiva y negativa de los deudores</td><td class="fq">Semanal y mensual</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="tot b3">14</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="gr">G2 → G3</td></tr>
+<tr><td class="code">D10</td><td class="nm">Estado de Deudores (art. 14 LGB)</td><td class="fq">Semanal y mensual</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="tot b3">14</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="gr">G2 → G3</td></tr>
+<tr><td class="code">RDC40</td><td class="nm">Gestión de solicitudes de deudores (derechos ARCC)</td><td class="fq">Diario</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="tot b3">13</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h1" title="Básico">1</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="gr">G2 → G3</td></tr>
+<tr><td class="code">RDC02</td><td class="nm">Rectificaciones al archivo RDC01</td><td class="fq">Semanal (viernes)</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="tot b3">12</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h1" title="Básico">1</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="gr">G2 → G3</td></tr>
+<tr><td class="code">R05</td><td class="nm">Archivo diario del Sistema de Riesgo (contenido por confirmar)</td><td class="fq">Diario</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="tot b2">10</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P14</td><td class="nm">Estado de las Colocaciones</td><td class="fq">Mensual</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="tot b2">10</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">D03</td><td class="nm">Información de deudores (identificación, categoría, actividad, activos)</td><td class="fq">Mensual</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="tot b2">9</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">D51</td><td class="nm">Archivo trimestral del Sistema de Deudores (contenido por confirmar)</td><td class="fq">Trimestral</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="tot b2">9</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">Sernac</td><td class="nm">Incumplimientos de portabilidad de la institución inicial</td><td class="fq">Mensual, primeros cinco días del mes</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="tot b2">9</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h3" title="Avanzado">3</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">D02</td><td class="nm">Archivo del Sistema de Deudores (eliminado por Circular N° 2.376)</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="tot b1">8</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">E23</td><td class="nm">Archivo mensual (contenido por confirmar)</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="tot b1">8</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P16</td><td class="nm">Colocaciones por actividad económica</td><td class="fq">Mensual</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">8</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P37</td><td class="nm">Tarjetas de débito y de cajeros automáticos</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">7</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P38</td><td class="nm">Tarjetas de crédito</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">7</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P39</td><td class="nm">Tarjetas de crédito y débito: utilización como medio de pago</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">7</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">T01</td><td class="nm">Archivo mensual incorporado en 2024 (contenido por confirmar)</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">7</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P15</td><td class="nm">Archivo del Sistema de Productos (eliminado por Circular N° 2.376)</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">6</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+<tr><td class="code">P22</td><td class="nm">Archivo del Sistema de Productos (eliminado por Circular N° 2.376)</td><td class="fq">Mensual</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="tot b1">6</td><td class="h h1" title="Básico">1</td><td class="h h2" title="Intermedio">2</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="h h1" title="Básico">1</td><td class="gr">G1 → G2</td></tr>
+</tbody></table></div>
+<div class="legend"><span><i class="sw" style="background:var(--h1)"></i>1 básico</span><span><i class="sw" style="background:var(--h2)"></i>2 intermedio</span><span><i class="sw" style="background:var(--h3)"></i>3 avanzado</span><span>Complejidad: Interpretación normativa · Integración de fuentes · Cálculo y validación · Frecuencia y tolerancia · Consecuencia</span><span>Competencias: Normativa · Datos y SQL · Contable · Calidad y controles · Interlocución</span></div>
+
+<h2>Ranking de complejidad</h2>
+<p class="sub">Cuatro reportes superan 12 puntos y concentran la exposición legal: los tres del Registro de Deuda Consolidada y el Estado de Deudores. Cinco están en el tramo medio; nueve son rutina estadística o archivos en eliminación.</p>
+<div class="chart"><svg viewBox="0 0 760 472" class="bars" role="img" aria-label="Puntaje total de complejidad por reporte, de 0 a 15"><line x1="200.0" x2="200.0" y1="10" y2="442" class="g"/><text x="200.0" y="460" class="tick" text-anchor="middle">3</text><line x1="330.0" x2="330.0" y1="10" y2="442" class="g"/><text x="330.0" y="460" class="tick" text-anchor="middle">6</text><line x1="460.0" x2="460.0" y1="10" y2="442" class="g"/><text x="460.0" y="460" class="tick" text-anchor="middle">9</text><line x1="590.0" x2="590.0" y1="10" y2="442" class="g"/><text x="590.0" y="460" class="tick" text-anchor="middle">12</text><line x1="720.0" x2="720.0" y1="10" y2="442" class="g"/><text x="720.0" y="460" class="tick" text-anchor="middle">15</text><text x="62" y="26" class="lab" text-anchor="end">RDC01</text><rect x="70" y="13" width="606.7" height="16" rx="3" class="c3"/><text x="682.7" y="26" class="val">14</text><text x="62" y="50" class="lab" text-anchor="end">D10</text><rect x="70" y="37" width="606.7" height="16" rx="3" class="c3"/><text x="682.7" y="50" class="val">14</text><text x="62" y="74" class="lab" text-anchor="end">RDC40</text><rect x="70" y="61" width="563.3" height="16" rx="3" class="c3"/><text x="639.3" y="74" class="val">13</text><text x="62" y="98" class="lab" text-anchor="end">RDC02</text><rect x="70" y="85" width="520.0" height="16" rx="3" class="c3"/><text x="596.0" y="98" class="val">12</text><text x="62" y="122" class="lab" text-anchor="end">R05</text><rect x="70" y="109" width="433.3" height="16" rx="3" class="c2"/><text x="62" y="146" class="lab" text-anchor="end">P14</text><rect x="70" y="133" width="433.3" height="16" rx="3" class="c2"/><text x="62" y="170" class="lab" text-anchor="end">D03</text><rect x="70" y="157" width="390.0" height="16" rx="3" class="c2"/><text x="62" y="194" class="lab" text-anchor="end">D51</text><rect x="70" y="181" width="390.0" height="16" rx="3" class="c2"/><text x="62" y="218" class="lab" text-anchor="end">Sernac</text><rect x="70" y="205" width="390.0" height="16" rx="3" class="c2"/><text x="62" y="242" class="lab" text-anchor="end">D02</text><rect x="70" y="229" width="346.7" height="16" rx="3" class="c1"/><text x="62" y="266" class="lab" text-anchor="end">E23</text><rect x="70" y="253" width="346.7" height="16" rx="3" class="c1"/><text x="62" y="290" class="lab" text-anchor="end">P16</text><rect x="70" y="277" width="346.7" height="16" rx="3" class="c1"/><text x="62" y="314" class="lab" text-anchor="end">P37</text><rect x="70" y="301" width="303.3" height="16" rx="3" class="c1"/><text x="62" y="338" class="lab" text-anchor="end">P38</text><rect x="70" y="325" width="303.3" height="16" rx="3" class="c1"/><text x="62" y="362" class="lab" text-anchor="end">P39</text><rect x="70" y="349" width="303.3" height="16" rx="3" class="c1"/><text x="62" y="386" class="lab" text-anchor="end">T01</text><rect x="70" y="373" width="303.3" height="16" rx="3" class="c1"/><text x="62" y="410" class="lab" text-anchor="end">P15</text><rect x="70" y="397" width="260.0" height="16" rx="3" class="c1"/><text x="62" y="434" class="lab" text-anchor="end">P22</text><rect x="70" y="421" width="260.0" height="16" rx="3" class="c1"/></svg></div>
+
+<h2>Qué perfil resulta de sumar los 18 reportes</h2>
+<div class="two">
+<div><p>La tabla muestra cuántos reportes exigen cada competencia al menos en nivel intermedio y cuántos en nivel avanzado. El cargo de 2020 requería Excel básico; el trabajo de 2026 requiere, para la mayoría de los archivos, SQL intermedio y lectura normativa, y para los cuatro críticos, dominio de la norma, controles formales e interlocución con la CMF.</p>
+<div class="tbl"><table style="min-width:0"><thead><tr><th>Competencia</th><th class="num">Intermedio o superior</th><th class="num">Avanzado</th></tr></thead><tbody><tr><td>Normativa CMF y leyes</td><td class="num">12 de 18</td><td class="num">3 de 18</td></tr><tr><td>Datos y SQL</td><td class="num">17 de 18</td><td class="num">6 de 18</td></tr><tr><td>Contable y financiero</td><td class="num">7 de 18</td><td class="num">1 de 18</td></tr><tr><td>Calidad de datos y controles</td><td class="num">16 de 18</td><td class="num">5 de 18</td></tr><tr><td>Interlocución con el regulador</td><td class="num">6 de 18</td><td class="num">5 de 18</td></tr></tbody></table></div></div>
+<div><h3>Arquitectura recomendada para el equipo de seis</h3>
+<ul class="plain">
+<li><b>1 Jefe o Coordinador (G3):</b> firma D10 y los tres RDC, gestiona el calendario, responde a la CMF y al SERNAC, mantiene la matriz de respaldos.</li>
+<li><b>2 Especialistas (G2):</b> uno dueño del bloque Deudores y REDEC (D10, D03, D51, RDC01, RDC02, RDC40), otro del bloque Productos, Riesgo y SERNAC (P14, P16, P37 a P39, R05, Sernac, E23, T01). Cada uno respalda al otro.</li>
+<li><b>3 Analistas (G1 con ruta a G2):</b> ejecución de rutina mensual y diaria bajo control dual, automatización del cuadrante de rutina, cierre de D02, P15 y P22.</li>
+</ul>
+<p class="small">Los grados actuales de las seis personas deben confirmarse con Personas. La recomendación describe el mínimo que la función exige, no una evaluación individual.</p></div>
+</div>
+
+<h2>Ficha por reporte</h2>
+<p class="sub">Ordenadas de mayor a menor complejidad. Cada ficha cita la norma, describe qué exige el envío, la exposición ante el regulador, las competencias y el cargo mínimo.</p>
+<div class="cards"><article class="card">
+  <header><span class="code big">RDC01</span><div><h3>Deuda positiva y negativa de los deudores</h3><div class="meta">MSI REDEC · Semanal y mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">14<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Ley 21.680; NCG N° 540 (jul. 2025); Ley 19.628 título III</dd>
+    <dt>Qué exige</dt><dd>Stock de obligaciones por deudor con montos, tipo de crédito, plazos y estado de pago. Es la base del Registro de Deuda Consolidada que los otorgantes de crédito consultan al originar.</dd>
+    <dt>Exposición</dt><dd>Ley 21.680: infracciones leves hasta 100 UTM; graves (datos inexactos) hasta 5.000 UTM; gravísimas (datos falsos) hasta 10.000 UTM; suspensión del acceso al Registro hasta por un año.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: avanzado; Datos y SQL: avanzado; Contable y financiero: intermedio; Calidad de datos y controles: avanzado; Interlocución con el regulador: avanzado</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G2</b> · valida y firma <b>G3</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">D10</span><div><h3>Estado de Deudores (art. 14 LGB)</h3><div class="meta">Sistema de Deudores · Semanal y mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">14<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Art. 14 Ley General de Bancos; RAN Capítulo 18-5; armonización con REDEC (circular CMF 2026); frecuencia semanal en consulta</dd>
+    <dt>Qué exige</dt><dd>Nómina de deudores del banco con sus obligaciones, para el informe de deudas que la CMF consolida y entrega al sistema. Decidir quién se incluye y con qué monto exige interpretar la norma, no solo extraer datos.</dd>
+    <dt>Exposición</dt><dd>Precedente directo: en julio de 2024 la CMF multó a Banco Santander (UF 2.500) y a Coopeuch (UF 1.000) por incluir en el Estado de Deudores a personas que no cumplían las condiciones, infringiendo los números 2 y 5 del Capítulo 18-5 de la RAN y el artículo 14 de la LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: avanzado; Datos y SQL: avanzado; Contable y financiero: intermedio; Calidad de datos y controles: avanzado; Interlocución con el regulador: avanzado</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G2</b> · valida y firma <b>G3</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">RDC40</span><div><h3>Gestión de solicitudes de deudores (derechos ARCC)</h3><div class="meta">MSI REDEC · Diario · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">13<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Ley 21.680; NCG N° 540; Ley 19.628</dd>
+    <dt>Qué exige</dt><dd>Respuesta a solicitudes de actualización, rectificación, complemento y supresión de información de deuda, con número de solicitud trazable. Plazo diario, sin días de holgura.</dd>
+    <dt>Exposición</dt><dd>Mismo régimen de la Ley 21.680. Una solicitud de deudor no atendida es una infracción a derechos de datos personales con exposición ante la CMF y ante el cliente.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: avanzado; Datos y SQL: avanzado; Contable y financiero: básico; Calidad de datos y controles: avanzado; Interlocución con el regulador: avanzado</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G2</b> · valida y firma <b>G3</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">RDC02</span><div><h3>Rectificaciones al archivo RDC01</h3><div class="meta">MSI REDEC · Semanal (viernes) · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">12<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Ley 21.680; NCG N° 540</dd>
+    <dt>Qué exige</dt><dd>Correcciones a lo informado en RDC01, incluidas las que nacen de derechos ARCC ejercidos por deudores. Exige trazabilidad entre el error, su causa y la corrección.</dd>
+    <dt>Exposición</dt><dd>Mismo régimen de la Ley 21.680. Un volumen alto de rectificaciones es en sí una señal de calidad para el supervisor.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: avanzado; Contable y financiero: básico; Calidad de datos y controles: avanzado; Interlocución con el regulador: avanzado</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G2</b> · valida y firma <b>G3</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">R05</span><div><h3>Archivo diario del Sistema de Riesgo (contenido por confirmar)</h3><div class="meta">CMF, codificación previa a Basilea III · Diario · <span class="tag c">Por confirmar</span></div></div><div class="score" title="Complejidad total 0–15">10<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Por confirmar en el MSI vigente</dd>
+    <dt>Qué exige</dt><dd>La CMF señaló que los códigos R04 y R05 ya existían en la Comisión antes de crear el Sistema de Riesgo de Basilea III. Su contenido exacto debe confirmarse; la frecuencia diaria lo ubica en operación crítica.</dd>
+    <dt>Exposición</dt><dd>Régimen general: artículo 19 LGB (multas por incumplimiento de instrucciones) y Ley 21.000. Precedente de información inexacta en un archivo R: Santander, UF 2.500, enero de 2026, por el R13.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: intermedio; Contable y financiero: intermedio; Calidad de datos y controles: avanzado; Interlocución con el regulador: intermedio</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P14</span><div><h3>Estado de las Colocaciones</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">10<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>MSI Bancos; Compendio de Normas Contables (clasificación de colocaciones)</dd>
+    <dt>Qué exige</dt><dd>Colocaciones clasificadas según el Compendio de Normas Contables. Debe cuadrar con el balance (archivo C01) y con la información de deudores; un descuadre revela inconsistencias contables al supervisor.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB. La CMF usa este archivo en sus publicaciones estadísticas, por lo que un error se vuelve visible públicamente.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: avanzado; Contable y financiero: avanzado; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">D03</span><div><h3>Información de deudores (identificación, categoría, actividad, activos)</h3><div class="meta">Sistema de Deudores · Mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">9<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>MSI Bancos; vigente desde junio de 2017</dd>
+    <dt>Qué exige</dt><dd>Atributos de cada deudor (RUT, nombre, categoría, fecha de constitución, comuna o país, actividad económica, total de activos) que alimentan la clasificación de la cartera.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB. Errores de atributos contaminan D10 y las estadísticas de la CMF.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: avanzado; Contable y financiero: intermedio; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">D51</span><div><h3>Archivo trimestral del Sistema de Deudores (contenido por confirmar)</h3><div class="meta">Sistema de Deudores · Trimestral · <span class="tag c">Por confirmar</span></div></div><div class="score" title="Complejidad total 0–15">9<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Por confirmar en el MSI vigente</dd>
+    <dt>Qué exige</dt><dd>Identificador confirmado en el MSI; el contenido debe verificarse. Por su familia, probablemente detalle de garantías, castigos o renegociaciones asociados a deudores.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: intermedio; Contable y financiero: intermedio; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">Sernac</span><div><h3>Incumplimientos de portabilidad de la institución inicial</h3><div class="meta">SERNAC · Mensual, primeros cinco días del mes · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">9<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Ley 21.236 y su reglamento; Circular Interpretativa del SERNAC</dd>
+    <dt>Qué exige</dt><dd>Reporte de los incumplimientos de otras instituciones en la emisión de certificados de liquidación y documentos de portabilidad, con tipo de incumplimiento. El SERNAC ha oficiado a bancos por retrasos sistemáticos.</dd>
+    <dt>Exposición</dt><dd>Ley 19.496 de protección al consumidor (fiscalización del SERNAC); exposición reputacional pública mediante rankings y oficios.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: básico; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: avanzado</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">D02</span><div><h3>Archivo del Sistema de Deudores (eliminado por Circular N° 2.376)</h3><div class="meta">Sistema de Deudores · Mensual · <span class="tag ">Parcial</span></div></div><div class="score" title="Complejidad total 0–15">8<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Circular N° 2.376: último envío septiembre de 2026</dd>
+    <dt>Qué exige</dt><dd>Archivo en proceso de eliminación. Gestionar su cierre ordenado y confirmar que la CMF no requiera reenvíos es parte de la gestión del cambio normativo.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB mientras esté vigente.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">E23</span><div><h3>Archivo mensual (contenido por confirmar)</h3><div class="meta">Por confirmar · Mensual · <span class="tag c">Por confirmar</span></div></div><div class="score" title="Complejidad total 0–15">8<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Por confirmar</dd>
+    <dt>Qué exige</dt><dd>No se encontró referencia pública al código. Confirmar sistema, norma y contenido con el MSI vigente antes de usar esta ficha.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P16</span><div><h3>Colocaciones por actividad económica</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">8<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>MSI Bancos</dd>
+    <dt>Qué exige</dt><dd>Distribución de colocaciones por actividad económica del deudor; depende de la calidad de D03 y de la clasificación contable de P14.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: intermedio; Datos y SQL: intermedio; Contable y financiero: intermedio; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P37</span><div><h3>Tarjetas de débito y de cajeros automáticos</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">7<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>MSI Bancos</dd>
+    <dt>Qué exige</dt><dd>Estadística de tarjetas de débito y cajeros. Insumo de la supervisión de medios de pago de la CMF.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: básico; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P38</span><div><h3>Tarjetas de crédito</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">7<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>MSI Bancos</dd>
+    <dt>Qué exige</dt><dd>Estadística de tarjetas de crédito (cuentas, cupos, saldos). La CMF supervisa con esta familia el mercado de tarjetas y las tasas de intercambio.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: básico; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P39</span><div><h3>Tarjetas de crédito y débito: utilización como medio de pago</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag a">Verificado</span></div></div><div class="score" title="Complejidad total 0–15">7<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>MSI Bancos</dd>
+    <dt>Qué exige</dt><dd>Transacciones y montos de uso de tarjetas como medio de pago.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: básico; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">T01</span><div><h3>Archivo mensual incorporado en 2024 (contenido por confirmar)</h3><div class="meta">Por confirmar · Mensual · <span class="tag c">Por confirmar</span></div></div><div class="score" title="Complejidad total 0–15">7<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Por confirmar</dd>
+    <dt>Qué exige</dt><dd>No se encontró referencia pública al código. Confirmar sistema, norma y contenido con el MSI vigente.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: básico; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: intermedio; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P15</span><div><h3>Archivo del Sistema de Productos (eliminado por Circular N° 2.376)</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag ">Parcial</span></div></div><div class="score" title="Complejidad total 0–15">6<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Circular N° 2.376: último envío septiembre de 2026</dd>
+    <dt>Qué exige</dt><dd>Archivo en proceso de eliminación; cierre ordenado.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB mientras esté vigente.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: básico; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: básico; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article><article class="card">
+  <header><span class="code big">P22</span><div><h3>Archivo del Sistema de Productos (eliminado por Circular N° 2.376)</h3><div class="meta">Sistema de Productos · Mensual · <span class="tag ">Parcial</span></div></div><div class="score" title="Complejidad total 0–15">6<small>/15</small></div></header>
+  <dl>
+    <dt>Norma base</dt><dd>Circular N° 2.376: último envío septiembre de 2026</dd>
+    <dt>Qué exige</dt><dd>Archivo en proceso de eliminación; cierre ordenado.</dd>
+    <dt>Exposición</dt><dd>Régimen general del artículo 19 LGB mientras esté vigente.</dd>
+    <dt>Competencias</dt><dd>Normativa CMF y leyes: básico; Datos y SQL: intermedio; Contable y financiero: básico; Calidad de datos y controles: básico; Interlocución con el regulador: básico</dd>
+    <dt>Cargo</dt><dd>Prepara <b>G1</b> · valida y firma <b>G2</b></dd>
+  </dl></article></div>
+
+<h2>Rúbrica</h2>
+<div class="two">
+<div><h3>Complejidad (0 a 3 por dimensión)</h3><ul class="plain">
+<li><b>Interpretación normativa:</b> 0 formato fijo; 1 tablas y códigos; 2 criterios de inclusión o clasificación que hay que interpretar; 3 norma nueva o en cambio, con criterios que la CMF ha sancionado.</li>
+<li><b>Integración de fuentes:</b> 1 una fuente; 2 varias fuentes con cuadratura; 3 varias fuentes, conciliación con balance o con otros archivos y derechos de terceros.</li>
+<li><b>Cálculo y validación:</b> 1 totales; 2 validaciones cruzadas; 3 reglas por registro con trazabilidad de rectificaciones.</li>
+<li><b>Frecuencia y tolerancia:</b> 1 mensual o trimestral; 2 semanal o con plazo corto; 3 diario.</li>
+<li><b>Consecuencia:</b> 1 observación; 2 multa del régimen general o exposición pública; 3 régimen sancionatorio específico con precedente o suspensión de acceso.</li></ul></div>
+<div><h3>Competencias (0 a 3)</h3><ul class="plain">
+<li><b>Normativa CMF y leyes:</b> 1 conoce el formato; 2 aplica criterios de la norma; 3 interpreta cambios normativos y sostiene la posición ante la CMF.</li>
+<li><b>Datos y SQL:</b> 1 consulta; 2 construye extracciones y validaciones; 3 diseña procesos reproducibles y controles automáticos.</li>
+<li><b>Contable y financiero:</b> 1 nociones; 2 clasifica según el Compendio; 3 concilia con balance y resultados.</li>
+<li><b>Calidad de datos y controles:</b> 1 checklist; 2 control dual y evidencias; 3 diseño de controles y gestión de causa raíz.</li>
+<li><b>Interlocución con el regulador:</b> 1 ninguna; 2 responde observaciones técnicas; 3 conduce la relación y las mesas de trabajo.</li></ul>
+<p class="small">Cargo mínimo: total 12 o más, prepara G2 y firma G3; entre 9 y 11, prepara G1 con validación G2 y firma G2 o G3 según exposición; 8 o menos, prepara G1 y valida G2.</p></div>
+</div>
+
+<h2>Fuentes</h2>
+<ul class="src">
+<li>CMF, <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-82782.html">multas a instituciones financieras por incumplimientos en el Estado de Deudores</a> (Santander UF 2.500, Coopeuch UF 1.000; RAN 18-5 y art. 14 LGB), julio de 2024; cobertura en <a href="https://www.latercera.com/pulso/noticia/cmf-multa-a-dos-instituciones-financieras-por-deficiencias-en-la-informacion-contenida-en-el-estado-de-deudores/BBOBCFZF6JEPZP7N22RBI4WKQI/">La Tercera</a>.</li>
+<li>CMF, <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-103186.html">multa de UF 2.500 a Banco Santander-Chile</a> por información inexacta en el archivo R13 (RAN 21-13), enero de 2026; cobertura en <a href="https://www.df.cl/mercados/banca-fintech/cmf-aplica-multa-de-uf-2-500-a-banco-santander-chile">Diario Financiero</a>.</li>
+<li>Multas por envío tardío de información requerida por la Fiscalía (UF 450 y UF 250), noviembre de 2024: <a href="https://www.biobiochile.cl/noticias/economia/negocios-y-empresas/2024/11/26/cmf-multa-a-los-bancos-santander-chile-y-bci-por-envio-tardio-de-informacion-solicitada-por-fiscalia.shtml">BioBioChile</a>.</li>
+<li>Ley 21.680 y régimen de sanciones (100, 5.000 y 10.000 UTM; suspensión de acceso hasta un año): <a href="https://www.carey.cl/nueva-ley-n-21-680-que-crea-un-registro-de-deuda-consolidada">Carey</a>, <a href="https://www.ontier.law/ley-no-21-680-registro-de-deuda-consolidada/">Ontier</a>. CMF, <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-96582.html">NCG N° 540 y Manual del Sistema de Información del REDEC</a>, julio de 2025; <a href="https://www.cmfchile.cl/portal/normativa/624/w4-article-96584.html">MSI REDEC</a> (RDC01, RDC02 rectificaciones semanales, RDC40 gestión diaria de solicitudes); <a href="https://www.cmfchile.cl/portal/prensa/625/w4-article-111353.html">circular que armoniza la nómina de deudores con el REDEC</a>.</li>
+<li>Sistema de Productos, nombres de P14, P16, P37, P38 y P39: <a href="https://sbif.cl/sbifweb3/internet/archivos/norma_10306_3.pdf">Manual del Sistema de Información, archivos magnéticos</a>; D03: <a href="https://www.cmfchile.cl/portal/principal/613/articles-29209_doc_pdf.pdf">Sistema de Deudores, instrucciones generales</a>.</li>
+<li>Circular N° 2.376 (elimina C16, C51, D02, D41, P15, P21 y P22): <a href="https://www.diarioestrategia.cl/texto-diario/mostrar/6002525/cmf-elimina-archivos-normativos-manual-sistema-informacion-bancos-cooperativas-simplificar-requerimientos-informacion">Diario Estrategia</a>. Consulta sobre D10 y D27: <a href="https://www.carey.cl/cmf-pone-en-consulta-dos-modificaciones-a-su-normativa-sobre-deudores-del-sistema-financiero/">Carey</a>.</li>
+<li>R04 y R05 como codificación preexistente fuera del Sistema de Riesgo: CMF, <a href="https://www.cmfchile.cl/portal/principal/613/articles-47523_doc_pdf.pdf">preguntas frecuentes del Sistema de Riesgos</a>.</li>
+<li>Reporte mensual al SERNAC de incumplimientos de portabilidad (Ley 21.236, Circular Interpretativa): <a href="https://www.carey.cl/nueva-circular-interpretativa-de-sernac-sobre-la-forma-de-notificar-los-incumplimientos-en-materia-de-portabilidad-financiera/">Carey</a>; <a href="https://www.sernac.cl/portal/604/w3-article-59088.html">SERNAC</a>.</li>
+<li>Robert Half, <a href="https://www.roberthalf.com/cl/es/insights/guia-salarial/finanzas-contabilidad">Guía Salarial 2026, tendencias en finanzas y contabilidad</a>.</li>
+<li>Fuentes internas: presentaciones "Historia y métricas Portabilidad", "Evolución de la responsabilidad", "Diseño organizacional Compliance 2024" y listado de reportes entregado por el área.</li>
+</ul>
+<footer>Documento de trabajo. Los puntajes son una valoración con rúbrica declarada, no una valoración formal de cargos. Las páginas de la CMF se consultaron a través de resúmenes de búsqueda; verificar cada cita en su fuente antes de presentarla.</footer>
+</div></body>
+</html>

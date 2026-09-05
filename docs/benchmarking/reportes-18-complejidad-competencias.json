@@ -1,0 +1,488 @@
+[
+ {
+  "code": "RDC01",
+  "name": "Deuda positiva y negativa de los deudores",
+  "sys": "MSI REDEC",
+  "norm": "Ley 21.680; NCG N° 540 (jul. 2025); Ley 19.628 título III",
+  "freq": "Semanal y mensual",
+  "st": "v",
+  "what": "Stock de obligaciones por deudor con montos, tipo de crédito, plazos y estado de pago. Es la base del Registro de Deuda Consolidada que los otorgantes de crédito consultan al originar.",
+  "sanction": "Ley 21.680: infracciones leves hasta 100 UTM; graves (datos inexactos) hasta 5.000 UTM; gravísimas (datos falsos) hasta 10.000 UTM; suspensión del acceso al Registro hasta por un año.",
+  "s": [
+   3,
+   3,
+   3,
+   2,
+   3
+  ],
+  "k": [
+   3,
+   3,
+   2,
+   3,
+   3
+  ],
+  "prep": "G2",
+  "sign": "G3",
+  "total": 14
+ },
+ {
+  "code": "RDC40",
+  "name": "Gestión de solicitudes de deudores (derechos ARCC)",
+  "sys": "MSI REDEC",
+  "norm": "Ley 21.680; NCG N° 540; Ley 19.628",
+  "freq": "Diario",
+  "st": "v",
+  "what": "Respuesta a solicitudes de actualización, rectificación, complemento y supresión de información de deuda, con número de solicitud trazable. Plazo diario, sin días de holgura.",
+  "sanction": "Mismo régimen de la Ley 21.680. Una solicitud de deudor no atendida es una infracción a derechos de datos personales con exposición ante la CMF y ante el cliente.",
+  "s": [
+   2,
+   3,
+   2,
+   3,
+   3
+  ],
+  "k": [
+   3,
+   3,
+   1,
+   3,
+   3
+  ],
+  "prep": "G2",
+  "sign": "G3",
+  "total": 13
+ },
+ {
+  "code": "RDC02",
+  "name": "Rectificaciones al archivo RDC01",
+  "sys": "MSI REDEC",
+  "norm": "Ley 21.680; NCG N° 540",
+  "freq": "Semanal (viernes)",
+  "st": "v",
+  "what": "Correcciones a lo informado en RDC01, incluidas las que nacen de derechos ARCC ejercidos por deudores. Exige trazabilidad entre el error, su causa y la corrección.",
+  "sanction": "Mismo régimen de la Ley 21.680. Un volumen alto de rectificaciones es en sí una señal de calidad para el supervisor.",
+  "s": [
+   2,
+   2,
+   3,
+   2,
+   3
+  ],
+  "k": [
+   2,
+   3,
+   1,
+   3,
+   3
+  ],
+  "prep": "G2",
+  "sign": "G3",
+  "total": 12
+ },
+ {
+  "code": "D10",
+  "name": "Estado de Deudores (art. 14 LGB)",
+  "sys": "Sistema de Deudores",
+  "norm": "Art. 14 Ley General de Bancos; RAN Capítulo 18-5; armonización con REDEC (circular CMF 2026); frecuencia semanal en consulta",
+  "freq": "Semanal y mensual",
+  "st": "v",
+  "what": "Nómina de deudores del banco con sus obligaciones, para el informe de deudas que la CMF consolida y entrega al sistema. Decidir quién se incluye y con qué monto exige interpretar la norma, no solo extraer datos.",
+  "sanction": "Precedente directo: en julio de 2024 la CMF multó a Banco Santander (UF 2.500) y a Coopeuch (UF 1.000) por incluir en el Estado de Deudores a personas que no cumplían las condiciones, infringiendo los números 2 y 5 del Capítulo 18-5 de la RAN y el artículo 14 de la LGB.",
+  "s": [
+   3,
+   3,
+   3,
+   2,
+   3
+  ],
+  "k": [
+   3,
+   3,
+   2,
+   3,
+   3
+  ],
+  "prep": "G2",
+  "sign": "G3",
+  "total": 14
+ },
+ {
+  "code": "R05",
+  "name": "Archivo diario del Sistema de Riesgo (contenido por confirmar)",
+  "sys": "CMF, codificación previa a Basilea III",
+  "norm": "Por confirmar en el MSI vigente",
+  "freq": "Diario",
+  "st": "c",
+  "what": "La CMF señaló que los códigos R04 y R05 ya existían en la Comisión antes de crear el Sistema de Riesgo de Basilea III. Su contenido exacto debe confirmarse; la frecuencia diaria lo ubica en operación crítica.",
+  "sanction": "Régimen general: artículo 19 LGB (multas por incumplimiento de instrucciones) y Ley 21.000. Precedente de información inexacta en un archivo R: Santander, UF 2.500, enero de 2026, por el R13.",
+  "s": [
+   1,
+   2,
+   2,
+   3,
+   2
+  ],
+  "k": [
+   2,
+   2,
+   2,
+   3,
+   2
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 10
+ },
+ {
+  "code": "P14",
+  "name": "Estado de las Colocaciones",
+  "sys": "Sistema de Productos",
+  "norm": "MSI Bancos; Compendio de Normas Contables (clasificación de colocaciones)",
+  "freq": "Mensual",
+  "st": "v",
+  "what": "Colocaciones clasificadas según el Compendio de Normas Contables. Debe cuadrar con el balance (archivo C01) y con la información de deudores; un descuadre revela inconsistencias contables al supervisor.",
+  "sanction": "Régimen general del artículo 19 LGB. La CMF usa este archivo en sus publicaciones estadísticas, por lo que un error se vuelve visible públicamente.",
+  "s": [
+   2,
+   3,
+   2,
+   1,
+   2
+  ],
+  "k": [
+   2,
+   3,
+   3,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 10
+ },
+ {
+  "code": "D03",
+  "name": "Información de deudores (identificación, categoría, actividad, activos)",
+  "sys": "Sistema de Deudores",
+  "norm": "MSI Bancos; vigente desde junio de 2017",
+  "freq": "Mensual",
+  "st": "v",
+  "what": "Atributos de cada deudor (RUT, nombre, categoría, fecha de constitución, comuna o país, actividad económica, total de activos) que alimentan la clasificación de la cartera.",
+  "sanction": "Régimen general del artículo 19 LGB. Errores de atributos contaminan D10 y las estadísticas de la CMF.",
+  "s": [
+   2,
+   2,
+   2,
+   1,
+   2
+  ],
+  "k": [
+   2,
+   3,
+   2,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 9
+ },
+ {
+  "code": "D51",
+  "name": "Archivo trimestral del Sistema de Deudores (contenido por confirmar)",
+  "sys": "Sistema de Deudores",
+  "norm": "Por confirmar en el MSI vigente",
+  "freq": "Trimestral",
+  "st": "c",
+  "what": "Identificador confirmado en el MSI; el contenido debe verificarse. Por su familia, probablemente detalle de garantías, castigos o renegociaciones asociados a deudores.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   2,
+   2,
+   2,
+   1,
+   2
+  ],
+  "k": [
+   2,
+   2,
+   2,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 9
+ },
+ {
+  "code": "Sernac",
+  "name": "Incumplimientos de portabilidad de la institución inicial",
+  "sys": "SERNAC",
+  "norm": "Ley 21.236 y su reglamento; Circular Interpretativa del SERNAC",
+  "freq": "Mensual, primeros cinco días del mes",
+  "st": "v",
+  "what": "Reporte de los incumplimientos de otras instituciones en la emisión de certificados de liquidación y documentos de portabilidad, con tipo de incumplimiento. El SERNAC ha oficiado a bancos por retrasos sistemáticos.",
+  "sanction": "Ley 19.496 de protección al consumidor (fiscalización del SERNAC); exposición reputacional pública mediante rankings y oficios.",
+  "s": [
+   2,
+   1,
+   2,
+   2,
+   2
+  ],
+  "k": [
+   2,
+   1,
+   1,
+   2,
+   3
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 9
+ },
+ {
+  "code": "D02",
+  "name": "Archivo del Sistema de Deudores (eliminado por Circular N° 2.376)",
+  "sys": "Sistema de Deudores",
+  "norm": "Circular N° 2.376: último envío septiembre de 2026",
+  "freq": "Mensual",
+  "st": "p",
+  "what": "Archivo en proceso de eliminación. Gestionar su cierre ordenado y confirmar que la CMF no requiera reenvíos es parte de la gestión del cambio normativo.",
+  "sanction": "Régimen general del artículo 19 LGB mientras esté vigente.",
+  "s": [
+   1,
+   2,
+   2,
+   1,
+   2
+  ],
+  "k": [
+   2,
+   2,
+   1,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 8
+ },
+ {
+  "code": "E23",
+  "name": "Archivo mensual (contenido por confirmar)",
+  "sys": "Por confirmar",
+  "norm": "Por confirmar",
+  "freq": "Mensual",
+  "st": "c",
+  "what": "No se encontró referencia pública al código. Confirmar sistema, norma y contenido con el MSI vigente antes de usar esta ficha.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   1,
+   2,
+   2,
+   1,
+   2
+  ],
+  "k": [
+   2,
+   2,
+   1,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 8
+ },
+ {
+  "code": "P16",
+  "name": "Colocaciones por actividad económica",
+  "sys": "Sistema de Productos",
+  "norm": "MSI Bancos",
+  "freq": "Mensual",
+  "st": "v",
+  "what": "Distribución de colocaciones por actividad económica del deudor; depende de la calidad de D03 y de la clasificación contable de P14.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   2,
+   2,
+   2,
+   1,
+   1
+  ],
+  "k": [
+   2,
+   2,
+   2,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 8
+ },
+ {
+  "code": "P37",
+  "name": "Tarjetas de débito y de cajeros automáticos",
+  "sys": "Sistema de Productos",
+  "norm": "MSI Bancos",
+  "freq": "Mensual",
+  "st": "v",
+  "what": "Estadística de tarjetas de débito y cajeros. Insumo de la supervisión de medios de pago de la CMF.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "k": [
+   1,
+   2,
+   1,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 7
+ },
+ {
+  "code": "P38",
+  "name": "Tarjetas de crédito",
+  "sys": "Sistema de Productos",
+  "norm": "MSI Bancos",
+  "freq": "Mensual",
+  "st": "v",
+  "what": "Estadística de tarjetas de crédito (cuentas, cupos, saldos). La CMF supervisa con esta familia el mercado de tarjetas y las tasas de intercambio.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "k": [
+   1,
+   2,
+   1,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 7
+ },
+ {
+  "code": "P39",
+  "name": "Tarjetas de crédito y débito: utilización como medio de pago",
+  "sys": "Sistema de Productos",
+  "norm": "MSI Bancos",
+  "freq": "Mensual",
+  "st": "v",
+  "what": "Transacciones y montos de uso de tarjetas como medio de pago.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "k": [
+   1,
+   2,
+   1,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 7
+ },
+ {
+  "code": "T01",
+  "name": "Archivo mensual incorporado en 2024 (contenido por confirmar)",
+  "sys": "Por confirmar",
+  "norm": "Por confirmar",
+  "freq": "Mensual",
+  "st": "c",
+  "what": "No se encontró referencia pública al código. Confirmar sistema, norma y contenido con el MSI vigente.",
+  "sanction": "Régimen general del artículo 19 LGB.",
+  "s": [
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "k": [
+   1,
+   2,
+   1,
+   2,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 7
+ },
+ {
+  "code": "P15",
+  "name": "Archivo del Sistema de Productos (eliminado por Circular N° 2.376)",
+  "sys": "Sistema de Productos",
+  "norm": "Circular N° 2.376: último envío septiembre de 2026",
+  "freq": "Mensual",
+  "st": "p",
+  "what": "Archivo en proceso de eliminación; cierre ordenado.",
+  "sanction": "Régimen general del artículo 19 LGB mientras esté vigente.",
+  "s": [
+   1,
+   2,
+   1,
+   1,
+   1
+  ],
+  "k": [
+   1,
+   2,
+   1,
+   1,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 6
+ },
+ {
+  "code": "P22",
+  "name": "Archivo del Sistema de Productos (eliminado por Circular N° 2.376)",
+  "sys": "Sistema de Productos",
+  "norm": "Circular N° 2.376: último envío septiembre de 2026",
+  "freq": "Mensual",
+  "st": "p",
+  "what": "Archivo en proceso de eliminación; cierre ordenado.",
+  "sanction": "Régimen general del artículo 19 LGB mientras esté vigente.",
+  "s": [
+   1,
+   2,
+   1,
+   1,
+   1
+  ],
+  "k": [
+   1,
+   2,
+   1,
+   1,
+   1
+  ],
+  "prep": "G1",
+  "sign": "G2",
+  "total": 6
+ }
+]
