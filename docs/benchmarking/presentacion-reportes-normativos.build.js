@@ -218,6 +218,10 @@ function bigStat(slide, x, y, w, num, label, color) {
   s.addNotes('Esta lámina es la evidencia documental: el propio banco rediseñó el cargo en 2024 y dejó escrito que faltaba el pesaje de remuneración. No es una opinión del área. Objeción probable: "ya se ajustó el perfil en 2024". Respuesta: se ajustó el perfil, no la escala; y desde entonces el perímetro sumó los reportes diarios del RDC.');
 }
 
+// ---------- 7b. Infografía 2020 vs hoy ----------
+require('./slide-infografia.js')(pres, C, F);
+require('./slide-infografia.js').addScopeSlide(pres, C, F);
+
 // ---------- 8. Grados de referencia ----------
 {
   const s = pres.addSlide();
