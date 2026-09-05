@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmarking Reportes Normativos CMF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f3f5f8;
+    --surface: #ffffff;
+    --surface-2: #eaeef3;
+    --ink: #141a24;
+    --ink-2: #4a5464;
+    --muted: #7c8697;
+    --line: #d9dfe7;
+    --line-2: #c3cbd6;
+    --accent: #1c5cab;
+    --accent-soft: #e4eefb;
+    --s1: #2a78d6;   /* sistémicos */
+    --s2: #eb6834;   /* medianos y de nicho */
+    --s3: #1baf7a;   /* retail y filiales */
+    --q-fill: #eaeef3;
+    --warn-bg: #fff6e0;
+    --warn-ink: #6b4a00;
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0f1319;
+      --surface: #171c24;
+      --surface-2: #1f2630;
+      --ink: #f1f4f8;
+      --ink-2: #b6bfcb;
+      --muted: #7f8a9b;
+      --line: #2a323e;
+      --line-2: #3a4452;
+      --accent: #6da7ec;
+      --accent-soft: #1b2a40;
+      --s1: #3987e5;
+      --s2: #d95926;
+      --s3: #199e70;
+      --q-fill: #1c222c;
+      --warn-bg: #2b2412;
+      --warn-ink: #f1d18a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f1319;
+    --surface: #171c24;
+    --surface-2: #1f2630;
+    --ink: #f1f4f8;
+    --ink-2: #b6bfcb;
+    --muted: #7f8a9b;
+    --line: #2a323e;
+    --line-2: #3a4452;
+    --accent: #6da7ec;
+    --accent-soft: #1b2a40;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --q-fill: #1c222c;
+    --warn-bg: #2b2412;
+    --warn-ink: #f1d18a;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 40px 24px 72px; }
+  header.top { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 36px; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(30px, 4.2vw, 44px);
+    line-height: 1.12; margin: 0; letter-spacing: -0.01em; text-wrap: balance; max-width: 22ch;
+  }
+  .lede { max-width: 66ch; color: var(--ink-2); font-size: 16px; margin: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: 13px; }
+  .meta b { color: var(--ink-2); font-weight: 500; }
+
+  .notice {
+    background: var(--warn-bg); color: var(--warn-ink); border-left: 3px solid currentColor;
+    padding: 12px 16px; border-radius: 4px; font-size: 14px; max-width: 78ch; margin: 0 0 32px;
+  }
+  .notice b { font-weight: 600; }
+
+  h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.2;
+    margin: 44px 0 8px; letter-spacing: -0.005em; text-wrap: balance;
+  }
+  h3 { font-size: 15px; font-weight: 600; margin: 22px 0 6px; }
+  p { max-width: 70ch; }
+  .sub { color: var(--ink-2); margin: 0 0 18px; max-width: 70ch; }
+
+  /* Chart card */
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px 20px 14px;
+  }
+  .chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; margin-bottom: 10px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); }
+  .legend li { list-style: none; display: inline-flex; align-items: center; gap: 8px; }
+  .legend ul { margin: 0; padding: 0; display: contents; }
+  .sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 2px var(--surface); }
+  .sw.s1 { background: var(--s1); } .sw.s2 { background: var(--s2); } .sw.s3 { background: var(--s3); }
+  .toggle {
+    display: inline-flex; border: 1px solid var(--line-2); border-radius: 4px; overflow: hidden; font-size: 13px;
+  }
+  .toggle button {
+    appearance: none; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer;
+    font: inherit; font-size: 13px;
+  }
+  .toggle button[aria-pressed="true"] { background: var(--accent-soft); color: var(--ink); font-weight: 500; }
+  .toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  .chart-wrap { position: relative; }
+  svg.quad { width: 100%; height: auto; display: block; overflow: visible; }
+  .quad text { font-family: var(--font-body); }
+  .quad .grid { stroke: var(--line); stroke-width: 1; }
+  .quad .axis { stroke: var(--line-2); stroke-width: 1; }
+  .quad .mid { stroke: var(--line-2); stroke-width: 1.5; }
+  .quad .tick { fill: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+  .quad .axis-title { fill: var(--ink-2); font-size: 12.5px; font-weight: 500; }
+  .quad .qlabel { fill: var(--ink-2); font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+  .quad .qsub { fill: var(--muted); font-size: 11px; }
+  .quad .trend { stroke: var(--muted); stroke-width: 1.25; fill: none; opacity: .75; }
+  .quad .trend-label { fill: var(--muted); font-size: 11px; }
+  .quad .glabel { fill: var(--ink-2); font-size: 12px; font-weight: 600; }
+  .quad .dot { stroke: var(--surface); stroke-width: 2; transition: r .12s ease; }
+  .quad .dot.s1 { fill: var(--s1); } .quad .dot.s2 { fill: var(--s2); } .quad .dot.s3 { fill: var(--s3); }
+  .quad .hit { fill: transparent; cursor: pointer; }
+  .quad .hit:focus { outline: none; }
+  .quad .hit:focus + .dot, .quad g.pt:hover .dot { r: 8; }
+  .quad .est { stroke-dasharray: none; }
+
+  .tip {
+    position: absolute; pointer-events: none; background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line-2); border-radius: 5px; padding: 10px 12px; font-size: 12.5px; line-height: 1.4;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12); min-width: 220px; max-width: 280px; z-index: 5;
+  }
+  .tip[hidden] { display: none; }
+  .tip .v { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .tip .k { color: var(--ink-2); }
+  .tip .role { font-weight: 600; margin-bottom: 2px; }
+  .tip .seg { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); }
+  .tip .key { display: inline-block; width: 12px; height: 2px; }
+  .tip .key.s1 { background: var(--s1); } .tip .key.s2 { background: var(--s2); } .tip .key.s3 { background: var(--s3); }
+  .tip .rng { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .tip .conf { margin-top: 6px; font-size: 11.5px; color: var(--muted); }
+
+  .chart-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; margin-top: 10px; color: var(--muted); font-size: 12px; }
+
+  /* Tables */
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 13.5px; }
+  th, td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td .code { font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); }
+  .grade { font-family: var(--font-mono); font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .conf-tag { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 10px; border: 1px solid var(--line-2); color: var(--ink-2); white-space: nowrap; }
+  .conf-tag.a { border-color: var(--accent); color: var(--accent); }
+
+  .quad-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+  .qcard { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; }
+  .qcard h4 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .qcard p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  .qcard .pos { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+  .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 40px; }
+  ul.plain { padding-left: 18px; margin: 6px 0; }
+  ul.plain li { margin: 4px 0; }
+  .src li { margin: 6px 0; font-size: 13.5px; color: var(--ink-2); }
+  .src li a { word-break: break-word; }
+  .small { font-size: 13px; color: var(--muted); }
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+
+  @media (max-width: 720px) {
+    .quad-grid, .cols { grid-template-columns: 1fr; }
+    .wrap { padding: 28px 16px 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .quad .dot { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Benchmarking de cargos · Banca en Chile · Reportes normativos a la CMF · Septiembre 2026</div>
+    <h1>Job grades de la función de Reportes Normativos CMF</h1>
+    <p class="lede">Posicionamiento de los cinco niveles típicos de la función que prepara y envía a la Comisión para el Mercado Financiero los archivos del Manual de Sistemas de Información (MSI), comparados por alcance del cargo y renta bruta mensual, en tres segmentos de bancos.</p>
+    <div class="meta">
+      <span><b>Unidad:</b> renta bruta mensual, millones de CLP (MM$)</span>
+      <span><b>Universo:</b> bancos supervisados por la CMF</span>
+      <span><b>Puntos:</b> 5 grados × 3 segmentos = 15 posiciones de referencia</span>
+    </div>
+  </header>
+
+  <div class="notice">
+    <b>Lea esto antes de usar las cifras.</b> No existe una encuesta pública con rentas por banco para esta función. Las rentas de este benchmark son <b>estimaciones</b> construidas a partir de rangos públicos 2026 para cargos contables genéricos (Robert Half, Buk, Diario Financiero) más un supuesto explícito de premio por especialización regulatoria. Los diferenciales entre segmentos de bancos y el índice de alcance son criterio del analista, no datos observados. Antes de tomar decisiones de compensación, contraste con una encuesta pagada (Mercer TRS, Korn Ferry/Hay, WTW) o con datos internos.
+  </div>
+
+  <h2>Mapa de cuadrantes: alcance del cargo vs. renta</h2>
+  <p class="sub">Cada punto es un grado en un segmento de bancos. El eje horizontal es un índice de alcance (0–100) que resume cobertura de archivos MSI, autoridad de firma, personas a cargo, interlocución con el regulador y complejidad técnica. El eje vertical es el punto medio estimado de renta bruta mensual. Las líneas centrales marcan el umbral de jefatura (índice 50) y la mediana de renta de las 15 posiciones (MM$ 4,2).</p>
+
+  <div class="card">
+    <div class="chart-head">
+      <div class="legend" aria-label="Segmentos de bancos">
+        <ul>
+          <li><span class="sw s1"></span>Bancos sistémicos</li>
+          <li><span class="sw s2"></span>Bancos medianos y de nicho</li>
+          <li><span class="sw s3"></span>Bancos retail y filiales de grupos</li>
+        </ul>
+      </div>
+      <div class="toggle" role="group" aria-label="Vista">
+        <button type="button" id="btn-chart" aria-pressed="true">Gráfico</button>
+        <button type="button" id="btn-table" aria-pressed="false">Tabla</button>
+      </div>
+    </div>
+
+    <div class="chart-wrap" id="chart-wrap">
+      <svg class="quad" id="quad" viewBox="0 0 960 560" role="img" aria-labelledby="quad-title quad-desc">
+        <title id="quad-title">Gráfico de cuadrantes: índice de alcance del cargo contra renta bruta mensual estimada, 15 posiciones</title>
+        <desc id="quad-desc">Cinco grados (G1 Analista a G5 Gerente) en tres segmentos de bancos. Los grados G4 y G5 quedan en el cuadrante de alto alcance y alta renta; G1 y G2 en bajo alcance y baja renta; el G3 de bancos retail cae en alto alcance con renta bajo la mediana.</desc>
+      </svg>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+
+    <div class="tbl-wrap" id="table-view" hidden>
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>Grado</th><th>Cargo de referencia</th><th>Segmento</th>
+            <th class="num">Índice de alcance</th><th class="num">Renta media (MM$)</th><th class="num">Rango (MM$)</th><th>Confianza</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="chart-foot">
+      <span>Línea gris: tendencia lineal de las 15 posiciones (política de pago implícita del mercado).</span>
+      <span>Pase el cursor o use Tab sobre un punto para ver el detalle.</span>
+    </div>
+  </div>
+
+  <div class="quad-grid">
+    <div class="qcard"><span class="pos">Arriba · izquierda</span><h4>Renta sobre alcance</h4><p>Cargos pagados por encima de la mediana con alcance acotado. Ninguna posición de referencia cae aquí; en la práctica aparecen especialistas escasos (Basilea III, IFRS 9) retenidos con renta de jefatura sin equipo.</p></div>
+    <div class="qcard"><span class="pos">Arriba · derecha</span><h4>Liderazgo alineado</h4><p>Subgerentes y gerentes: alto alcance y renta sobre la mediana. La diferencia entre segmentos se explica más por tamaño de equipo y volumen de archivos que por el contenido del cargo.</p></div>
+    <div class="qcard"><span class="pos">Abajo · izquierda</span><h4>Base técnica</h4><p>Analistas y analistas senior en los tres segmentos. Es la zona de entrada y desarrollo; el salto de G2 a G3 es el mayor cambio relativo de renta de toda la escala.</p></div>
+    <div class="qcard"><span class="pos">Abajo · derecha</span><h4>Alcance sobre renta</h4><p>Zona de riesgo de retención. El Jefe de Reportes Normativos de bancos retail y filiales carga con toda la cadena de archivos MSI con una renta bajo la mediana de la función. Candidato natural a fuga hacia bancos sistémicos.</p></div>
+  </div>
+
+  <h2>Escala de grados de referencia</h2>
+  <p class="sub">Los títulos varían por banco; la columna de cargo lista las denominaciones más frecuentes. La equivalencia con puntos Hay o clases Mercer IPE depende de la valoración interna de cada institución y no se incluye para no inventar cifras.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Grado</th><th>Cargo de referencia y variantes</th><th>Alcance típico</th><th>Experiencia</th><th>Reporta a</th>
+          <th class="num">Sistémicos</th><th class="num">Medianos</th><th class="num">Retail</th><th>Confianza</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="grade">G1</td>
+          <td>Analista de Reportes Normativos<br><span class="code">Analista Contable Normativo · Analista Reportes Regulatorios</span></td>
+          <td>Prepara y valida uno o dos archivos MSI (habitualmente Sistema Contable <span class="code">C</span> o Productos <span class="code">P</span>) bajo supervisión; cuadraturas contra balance.</td>
+          <td>0–3 años</td>
+          <td>Jefe de Reportes Normativos</td>
+          <td class="num">2,2</td><td class="num">2,0</td><td class="num">1,8</td>
+          <td><span class="conf-tag a">Anclado</span></td>
+        </tr>
+        <tr>
+          <td class="grade">G2</td>
+          <td>Analista Senior / Especialista Normativo<br><span class="code">Analista Sr Reportes Normativos · Especialista MSI</span></td>
+          <td>Responsable de un sistema completo (<span class="code">C</span>, <span class="code">D</span>, <span class="code">P</span> o <span class="code">R</span>); atiende observaciones de la CMF; documenta cambios normativos (circulares, Basilea III).</td>
+          <td>3–6 años</td>
+          <td>Jefe de Reportes Normativos</td>
+          <td class="num">3,1</td><td class="num">2,8</td><td class="num">2,5</td>
+          <td><span class="conf-tag">Estimado</span></td>
+        </tr>
+        <tr>
+          <td class="grade">G3</td>
+          <td>Jefe de Reportes Normativos<br><span class="code">Jefe de Información Normativa · Coordinador Regulatorio</span></td>
+          <td>Firma el envío mensual y diario; calendario regulatorio completo; equipo de 2 a 6 analistas; interlocutor operativo de la CMF y auditoría externa.</td>
+          <td>6–10 años</td>
+          <td>Subgerente de Contabilidad o de Información Normativa</td>
+          <td class="num">4,7</td><td class="num">4,3</td><td class="num">3,8</td>
+          <td><span class="conf-tag a">Anclado</span></td>
+        </tr>
+        <tr>
+          <td class="grade">G4</td>
+          <td>Subgerente de Información Normativa<br><span class="code">Subgerente de Contabilidad y Reportes · Subgerente Normativo</span></td>
+          <td>Dueño del proceso de reportería regulatoria (CMF y Banco Central); implementa cambios al MSI; controles y automatización; equipo de 6 a 20 personas en sistémicos.</td>
+          <td>10–15 años</td>
+          <td>Gerente de Contabilidad / Control Financiero</td>
+          <td class="num">7,2</td><td class="num">6,3</td><td class="num">5,6</td>
+          <td><span class="conf-tag">Estimado</span></td>
+        </tr>
+        <tr>
+          <td class="grade">G5</td>
+          <td>Gerente de Contabilidad e Información Normativa<br><span class="code">Gerente de Control Financiero · Contralor</span></td>
+          <td>Responsable ante la alta administración y el regulador por la integridad de la información financiera y normativa; consolidación de filiales; relación con la CMF a nivel de supervisión.</td>
+          <td>15+ años</td>
+          <td>Gerente de División Finanzas / CFO</td>
+          <td class="num">10,5</td><td class="num">9,2</td><td class="num">8,0</td>
+          <td><span class="conf-tag a">Anclado</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small" style="margin-top:8px">Renta bruta mensual estimada, punto medio, MM$ de 2026. "Anclado" significa que existe un rango público 2026 para un cargo contable genérico comparable (analista contable, jefe de contabilidad, gerente de contabilidad). "Estimado" significa interpolación entre anclas. En ambos casos el diferencial por segmento es un supuesto.</p>
+
+  <h2>Segmentos y cómo se construyó el índice de alcance</h2>
+  <div class="cols">
+    <div>
+      <h3>Segmentos de bancos</h3>
+      <ul class="plain">
+        <li><b>Sistémicos:</b> Banco de Chile, Santander, Bci, BancoEstado, Itaú, Scotiabank (lista de bancos de importancia sistémica publicada por la CMF en marzo de 2026). Equipos grandes, especialización por sistema MSI, mayor complejidad (Basilea III, consolidación).</li>
+        <li><b>Medianos y de nicho:</b> Security, BICE, Consorcio, Internacional, BTG Pactual. Equipos de 3 a 8 personas; cada analista cubre más archivos.</li>
+        <li><b>Retail y filiales de grupos:</b> Falabella, Ripley, HSBC Chile y otras filiales. Equipos pequeños con alcance amplio por persona; en filiales extranjeras el cargo suele sumar reportería al grupo.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Rúbrica del índice (0–100)</h3>
+      <ul class="plain">
+        <li>Cobertura de archivos y sistemas MSI a cargo: hasta 30 puntos.</li>
+        <li>Autoridad de firma y decisión sobre el envío: hasta 25 puntos.</li>
+        <li>Interlocución con CMF, Banco Central y auditores: hasta 20 puntos.</li>
+        <li>Personas a cargo: hasta 15 puntos.</li>
+        <li>Complejidad técnica (Basilea III, IFRS 9, consolidación): hasta 10 puntos.</li>
+      </ul>
+      <p class="small">El puntaje por posición fue asignado por el analista siguiendo la rúbrica; es reproducible pero no proviene de una valoración formal de cargos.</p>
+    </div>
+  </div>
+
+  <h2>Anclas públicas usadas y sus límites</h2>
+  <p class="sub">Todas las cifras públicas siguientes son para cargos contables o financieros genéricos en Chile, no para la función normativa bancaria. Sobre ellas se aplicó un premio de especialización regulatoria de 10 % a 20 % (supuesto). Las páginas se consultaron a través de resultados de búsqueda; el entorno de trabajo no permitió abrirlas directamente, por lo que conviene verificar cada cifra en la fuente.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Fuente</th><th>Cargo</th><th class="num">Rango público (MM$ bruto mensual)</th><th>Uso en este benchmark</th></tr></thead>
+      <tbody>
+        <tr><td>Robert Half, Guía Salarial 2026 Chile</td><td>Analista Contable</td><td class="num">1,60 – 2,17</td><td>Ancla de G1</td></tr>
+        <tr><td>Robert Half, Guía Salarial 2026 Chile</td><td>Jefe de Contabilidad</td><td class="num">3,26 – 4,52</td><td>Ancla de G3</td></tr>
+        <tr><td>Robert Half, Guía Salarial 2026 Chile</td><td>Gerente de Contabilidad</td><td class="num">6,63 – 9,95</td><td>Ancla de G5</td></tr>
+        <tr><td>Robert Half, Guía Salarial 2026 Chile</td><td>Controller</td><td class="num">hasta 8,13</td><td>Contraste para G4–G5</td></tr>
+        <tr><td>Buk, junio 2026</td><td>Analistas / Jefaturas / Gerencias de administración y finanzas</td><td class="num">1,5 – 2,2 / 2,5 – 3,8 / 6,0 – 9,0</td><td>Contraste de banda por nivel</td></tr>
+        <tr><td>Diario Financiero (DFLIVE)</td><td>Jefe de reporting y gestión, multinacionales</td><td class="num">hasta 5,0</td><td>Techo de G3 en sistémicos</td></tr>
+        <tr><td>Mercer Chile, Incrementos Salariales 2025</td><td>Incremento salarial promedio proyectado</td><td class="num">5,0 %</td><td>Referencia de actualización anual</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Fuentes consultadas</h3>
+  <ul class="src">
+    <li>Robert Half Chile, Guía Salarial 2026: <a href="https://www.roberthalf.com/cl/es/vacantes-detalles/analista-contable">Analista Contable</a>, <a href="https://www.roberthalf.com/cl/es/vacantes-detalles/jefe-de-contabilidad">Jefe de Contabilidad</a>, <a href="https://www.roberthalf.com/cl/es/vacantes-detalles/gerente-de-contabilidad">Gerente de Contabilidad</a>, <a href="https://www.roberthalf.com/cl/es/insights/guia-salarial/finanzas-contabilidad">Tendencias en finanzas y contabilidad</a>.</li>
+    <li>Buk, <a href="https://www.buk.cl/novedades/finanzas/cuanto-ganan-profesionales-administracion-finanzas">¿Cuánto ganan los profesionales de administración y finanzas en Chile?</a></li>
+    <li>Diario Financiero, <a href="https://dflive.cl/los-sueldos-de-los-cargos-mas-demandados-del-area-financiera-en-chile/">Los sueldos de los cargos más demandados del área financiera en Chile</a>.</li>
+    <li>Mercer Chile, <a href="https://www.mercer.com/es-cl/insights/talent-and-transformation/incrementos-salariales/">Incremento Salarial en Chile 2025</a> y <a href="https://www.mercer.com/es-cl/solutions/talent-and-rewards/compensation-data-insights-and-research/trs-chile--encuesta-de-remuneracion-total-de-mercer/">Encuesta TRS Chile</a>.</li>
+    <li>CMF, <a href="https://www.cmfchile.cl/portal/normativa/624/w4-propertyvalue-49340.html">Manuales de Sistemas de Información (MSI)</a> y <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-85945.html">normativa que modifica archivos del MSI</a>; Circular N° 2.376 sobre eliminación de archivos (Diario Estrategia).</li>
+    <li>BioBioChile, marzo 2026, <a href="https://www.biobiochile.cl/noticias/economia/negocios-y-empresas/2026/03/30/cmf-define-lista-de-bancos-de-importancia-sistemica-para-el-sector-financiero-y-la-economia-de-chile.shtml">CMF define la lista de bancos de importancia sistémica</a>.</li>
+    <li>Avisos de empleo que confirman la existencia y el contenido de los cargos: <a href="https://nexolaboral.fen.uchile.cl/trabajar-en-banco-hsbc-chile/trabajos/analista-reportes-regulatorios/618143">Analista Reportes Regulatorios, HSBC Chile</a>; <a href="https://www.redimin.cl/trabajos/banco-falabella-analista-sr-reportes-normativos">Analista Sr Reportes Normativos, Banco Falabella (Gerencia de Reportes Normativos)</a>.</li>
+  </ul>
+
+  <footer>
+    Documento de trabajo. Las rentas son estimaciones del analista sobre anclas públicas genéricas; los diferenciales por segmento y el índice de alcance son supuestos declarados. Verifique con una encuesta de remuneraciones pagada antes de usar en decisiones de compensación.
+  </footer>
+</div>
+
+<script>
+(function () {
+  // Data: 15 reference positions. x = índice de alcance (0-100), y = renta bruta mensual media (MM$), lo/hi = rango.
+  var SEG = {
+    s1: 'Bancos sistémicos',
+    s2: 'Bancos medianos y de nicho',
+    s3: 'Bancos retail y filiales de grupos'
+  };
+  var GRADES = {
+    G1: 'Analista de Reportes Normativos',
+    G2: 'Analista Senior / Especialista Normativo',
+    G3: 'Jefe de Reportes Normativos',
+    G4: 'Subgerente de Información Normativa',
+    G5: 'Gerente de Contabilidad e Información Normativa'
+  };
+  var CONF = { a: 'Anclado en rango público 2026 para cargo contable genérico; diferencial por segmento es supuesto.',
+               e: 'Estimado por interpolación entre anclas; diferencial por segmento es supuesto.' };
+  var DATA = [
+    { g: 'G1', s: 's1', x: 18, y: 2.2, lo: 1.9, hi: 2.6, c: 'a' },
+    { g: 'G1', s: 's2', x: 24, y: 2.0, lo: 1.7, hi: 2.4, c: 'a' },
+    { g: 'G1', s: 's3', x: 26, y: 1.8, lo: 1.6, hi: 2.2, c: 'a' },
+    { g: 'G2', s: 's1', x: 34, y: 3.1, lo: 2.6, hi: 3.7, c: 'e' },
+    { g: 'G2', s: 's2', x: 42, y: 2.8, lo: 2.3, hi: 3.3, c: 'e' },
+    { g: 'G2', s: 's3', x: 44, y: 2.5, lo: 2.1, hi: 3.0, c: 'e' },
+    { g: 'G3', s: 's1', x: 54, y: 4.7, lo: 4.0, hi: 5.4, c: 'a' },
+    { g: 'G3', s: 's2', x: 60, y: 4.3, lo: 3.6, hi: 5.0, c: 'a' },
+    { g: 'G3', s: 's3', x: 60, y: 3.8, lo: 3.3, hi: 4.5, c: 'a' },
+    { g: 'G4', s: 's1', x: 74, y: 7.2, lo: 6.0, hi: 8.5, c: 'e' },
+    { g: 'G4', s: 's2', x: 74, y: 6.3, lo: 5.2, hi: 7.5, c: 'e' },
+    { g: 'G4', s: 's3', x: 70, y: 5.6, lo: 4.6, hi: 6.7, c: 'e' },
+    { g: 'G5', s: 's1', x: 92, y: 10.5, lo: 8.8, hi: 12.5, c: 'a' },
+    { g: 'G5', s: 's2', x: 86, y: 9.2, lo: 7.6, hi: 10.8, c: 'a' },
+    { g: 'G5', s: 's3', x: 82, y: 8.0, lo: 6.6, hi: 9.5, c: 'a' }
+  ];
+  var X_MID = 50, Y_MID = 4.2;
+
+  var svg = document.getElementById('quad');
+  var NS = 'http://www.w3.org/2000/svg';
+  var W = 960, H = 560, m = { t: 36, r: 28, b: 58, l: 62 };
+  var pw = W - m.l - m.r, ph = H - m.t - m.b;
+  var xmin = 0, xmax = 100, ymin = 0, ymax = 12;
+  function sx(v) { return m.l + (v - xmin) / (xmax - xmin) * pw; }
+  function sy(v) { return m.t + ph - (v - ymin) / (ymax - ymin) * ph; }
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(e); return e;
+  }
+  function txt(x, y, s, cls, anchor, parent) {
+    var t = el('text', { x: x, y: y, 'class': cls, 'text-anchor': anchor || 'start' }, parent);
+    t.textContent = s; return t;
+  }
+  function fmt(v) { return 'MM$ ' + v.toFixed(1).replace('.', ','); }
+
+  // Quadrant tint: the two "watch" quadrants get a faint fill
+  el('rect', { x: sx(X_MID), y: sy(ymax), width: sx(xmax) - sx(X_MID), height: sy(Y_MID) - sy(ymax), fill: 'var(--q-fill)', opacity: 0.55 });
+  el('rect', { x: sx(xmin), y: sy(Y_MID), width: sx(X_MID) - sx(xmin), height: sy(ymin) - sy(Y_MID), fill: 'var(--q-fill)', opacity: 0.55 });
+
+  // Grid
+  var gGrid = el('g', {});
+  for (var yv = 2; yv <= ymax; yv += 2) {
+    el('line', { x1: sx(xmin), x2: sx(xmax), y1: sy(yv), y2: sy(yv), 'class': 'grid' }, gGrid);
+    txt(m.l - 10, sy(yv) + 4, yv.toFixed(0), 'tick', 'end', gGrid);
+  }
+  for (var xv = 0; xv <= 100; xv += 25) {
+    txt(sx(xv), sy(ymin) + 20, String(xv), 'tick', 'middle', gGrid);
+  }
+  el('line', { x1: sx(xmin), x2: sx(xmax), y1: sy(ymin), y2: sy(ymin), 'class': 'axis' });
+  el('line', { x1: sx(xmin), x2: sx(xmin), y1: sy(ymin), y2: sy(ymax), 'class': 'axis' });
+
+  // Midlines
+  el('line', { x1: sx(X_MID), x2: sx(X_MID), y1: sy(ymin), y2: sy(ymax), 'class': 'mid' });
+  el('line', { x1: sx(xmin), x2: sx(xmax), y1: sy(Y_MID), y2: sy(Y_MID), 'class': 'mid' });
+  txt(sx(X_MID) + 6, sy(ymax) + 14, 'Umbral de jefatura (índice 50)', 'qsub');
+  txt(sx(xmax) - 4, sy(Y_MID) - 6, 'Mediana de renta de la función · MM$ 4,2', 'qsub', 'end');
+
+  // Axis titles
+  txt(sx(xmin) + pw / 2, H - 14, 'Índice de alcance del cargo (0–100): cobertura MSI, autoridad de firma, interlocución con el regulador, equipo, complejidad', 'axis-title', 'middle');
+  var yt = txt(0, 0, 'Renta bruta mensual estimada, punto medio (MM$)', 'axis-title', 'middle');
+  yt.setAttribute('transform', 'translate(16,' + (m.t + ph / 2) + ') rotate(-90)');
+
+  // Quadrant labels
+  txt(sx(xmin) + 10, sy(ymax) + 16, 'RENTA SOBRE ALCANCE', 'qlabel');
+  txt(sx(xmax) - 10, sy(ymax) + 32, 'LIDERAZGO ALINEADO', 'qlabel', 'end');
+  txt(sx(xmin) + 10, sy(ymin) - 10, 'BASE TÉCNICA', 'qlabel');
+  txt(sx(xmax) - 10, sy(ymin) - 10, 'ALCANCE SOBRE RENTA · RIESGO DE RETENCIÓN', 'qlabel', 'end');
+
+  // Trend line (least squares)
+  var n = DATA.length, sxs = 0, sys = 0, sxy = 0, sxx = 0;
+  DATA.forEach(function (d) { sxs += d.x; sys += d.y; sxy += d.x * d.y; sxx += d.x * d.x; });
+  var slope = (n * sxy - sxs * sys) / (n * sxx - sxs * sxs);
+  var icpt = (sys - slope * sxs) / n;
+  var tx0 = 10, tx1 = 96;
+  el('line', { x1: sx(tx0), y1: sy(icpt + slope * tx0), x2: sx(tx1), y2: sy(icpt + slope * tx1), 'class': 'trend' });
+  txt(sx(tx0) + 6, sy(icpt + slope * tx0) - 6, 'Tendencia de mercado', 'trend-label', 'start');
+
+  // Grade cluster labels (one per grade, at the centroid, offset)
+  var byG = {};
+  DATA.forEach(function (d) { (byG[d.g] = byG[d.g] || []).push(d); });
+  Object.keys(byG).forEach(function (g) {
+    var pts = byG[g], cx = 0, cy = 0;
+    pts.forEach(function (p) { cx += p.x; cy += p.y; });
+    cx /= pts.length; cy /= pts.length;
+    var label = g + ' · ' + GRADES[g].split(' / ')[0].replace('Analista de Reportes Normativos', 'Analista').replace('Gerente de Contabilidad e Información Normativa', 'Gerente').replace('Subgerente de Información Normativa', 'Subgerente').replace('Jefe de Reportes Normativos', 'Jefe');
+    var anchor = 'start', dx = 16, dy = -12;
+    if (g === 'G5') { anchor = 'end'; dx = -18; dy = 24; }
+    if (g === 'G4') { dx = 18; dy = 18; }
+    if (g === 'G3') { dx = 18; dy = -14; }
+    txt(sx(cx) + dx, sy(cy) + dy, label, 'glabel', anchor);
+  });
+
+  // Points with big hit areas and tooltip
+  var tip = document.getElementById('tip'), wrap = document.getElementById('chart-wrap');
+  function showTip(d, target) {
+    while (tip.firstChild) tip.removeChild(tip.firstChild);
+    var role = document.createElement('div'); role.className = 'role'; role.textContent = d.g + ' · ' + GRADES[d.g]; tip.appendChild(role);
+    var seg = document.createElement('div'); seg.className = 'seg';
+    var key = document.createElement('span'); key.className = 'key ' + d.s; seg.appendChild(key);
+    seg.appendChild(document.createTextNode(SEG[d.s])); tip.appendChild(seg);
+    var v = document.createElement('div'); v.className = 'v'; v.textContent = fmt(d.y); tip.appendChild(v);
+    var r = document.createElement('div'); r.className = 'rng'; r.textContent = 'Rango estimado ' + fmt(d.lo) + ' a ' + fmt(d.hi) + ' · Índice de alcance ' + d.x; tip.appendChild(r);
+    var c = document.createElement('div'); c.className = 'conf'; c.textContent = CONF[d.c]; tip.appendChild(c);
+    tip.hidden = false;
+    var rect = target.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+    var left = rect.left - wr.left + rect.width / 2 + 14, top = rect.top - wr.top - 10;
+    if (left + 290 > wr.width) left = rect.left - wr.left - 290;
+    if (left < 0) left = 8;
+    tip.style.left = left + 'px'; tip.style.top = Math.max(0, top) + 'px';
+  }
+  function hideTip() { tip.hidden = true; }
+
+  DATA.forEach(function (d) {
+    var g = el('g', { 'class': 'pt' });
+    var hit = el('circle', { cx: sx(d.x), cy: sy(d.y), r: 14, 'class': 'hit', tabindex: 0, role: 'button' }, g);
+    var lab = document.createElementNS(NS, 'title');
+    lab.textContent = d.g + ', ' + SEG[d.s] + ': ' + fmt(d.y) + ', índice ' + d.x; hit.appendChild(lab);
+    var dot = el('circle', { cx: sx(d.x), cy: sy(d.y), r: 6, 'class': 'dot ' + d.s }, g);
+    hit.addEventListener('pointerenter', function () { showTip(d, dot); });
+    hit.addEventListener('pointerleave', hideTip);
+    hit.addEventListener('focus', function () { showTip(d, dot); });
+    hit.addEventListener('blur', hideTip);
+  });
+
+  // Table view
+  var tbody = document.querySelector('#data-table tbody');
+  DATA.forEach(function (d) {
+    var tr = document.createElement('tr');
+    function td(t, cls) { var c = document.createElement('td'); if (cls) c.className = cls; c.textContent = t; tr.appendChild(c); }
+    var g = document.createElement('td'); g.className = 'grade'; g.textContent = d.g; tr.appendChild(g);
+    td(GRADES[d.g]); td(SEG[d.s]); td(String(d.x), 'num'); td(d.y.toFixed(1).replace('.', ','), 'num');
+    td(d.lo.toFixed(1).replace('.', ',') + ' – ' + d.hi.toFixed(1).replace('.', ','), 'num');
+    td(d.c === 'a' ? 'Anclado' : 'Estimado');
+    tbody.appendChild(tr);
+  });
+  var bC = document.getElementById('btn-chart'), bT = document.getElementById('btn-table');
+  var tv = document.getElementById('table-view');
+  function setView(table) {
+    tv.hidden = !table; wrap.hidden = table;
+    bC.setAttribute('aria-pressed', String(!table)); bT.setAttribute('aria-pressed', String(table));
+  }
+  bC.addEventListener('click', function () { setView(false); });
+  bT.addEventListener('click', function () { setView(true); });
+})();
+</script>
+</body>
+</html>
