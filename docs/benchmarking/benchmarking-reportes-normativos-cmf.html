@@ -250,7 +250,7 @@
   </header>
 
   <div class="notice">
-    <b>Naturaleza de este documento.</b> La asignación de grados y perfiles es una inferencia del analista a partir de la carga normativa pública (MSI, RAN, Compendio de Normas Contables) y de la práctica habitual de la banca chilena; no proviene de una valoración formal de cargos ni de datos de Bci. Los códigos de archivo se citan solo donde hay respaldo público; la lista vigente debe tomarse del MSI, que la CMF modifica con frecuencia (la Circular N° 2.376 eliminó siete archivos con último envío en septiembre de 2026). Las rentas de la sección final son estimaciones sobre anclas públicas genéricas.
+    <b>Naturaleza de este documento.</b> La asignación de grados y perfiles es una inferencia del analista a partir de la carga normativa pública (MSI, RAN, Compendio de Normas Contables) y de la práctica habitual de la banca chilena; no proviene de una valoración formal de cargos ni de datos de Bci. La identificación de los archivos se verificó en fuentes públicas donde fue posible y se marca su estado en el catálogo; la lista vigente debe tomarse del MSI, que la CMF modifica con frecuencia (la Circular N° 2.376 eliminó siete archivos con último envío en septiembre de 2026). Las rentas de la sección final son estimaciones sobre anclas públicas genéricas.
   </div>
 
   
@@ -280,7 +280,7 @@
     </div>
     <div class="tbl-wrap" id="cx-table-view" hidden>
       <table id="cx-table">
-        <thead><tr><th>Familia de reportes</th><th>Ejemplos</th><th>Frecuencia</th><th class="num">Complejidad</th><th class="num">Criticidad</th><th>Prepara</th><th>Responsable</th><th>Firma</th></tr></thead>
+        <thead><tr><th>Familia de reportes</th><th>Identificación</th><th>Contenido</th><th>Frecuencia</th><th class="num">Complejidad</th><th class="num">Criticidad</th><th>Prepara</th><th>Responsable</th><th>Firma</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -307,6 +307,23 @@
     </div>
   </div>
 
+
+  <h2>Catálogo de identificación de los reportes normativos</h2>
+  <p class="sub">Variable de identificación de cada familia: código del archivo del Manual de Sistemas de Información (MSI) o del reporte al Banco Central, nombre, sistema al que pertenece y frecuencia. La columna de estado indica qué pudo verificarse en fuentes públicas de la CMF y del Banco Central; lo marcado "Por confirmar" debe validarse contra el MSI vigente, que la CMF modifica con frecuencia.</p>
+  <div class="legend" style="margin-bottom:10px" aria-label="Estados de verificación">
+    <ul>
+      <li><span class="conf-tag a">Verificado</span> código y nombre confirmados en documento o comunicado público</li>
+      <li><span class="conf-tag">Parcial</span> código confirmado, contenido o frecuencia inferidos</li>
+      <li><span class="conf-tag" style="border-style:dashed">Por confirmar</span> sin confirmación pública obtenida</li>
+    </ul>
+  </div>
+  <div class="tbl-wrap">
+    <table id="cat-table">
+      <thead><tr><th>Código</th><th>Nombre del archivo o reporte</th><th>Sistema</th><th>Familia</th><th>Frecuencia</th><th>Responsable</th><th>Estado</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="small" style="margin-top:8px">Hallazgo relevante para el dimensionamiento: las tasas de interés que alimentan la tasa máxima convencional se informan en archivos del Sistema de Deudores (D32, D33, D35), no del Sistema de Productos, y los límites del artículo 84 (D55, D56) son de envío diario. Ambos grupos son de baja complejidad pero de alta frecuencia y consecuencia, lo que justifica su ubicación en el cuadrante de operación crítica con responsable G3.</p>
   <h2>Perfil requerido por grado</h2>
   <p class="sub">Cada grado cumple un rol distinto en la cadena de confiabilidad: producir, controlar, responder o rendir cuentas. El perfil describe el mínimo para que ese rol se ejecute sin depender de la buena voluntad de personas específicas.</p>
   <div class="tbl-wrap">
@@ -366,7 +383,7 @@
   <p class="sub">Regla general: quien prepara nunca es quien firma; todo reporte del núcleo prudencial y de la operación crítica tiene un preparador y un respaldo entrenado. "Segunda revisión" es una validación independiente fuera de la línea de preparación, habitualmente en Riesgo, Control Financiero o Contabilidad según el reporte.</p>
   <div class="tbl-wrap">
     <table>
-      <thead><tr><th>Familia de reportes</th><th>Cuadrante</th><th class="raci">Prepara</th><th class="raci">Revisa</th><th class="raci">Segunda revisión</th><th class="raci">Firma y envía</th><th>Controles mínimos</th></tr></thead>
+      <thead><tr><th>Familia de reportes</th><th>Identificación</th><th>Cuadrante</th><th class="raci">Prepara</th><th class="raci">Revisa</th><th class="raci">Segunda revisión</th><th class="raci">Firma y envía</th><th>Controles mínimos</th></tr></thead>
       <tbody id="raci-body"></tbody>
     </table>
   </div>
@@ -595,6 +612,7 @@
     <li>Buk, <a href="https://www.buk.cl/novedades/finanzas/cuanto-ganan-profesionales-administracion-finanzas">¿Cuánto ganan los profesionales de administración y finanzas en Chile?</a></li>
     <li>Diario Financiero, <a href="https://dflive.cl/los-sueldos-de-los-cargos-mas-demandados-del-area-financiera-en-chile/">Los sueldos de los cargos más demandados del área financiera en Chile</a>.</li>
     <li>Mercer Chile, <a href="https://www.mercer.com/es-cl/insights/talent-and-transformation/incrementos-salariales/">Incremento Salarial en Chile 2025</a> y <a href="https://www.mercer.com/es-cl/solutions/talent-and-rewards/compensation-data-insights-and-research/trs-chile--encuesta-de-remuneracion-total-de-mercer/">Encuesta TRS Chile</a>.</li>
+    <li>Identificación de archivos del MSI: CMF, <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-47521.html">archivos normativos para la supervisión de Basilea III</a> (R01, R02, R06 a R08, R11) y <a href="https://www.cmfchile.cl/portal/principal/613/articles-47523_doc_pdf.pdf">preguntas frecuentes del Sistema de Riesgos</a> (C46 a C49, R13); catálogo del Sistema Contable ex SBIF, <a href="https://www.sbif.cl/sbifweb3/internet/archivos/norma_887_3.pdf">C01 a C07</a>; CMF, <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-85945.html">modificación de C11, C12 y C13</a>; CMF, incorporación de <a href="https://www.cmfchile.cl/sitio/aplic/serdoc/ver_sgd.php?s567=23cf9c5a0067711fa6b6f0b254f3800fVFdwQmVVMXFRVFRSTkUxNFQxUk5lVTlSUFQwPQ%3D%3D&secuencia=-1&t=1660675296">R13 y archivo C40</a>; Carey, <a href="https://www.carey.cl/cmf-pone-en-consulta-dos-modificaciones-a-su-normativa-sobre-deudores-del-sistema-financiero/">modificaciones a D10 y D27</a>; ex SBIF, <a href="https://cronologiabancaria.cmfchile.cl/sbifweb/servlet/Noticia?indice=2.1&idContenido=12459">archivos D55 y D56 para control de límites de crédito</a>; CMF, <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-102387.html">nueva metodología de tasa máxima convencional basada en el archivo D35</a>; CMF, <a href="https://www.cmfchile.cl/portal/principal/613/articles-29211_doc_pdf.pdf">Sistema de Instituciones</a> (I10); Banco Central, <a href="https://www.bcentral.cl/documents/33528/133521/Manual+de+Procedimientos+y+Formularios+de+Informaci%C3%B3n+del+CNCI.pdf/bcdfb774-330a-c6e1-b9fd-1b5e2c078426?t=1569612969117">Manual de Procedimientos y Formularios del CNCI</a>.</li>
     <li>CMF, <a href="https://www.cmfchile.cl/portal/normativa/624/w4-propertyvalue-49340.html">Manuales de Sistemas de Información (MSI)</a> y <a href="https://www.cmfchile.cl/portal/prensa/615/w3-article-85945.html">normativa que modifica archivos del MSI</a>; Circular N° 2.376 sobre eliminación de archivos (Diario Estrategia).</li>
     <li>Avisos de empleo que confirman la existencia y el contenido de los cargos: <a href="https://nexolaboral.fen.uchile.cl/trabajar-en-banco-hsbc-chile/trabajos/analista-reportes-regulatorios/618143">Analista Reportes Regulatorios, HSBC Chile</a>; <a href="https://www.redimin.cl/trabajos/banco-falabella-analista-sr-reportes-normativos">Analista Sr Reportes Normativos, Banco Falabella</a>.</li>
   </ul>
@@ -609,19 +627,93 @@
   var FAM = [
     { id: 'capital', name: 'Capital regulatorio Basilea III', ex: 'Activos ponderados por riesgo de crédito, mercado y operacional; patrimonio efectivo; colchones y cargo sistémico', freq: 'Mensual y trimestral', x: 9.5, y: 9.2, prep: 'G2 especialista', rev: 'G3 Prudencial', sec: 'Riesgo / Gestión de capital', sign: 'G4, visto G5', ctl: 'Conciliación con balance y con Riesgo; control de versiones de parámetros; revisión de variaciones mensuales; respaldo entrenado.', own: 'o3', q: 'Núcleo prudencial' },
     { id: 'provisiones', name: 'Provisiones por riesgo de crédito', ex: 'Archivos C11, C12 y C13 de provisiones de consumo; provisiones comerciales y de vivienda bajo método estándar', freq: 'Mensual', x: 8.6, y: 9.0, prep: 'G2 especialista', rev: 'G3 Prudencial', sec: 'Riesgo de crédito', sign: 'G4', ctl: 'Cuadratura con la cartera y con Riesgo; pruebas de recálculo por muestra; trazabilidad de clasificaciones.', own: 'o3', q: 'Núcleo prudencial' },
-    { id: 'eeff', name: 'Balance mensual y estados financieros', ex: 'Balance y estados financieros bajo el Compendio de Normas Contables; notas y publicación trimestral', freq: 'Mensual, trimestral publicación', x: 7.0, y: 9.5, prep: 'G2', rev: 'G3 Contable', sec: 'Contabilidad / Auditoría externa', sign: 'G4, firma G5 y CEO en publicación', ctl: 'Cierre contable formal; conciliación estados financieros y archivos MSI; revisión de auditoría externa en trimestres.', own: 'o3', q: 'Núcleo prudencial' },
+    { id: 'eeff', name: 'Balance mensual y estados financieros', ex: 'Modelo de balance y de resultados mensuales, operaciones por moneda, y estados financieros trimestrales bajo el Compendio de Normas Contables', freq: 'Mensual, trimestral publicación', x: 7.0, y: 9.5, prep: 'G2', rev: 'G3 Contable', sec: 'Contabilidad / Auditoría externa', sign: 'G4, firma G5 y CEO en publicación', ctl: 'Cierre contable formal; conciliación estados financieros y archivos MSI; revisión de auditoría externa en trimestres.', own: 'o3', q: 'Núcleo prudencial' },
     { id: 'liquidez', name: 'Liquidez', ex: 'Razón de cobertura de liquidez, financiamiento estable neto, brechas de plazo y situación de liquidez (RAN Capítulo 12-20)', freq: 'Diario y mensual', x: 7.8, y: 8.6, prep: 'G2 especialista', rev: 'G3 Prudencial', sec: 'Tesorería / Riesgo financiero', sign: 'G4', ctl: 'Validación diaria automática de saldos; umbrales de alerta; procedimiento de contingencia por caída de fuentes.', own: 'o3', q: 'Núcleo prudencial' },
     { id: 'pilar3', name: 'Divulgación Pilar 3', ex: 'Informe público de gestión de riesgos y capital exigido por la normativa de Basilea III de la CMF', freq: 'Trimestral y anual', x: 6.6, y: 7.6, prep: 'G2', rev: 'G3 Prudencial', sec: 'Riesgo / Comunicaciones', sign: 'G4, visto G5', ctl: 'Consistencia con capital y estados financieros publicados; revisión de redacción; control de fechas de publicación.', own: 'o3', q: 'Núcleo prudencial' },
     { id: 'consolidacion', name: 'Consolidación de filiales', ex: 'Sociedades de apoyo al giro y filiales, incluida la filial en Estados Unidos en el caso de Bci; homologación de planes de cuenta', freq: 'Mensual y trimestral', x: 9.0, y: 6.4, prep: 'G2 especialista', rev: 'G3 Contable', sec: 'Contabilidad de filiales', sign: 'G4 cuando impacta capital o estados financieros', ctl: 'Mapeo documentado de cuentas; conciliación intercompañía; calendario alineado con cierres de filiales.', own: 'o2', q: 'Especialización técnica' },
     { id: 'mercado', name: 'Riesgo de mercado y derivados', ex: 'Posiciones y exposiciones por moneda y tasa; información de derivados a la CMF y al Banco Central', freq: 'Mensual, algunos diarios', x: 8.0, y: 6.0, prep: 'G2 especialista', rev: 'G3 Contable', sec: 'Riesgo financiero / Tesorería', sign: 'G3', ctl: 'Conciliación con sistemas de Tesorería; validación de valorizaciones; control de contrapartes.', own: 'o2', q: 'Especialización técnica' },
     { id: 'cambios', name: 'Implementación de cambios al MSI', ex: 'Nuevas circulares, eliminación o modificación de archivos (por ejemplo, Circular N° 2.376), normas en consulta', freq: 'Continuo', x: 8.4, y: 5.2, prep: 'G2 especialista', rev: 'G3 del bloque afectado', sec: 'Tecnología / Auditoría interna', sign: 'G4', ctl: 'Análisis de impacto documentado; pruebas paralelas antes del primer envío; plan de capacitación.', own: 'o2', q: 'Especialización técnica' },
-    { id: 'diarios', name: 'Reportes diarios al Banco Central y a la CMF', ex: 'Posición de cambios internacionales, encaje y reserva técnica, información diaria de balance y operaciones de cambio', freq: 'Diario', x: 3.8, y: 8.6, prep: 'G1', rev: 'G2 (control dual)', sec: 'Tesorería', sign: 'G3 Operación', ctl: 'Automatización de extracción; checklist diario con hora límite; respaldo por turno; contingencia manual probada.', own: 'o2', q: 'Operación crítica' },
-    { id: 'deudores', name: 'Deudores y garantías', ex: 'Información mensual de deudores del sistema financiero y de garantías (Sistema de Deudores, archivos D)', freq: 'Mensual', x: 5.0, y: 8.0, prep: 'G1', rev: 'G2', sec: 'Riesgo de crédito / Operaciones', sign: 'G3 Operación', ctl: 'Validaciones de calidad de datos por deudor; conciliación con cartera contable; gestión de reclamos de clientes por información errónea.', own: 'o2', q: 'Operación crítica' },
-    { id: 'tasas', name: 'Tasas de interés y Tasa Máxima Convencional', ex: 'Tasas de operaciones de crédito que la CMF usa para determinar la Tasa Máxima Convencional', freq: 'Mensual, algunos semanales', x: 4.4, y: 7.2, prep: 'G1', rev: 'G2', sec: 'Productos / Pricing', sign: 'G3 Operación', ctl: 'Validación de rangos y outliers; conciliación con originación; revisión de cambios en productos.', own: 'o2', q: 'Operación crítica' },
-    { id: 'limites', name: 'Límites legales y partes relacionadas', ex: 'Límites de crédito individuales de la Ley General de Bancos y operaciones con personas relacionadas', freq: 'Mensual', x: 4.8, y: 7.8, prep: 'G1', rev: 'G2', sec: 'Riesgo de crédito / Cumplimiento', sign: 'G3 Operación', ctl: 'Padrón de relacionados actualizado; alertas tempranas de acercamiento a límites; conciliación con cartera.', own: 'o2', q: 'Operación crítica' },
+    { id: 'diarios', name: 'Reportes diarios al Banco Central y a la CMF', ex: 'Control de encaje, posición de cambios internacionales y otros formularios diarios al Banco Central', freq: 'Diario', x: 3.8, y: 8.6, prep: 'G1', rev: 'G2 (control dual)', sec: 'Tesorería', sign: 'G3 Operación', ctl: 'Automatización de extracción; checklist diario con hora límite; respaldo por turno; contingencia manual probada.', own: 'o2', q: 'Operación crítica' },
+    { id: 'deudores', name: 'Deudores y garantías', ex: 'Información de deudores del artículo 14 de la Ley General de Bancos, leasing y garantías', freq: 'Mensual, en transición a semanal', x: 5.0, y: 8.0, prep: 'G1', rev: 'G2', sec: 'Riesgo de crédito / Operaciones', sign: 'G3 Operación', ctl: 'Validaciones de calidad de datos por deudor; conciliación con cartera contable; gestión de reclamos de clientes por información errónea.', own: 'o2', q: 'Operación crítica' },
+    { id: 'tasas', name: 'Tasas de interés y Tasa Máxima Convencional', ex: 'Tasas de interés diarias de operaciones y de líneas de crédito, y base de cálculo de la tasa de interés corriente y máxima convencional', freq: 'Diario y mensual', x: 4.4, y: 7.2, prep: 'G1', rev: 'G2', sec: 'Productos / Pricing', sign: 'G3 Operación', ctl: 'Validación de rangos y outliers; conciliación con originación; revisión de cambios en productos.', own: 'o2', q: 'Operación crítica' },
+    { id: 'limites', name: 'Límites legales y partes relacionadas', ex: 'Límites de crédito individuales del artículo 84 de la Ley General de Bancos y operaciones con personas relacionadas', freq: 'Diario', x: 4.8, y: 7.8, prep: 'G1', rev: 'G2', sec: 'Riesgo de crédito / Cumplimiento', sign: 'G3 Operación', ctl: 'Padrón de relacionados actualizado; alertas tempranas de acercamiento a límites; conciliación con cartera.', own: 'o2', q: 'Operación crítica' },
     { id: 'productos', name: 'Productos y colocaciones por segmento', ex: 'Colocaciones por producto y región, depósitos, tarjetas y otros archivos del Sistema de Productos', freq: 'Mensual', x: 3.4, y: 4.0, prep: 'G1', rev: 'G2', sec: 'No requerida', sign: 'G2', ctl: 'Validaciones automáticas de formato y totales; conciliación con balance.', own: 'o1', q: 'Rutina estadística' },
     { id: 'estadistica', name: 'Estadísticas de canales, personal y sucursales', ex: 'Información informativa de sucursales, cajeros, canales y dotación', freq: 'Mensual o trimestral', x: 2.0, y: 2.4, prep: 'G1', rev: 'G2', sec: 'No requerida', sign: 'G2', ctl: 'Fuente única acordada con las áreas; revisión de variaciones.', own: 'o1', q: 'Rutina estadística' }
   ];
+
+  // Identificación de reportes por familia. st: v = verificado en fuente pública CMF/BCCh, p = código verificado con contenido parcialmente confirmado, c = por confirmar en el MSI vigente.
+  var IDS = {
+    capital: [
+      { code: 'R01', name: 'Límites de solvencia y patrimonio efectivo', sys: 'Sistema de Riesgo', freq: 'Mensual', st: 'v' },
+      { code: 'R02', name: 'Instrumentos de capital regulatorio', sys: 'Sistema de Riesgo', freq: 'Mensual', st: 'v' },
+      { code: 'R06', name: 'Activos ponderados por riesgo de crédito', sys: 'Sistema de Riesgo', freq: 'Mensual', st: 'v' },
+      { code: 'R07', name: 'Activos ponderados por riesgo de mercado', sys: 'Sistema de Riesgo', freq: 'Mensual', st: 'p' },
+      { code: 'R08', name: 'Activos ponderados por riesgo operacional', sys: 'Sistema de Riesgo', freq: 'Mensual', st: 'v' },
+      { code: 'R11', name: 'Calificación de bancos de importancia sistémica', sys: 'Sistema de Riesgo', freq: 'Anual', st: 'v' },
+      { code: 'C04', name: 'Capital básico y patrimonio efectivo', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'C46 · C47 · C48', name: 'Archivos contables de apoyo a Basilea III', sys: 'Sistema Contable', freq: 'Mensual', st: 'p' }
+    ],
+    provisiones: [
+      { code: 'C11 · C12 · C13', name: 'Provisiones de créditos de consumo (método estándar), con tabla 34', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'Por confirmar', name: 'Archivos de provisiones de cartera comercial y de vivienda', sys: 'Sistema Contable', freq: 'Mensual', st: 'c' }
+    ],
+    eeff: [
+      { code: 'C01', name: 'Modelo de Balance', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'C02', name: 'Modelo de Resultados', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'C05', name: 'Operaciones activas y pasivas en moneda extranjera', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'C07', name: 'Operaciones activas y pasivas en moneda chilena no reajustable', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'EEFF', name: 'Estados financieros trimestrales y anuales publicados (Compendio de Normas Contables)', sys: 'Publicación, fuera del MSI', freq: 'Trimestral y anual', st: 'v' }
+    ],
+    liquidez: [
+      { code: 'Por confirmar', name: 'Archivos de posición de liquidez (razón de cobertura, financiamiento estable neto, brechas) de la norma Gestión y medición de la posición de liquidez', sys: 'Sistema Contable o de Riesgo', freq: 'Diario y mensual', st: 'c' },
+      { code: 'C49', name: 'Valores razonables de instrumentos, usado también para el seguimiento de liquidez', sys: 'Sistema Contable', freq: 'Mensual', st: 'p' }
+    ],
+    pilar3: [
+      { code: 'Pilar 3', name: 'Informe de divulgación de riesgos y capital publicado por el banco; sin archivo MSI identificado', sys: 'Publicación, fuera del MSI', freq: 'Trimestral y anual', st: 'c' }
+    ],
+    consolidacion: [
+      { code: 'C01 · C02 consolidados', name: 'Versiones consolidadas del balance y resultados y estados financieros consolidados', sys: 'Sistema Contable y publicación', freq: 'Mensual y trimestral', st: 'c' }
+    ],
+    mercado: [
+      { code: 'C40', name: 'Flujos asociados a los riesgos de tasa de interés y reajustabilidad en el libro de banca', sys: 'Sistema Contable', freq: 'Mensual', st: 'v' },
+      { code: 'R13', name: 'Riesgo de mercado del libro de banca', sys: 'Sistema de Riesgo', freq: 'Mensual', st: 'v' },
+      { code: 'C43 · P40', name: 'Insumos de riesgo de mercado (posiciones e instrumentos)', sys: 'Sistema Contable y de Productos', freq: 'Mensual', st: 'p' },
+      { code: 'BCCh', name: 'Información de derivados según el Compendio de Normas de Cambios Internacionales', sys: 'Banco Central', freq: 'Según operación', st: 'p' }
+    ],
+    cambios: [
+      { code: 'Circular N° 2.376', name: 'Elimina C16, C51, D02, D41, P15, P21 y P22 (último envío septiembre 2026)', sys: 'Norma de cambio al MSI', freq: 'Evento', st: 'v' },
+      { code: 'Normas en consulta', name: 'Modificaciones a archivos del MSI en consulta pública (por ejemplo, frecuencia de D10 y D27)', sys: 'Norma de cambio al MSI', freq: 'Continuo', st: 'v' }
+    ],
+    diarios: [
+      { code: 'C03', name: 'Control de Encaje', sys: 'Sistema Contable', freq: 'Diario', st: 'v' },
+      { code: 'PCI', name: 'Posición de Cambios Internacionales, Manual de Procedimientos y Formularios del CNCI', sys: 'Banco Central', freq: 'Diario', st: 'v' },
+      { code: 'Por confirmar', name: 'Otros formularios diarios de encaje y reserva técnica al Banco Central', sys: 'Banco Central', freq: 'Diario', st: 'c' }
+    ],
+    deudores: [
+      { code: 'D10', name: 'Información de deudores, artículo 14 de la Ley General de Bancos (frecuencia semanal en consulta)', sys: 'Sistema de Deudores', freq: 'Mensual, en transición a semanal', st: 'v' },
+      { code: 'D27', name: 'Obligaciones de arrendatarios en operaciones de leasing', sys: 'Sistema de Deudores', freq: 'Mensual', st: 'v' },
+      { code: 'D03', name: 'Archivo del Sistema de Deudores vigente desde junio de 2017; contenido por confirmar', sys: 'Sistema de Deudores', freq: 'Mensual', st: 'p' }
+    ],
+    tasas: [
+      { code: 'D32', name: 'Tasas de interés diarias de operaciones', sys: 'Sistema de Deudores', freq: 'Diario', st: 'v' },
+      { code: 'D33', name: 'Tasas de interés diarias de líneas de crédito y sobregiros', sys: 'Sistema de Deudores', freq: 'Diario', st: 'v' },
+      { code: 'D35', name: 'Base de la metodología de tasa de interés corriente y máxima convencional vigente desde febrero de 2026', sys: 'Sistema de Deudores', freq: 'Mensual', st: 'v' },
+      { code: 'D34', name: 'Archivo relacionado de tasas; contenido por confirmar', sys: 'Sistema de Deudores', freq: 'Por confirmar', st: 'p' }
+    ],
+    limites: [
+      { code: 'D55', name: 'Operaciones con personas relacionadas y exposición por grupo, artículo 84 N° 2 (RAN Capítulo 12-4)', sys: 'Sistema de Deudores', freq: 'Diario', st: 'v' },
+      { code: 'D56', name: 'Deudores con obligaciones iguales o superiores al 5 % del patrimonio efectivo, artículo 84 N° 1', sys: 'Sistema de Deudores', freq: 'Diario', st: 'v' }
+    ],
+    productos: [
+      { code: 'Archivos P', name: 'Sistema de Productos: colocaciones, depósitos, tarjetas y otros; códigos vigentes por confirmar tras la Circular N° 2.376', sys: 'Sistema de Productos', freq: 'Mensual', st: 'c' }
+    ],
+    estadistica: [
+      { code: 'I10', name: 'Cajeros automáticos y oficinas', sys: 'Sistema de Instituciones', freq: 'Mensual', st: 'v' },
+      { code: 'Archivos I', name: 'Resto del Sistema de Instituciones (personal, sucursales); códigos por confirmar', sys: 'Sistema de Instituciones', freq: 'Mensual o trimestral', st: 'c' }
+    ]
+  };
+  var ST = { v: 'Verificado', p: 'Parcial', c: 'Por confirmar' };
+  function codes(id) { return IDS[id].filter(function (i) { return i.code !== 'Por confirmar'; }).map(function (i) { return i.code; }).join(' · '); }
   var OWN = { o1: 'G2 · Analista Senior', o2: 'G3 · Jefe', o3: 'G4 · Subgerente' };
   var svg = document.getElementById('cx'), NS = 'http://www.w3.org/2000/svg';
   var W = 960, H = 600, m = { t: 34, r: 28, b: 58, l: 56 };
@@ -659,6 +751,7 @@
     var key = document.createElement('span'); key.className = 'key ' + d.own; seg.appendChild(key);
     seg.appendChild(document.createTextNode('Responsable ' + OWN[d.own] + ' · ' + d.q)); tip.appendChild(seg);
     line(tip, 'v', 'Complejidad ' + d.x.toFixed(1).replace('.', ',') + ' · Criticidad ' + d.y.toFixed(1).replace('.', ','));
+    line(tip, 'rng', 'Identificación: ' + codes(d.id));
     line(tip, 'rng', d.ex + ' · ' + d.freq);
     line(tip, 'ctl', 'Prepara ' + d.prep + ' · Revisa ' + d.rev + ' · Segunda revisión: ' + d.sec + ' · Firma ' + d.sign);
     line(tip, 'conf', 'Controles mínimos: ' + d.ctl);
@@ -699,7 +792,7 @@
   FAM.forEach(function (d) {
     var tr = document.createElement('tr');
     function td(t, cls) { var c = document.createElement('td'); if (cls) c.className = cls; c.textContent = t; tr.appendChild(c); }
-    td(d.name); td(d.ex); td(d.freq); td(d.x.toFixed(1).replace('.', ','), 'num'); td(d.y.toFixed(1).replace('.', ','), 'num'); td(d.prep); td(OWN[d.own]); td(d.sign);
+    td(d.name); td(codes(d.id), 'raci'); td(d.ex); td(d.freq); td(d.x.toFixed(1).replace('.', ','), 'num'); td(d.y.toFixed(1).replace('.', ','), 'num'); td(d.prep); td(OWN[d.own]); td(d.sign);
     tb.appendChild(tr);
   });
   var bC = document.getElementById('cx-btn-chart'), bT = document.getElementById('cx-btn-table'), tv = document.getElementById('cx-table-view');
@@ -712,8 +805,20 @@
   FAM.forEach(function (d) {
     var tr = document.createElement('tr');
     function td(t, cls) { var c = document.createElement('td'); if (cls) c.className = cls; c.textContent = t; tr.appendChild(c); }
-    td(d.name); td(d.q); td(d.prep, 'raci'); td(d.rev, 'raci'); td(d.sec, 'raci'); td(d.sign, 'raci'); td(d.ctl);
+    td(d.name); td(codes(d.id), 'raci'); td(d.q); td(d.prep, 'raci'); td(d.rev, 'raci'); td(d.sec, 'raci'); td(d.sign, 'raci'); td(d.ctl);
     rb.appendChild(tr);
+  });
+
+  // Catálogo
+  var cb = document.querySelector('#cat-table tbody');
+  FAM.forEach(function (d) {
+    IDS[d.id].forEach(function (i) {
+      var tr = document.createElement('tr');
+      function td(t, cls) { var c = document.createElement('td'); if (cls) c.className = cls; c.textContent = t; tr.appendChild(c); return c; }
+      td(i.code, 'raci'); td(i.name); td(i.sys); td(d.name); td(i.freq); td(OWN[d.own]);
+      var c = td('', ''); var tag = document.createElement('span'); tag.className = 'conf-tag' + (i.st === 'v' ? ' a' : ''); if (i.st === 'c') tag.style.borderStyle = 'dashed'; tag.textContent = ST[i.st]; c.appendChild(tag);
+      cb.appendChild(tr);
+    });
   });
 })();
 </script>
