@@ -216,27 +216,196 @@
   .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .form-note { font-size: 12.5px; color: var(--muted); }
   @media (max-width: 720px) { .form-grid { grid-template-columns: 56px 1fr; } .form-grid .fh.hide-sm { display: none; } }
+
+  :root { --o1: #86b6ef; --o2: #2a78d6; --o3: #104281; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --o1: #9ec5f4; --o2: #3987e5; --o3: #184f95; } }
+  :root[data-theme="dark"] { --o1: #9ec5f4; --o2: #3987e5; --o3: #184f95; }
+  .sw.o1 { background: var(--o1); } .sw.o2 { background: var(--o2); } .sw.o3 { background: var(--o3); }
+  .quad .dot.o1 { fill: var(--o1); } .quad .dot.o2 { fill: var(--o2); } .quad .dot.o3 { fill: var(--o3); }
+  .quad .flabel { fill: var(--ink-2); font-size: 11.5px; font-weight: 500; }
+  .quad .flabel.strong { font-weight: 600; fill: var(--ink); }
+  .tip .key.o1 { background: var(--o1); } .tip .key.o2 { background: var(--o2); } .tip .key.o3 { background: var(--o3); }
+  .tip .ctl { margin-top: 6px; color: var(--ink-2); }
+  .pill { display: inline-block; font-family: var(--font-mono); font-size: 11.5px; padding: 1px 7px; border-radius: 3px; background: var(--surface-2); color: var(--ink); white-space: nowrap; }
+  td.raci { font-family: var(--font-mono); font-size: 12.5px; white-space: nowrap; }
+  .team { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .team .tcard { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+  .team .tcard .g { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .team .tcard .n { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; margin: 4px 0 2px; }
+  .team .tcard .t { font-size: 12.5px; color: var(--ink-2); }
+  @media (max-width: 860px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">Benchmarking de cargos · Banca en Chile · Reportes normativos a la CMF · Septiembre 2026</div>
-    <h1>Job grades de Reportes Normativos CMF: Bci frente a sus pares sistémicos</h1>
-    <p class="lede">Posicionamiento de los cinco niveles típicos de la función que prepara y envía a la Comisión para el Mercado Financiero los archivos del Manual de Sistemas de Información (MSI), comparados por alcance del cargo y renta bruta mensual. El grupo de pares son los bancos de importancia sistémica comparables a Bci; los datos internos de Bci se ingresan en la página y se superponen al gráfico.</p>
+    <div class="eyebrow">Arquitectura de cargos · Banca en Chile · Reportes normativos a la CMF · Septiembre 2026</div>
+    <h1>Job grades para la ejecución confiable de los reportes normativos CMF</h1>
+    <p class="lede">Qué grado debe preparar, revisar y firmar cada familia de reportes que un banco sistémico como Bci envía a la Comisión para el Mercado Financiero y al Banco Central, según su complejidad técnica y su criticidad. Incluye los perfiles por grado, la matriz de responsabilidades, la estructura de equipo recomendada y, como referencia, el posicionamiento de renta frente a los pares sistémicos.</p>
     <div class="meta">
-      <span><b>Grupo de pares:</b> Banco de Chile · Santander Chile · BancoEstado · Itaú Chile · Scotiabank Chile</span>
-      <span><b>Unidad:</b> renta bruta mensual, millones de CLP (MM$)</span>
-      <span><b>Referencia:</b> Bci (datos internos, no públicos)</span>
+      <span><b>Marco:</b> Manual de Sistemas de Información (MSI) de la CMF, Compendio de Normas Contables, Recopilación Actualizada de Normas (RAN), reportes al Banco Central</span>
+      <span><b>Referencia:</b> banco sistémico con filiales, comparable a Bci</span>
     </div>
   </header>
 
   <div class="notice">
-    <b>Lea esto antes de usar las cifras.</b> No existe una encuesta pública con rentas por banco para esta función y ningún banco del grupo publica su escala de grados. Las rentas del grupo de pares son <b>estimaciones</b> construidas a partir de rangos públicos 2026 para cargos contables genéricos en Chile (Robert Half, Buk, Diario Financiero) más un supuesto explícito de premio por especialización regulatoria y por tamaño de banco. El índice de alcance sigue una rúbrica declarada pero fue puntuado por el analista. Antes de decidir compensaciones, contraste con una encuesta pagada (Mercer TRS, Korn Ferry/Hay, WTW) o con un intercambio de datos entre pares.
+    <b>Naturaleza de este documento.</b> La asignación de grados y perfiles es una inferencia del analista a partir de la carga normativa pública (MSI, RAN, Compendio de Normas Contables) y de la práctica habitual de la banca chilena; no proviene de una valoración formal de cargos ni de datos de Bci. Los códigos de archivo se citan solo donde hay respaldo público; la lista vigente debe tomarse del MSI, que la CMF modifica con frecuencia (la Circular N° 2.376 eliminó siete archivos con último envío en septiembre de 2026). Las rentas de la sección final son estimaciones sobre anclas públicas genéricas.
   </div>
 
-  <h2>Mapa de cuadrantes: alcance del cargo vs. renta</h2>
+  
+  <h2>Mapa de cuadrantes: complejidad técnica vs. criticidad de cada familia de reportes</h2>
+  <p class="sub">Cada punto es una familia de reportes regulatorios. El eje horizontal mide la complejidad técnica (normativa que interpretar, cálculo, número de fuentes de datos, juicio experto). El eje vertical mide la criticidad (impacto de un error: sanción, corrección pública, efecto en capital o en clientes, frecuencia de envío). El color indica el grado que debe ser responsable del reporte, es decir, quien lo revisa y responde por él ante la gerencia y el regulador.</p>
+
+  <div class="card">
+    <div class="chart-head">
+      <div class="legend" aria-label="Grado responsable">
+        <ul>
+          <li><span class="sw o1"></span>Responsable G2 · Analista Senior</li>
+          <li><span class="sw o2"></span>Responsable G3 · Jefe</li>
+          <li><span class="sw o3"></span>Responsable G4 · Subgerente</li>
+        </ul>
+      </div>
+      <div class="toggle" role="group" aria-label="Vista">
+        <button type="button" id="cx-btn-chart" aria-pressed="true">Gráfico</button>
+        <button type="button" id="cx-btn-table" aria-pressed="false">Tabla</button>
+      </div>
+    </div>
+    <div class="chart-wrap" id="cx-wrap">
+      <svg class="quad" id="cx" viewBox="0 0 960 600" role="img" aria-labelledby="cx-title cx-desc">
+        <title id="cx-title">Gráfico de cuadrantes: complejidad técnica contra criticidad de catorce familias de reportes regulatorios, coloreadas por el grado responsable</title>
+        <desc id="cx-desc">Capital Basilea III, provisiones, liquidez, estados financieros y Pilar 3 están en alta complejidad y alta criticidad con responsable Subgerente. Consolidación de filiales y riesgo de mercado están en alta complejidad y criticidad media con responsable Jefe. Reportes diarios, deudores, tasas y límites legales están en baja complejidad y alta criticidad con responsable Jefe. Productos y estadísticas están en baja complejidad y baja criticidad con responsable Analista Senior.</desc>
+      </svg>
+      <div class="tip" id="cx-tip" hidden></div>
+    </div>
+    <div class="tbl-wrap" id="cx-table-view" hidden>
+      <table id="cx-table">
+        <thead><tr><th>Familia de reportes</th><th>Ejemplos</th><th>Frecuencia</th><th class="num">Complejidad</th><th class="num">Criticidad</th><th>Prepara</th><th>Responsable</th><th>Firma</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="chart-foot">
+      <span>Puntajes 0–10 asignados por el analista con la rúbrica descrita más abajo.</span>
+      <span>Pase el cursor o use Tab sobre un punto para ver preparador, responsable, firma y controles mínimos.</span>
+    </div>
+  </div>
+
+  <div class="quad-grid">
+    <div class="qcard"><span class="pos">Arriba · derecha</span><h4>Núcleo prudencial: alta complejidad, alta criticidad</h4><p>Capital regulatorio Basilea III, provisiones por riesgo de crédito, liquidez, estados financieros y divulgación Pilar 3. Prepara un <b>G2 especialista</b>, revisa un <b>G3</b>, valida una segunda revisión independiente (Riesgo o Control Financiero) y firma el <b>G4</b>, con visto del G5 en los envíos trimestrales y anuales. Ningún reporte de este cuadrante puede depender de una sola persona.</p></div>
+    <div class="qcard"><span class="pos">Arriba · izquierda</span><h4>Operación crítica de alta frecuencia: baja complejidad, alta criticidad</h4><p>Reportes diarios al Banco Central y a la CMF, deudores, tasas de interés que alimentan la Tasa Máxima Convencional y límites legales. La dificultad no es interpretar la norma sino no fallar nunca. Ejecuta un <b>G1</b> con control dual de un <b>G2</b>, responsable <b>G3</b>. Exige automatización, calendario regulatorio con alertas, respaldo de personas y plan de contingencia por reporte.</p></div>
+    <div class="qcard"><span class="pos">Abajo · derecha</span><h4>Especialización técnica: alta complejidad, criticidad media</h4><p>Consolidación de filiales, riesgo de mercado y derivados, implementación de cambios al MSI. Prepara un <b>G2 especialista</b> y el responsable es un <b>G3</b>; el G4 firma solo los envíos que impactan capital o estados financieros. Aquí se concentra el conocimiento escaso: retención y documentación son los controles clave.</p></div>
+    <div class="qcard"><span class="pos">Abajo · izquierda</span><h4>Rutina estadística: baja complejidad, baja criticidad</h4><p>Información de productos, colocaciones por segmento, estadísticas de canales y personal. Ejecuta un <b>G1</b> con responsable <b>G2</b>. Es el cuadrante donde formar analistas y donde la automatización libera capacidad para el núcleo prudencial.</p></div>
+  </div>
+
+  <h3>Rúbrica de los puntajes</h3>
+  <div class="cols">
+    <div>
+      <p class="small" style="margin:0"><b>Complejidad técnica (0–10):</b> interpretación normativa requerida (hasta 3), cálculo y modelos (hasta 3), número y heterogeneidad de fuentes de datos (hasta 2), juicio experto y frecuencia de cambios normativos (hasta 2).</p>
+    </div>
+    <div>
+      <p class="small" style="margin:0"><b>Criticidad (0–10):</b> consecuencia regulatoria de un error (sanción, reenvío, observación formal; hasta 3), impacto en capital, resultados o clientes (hasta 3), visibilidad pública o de mercado (hasta 2), frecuencia y tolerancia a atraso (hasta 2).</p>
+    </div>
+  </div>
+
+  <h2>Perfil requerido por grado</h2>
+  <p class="sub">Cada grado cumple un rol distinto en la cadena de confiabilidad: producir, controlar, responder o rendir cuentas. El perfil describe el mínimo para que ese rol se ejecute sin depender de la buena voluntad de personas específicas.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Grado</th><th>Rol en la cadena de confiabilidad</th><th>Formación y experiencia</th><th>Conocimiento normativo</th><th>Herramientas</th><th>Competencias críticas</th><th>Señal de que está subdimensionado</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="grade">G1</td>
+          <td><b>Produce.</b> Ejecuta la extracción, cuadratura y carga de archivos de rutina y de alta frecuencia siguiendo procedimientos documentados.</td>
+          <td>Contador auditor, ingeniero comercial, ingeniero en información y control de gestión. 0–3 años, idealmente con práctica en contabilidad bancaria o auditoría.</td>
+          <td>Estructura del MSI, tablas de códigos, formato y validaciones de los archivos a su cargo; nociones del Compendio de Normas Contables.</td>
+          <td>SQL básico, Excel avanzado, herramienta de reportería regulatoria del banco, gestor de tickets.</td>
+          <td>Rigor, disciplina de calendario, documentación de evidencias, escalamiento oportuno.</td>
+          <td>Errores de formato reiterados, reenvíos por cuadratura, dependencia de un solo analista para un archivo diario.</td>
+        </tr>
+        <tr>
+          <td class="grade">G2</td>
+          <td><b>Controla y especializa.</b> Dueño técnico de un sistema completo del MSI o de un tema prudencial; segundo par de ojos de los G1; responde observaciones técnicas de la CMF.</td>
+          <td>Misma formación con 3–6 años en reportería regulatoria, contabilidad bancaria, riesgo o auditoría externa de bancos. Diplomado en IFRS, riesgo o Basilea es un diferenciador.</td>
+          <td>Capítulos relevantes del Compendio (provisiones, instrumentos financieros), RAN de capital y liquidez, circulares recientes; capacidad de leer una norma en consulta y estimar impacto.</td>
+          <td>SQL intermedio, Python o similar para reproceso y validación, control de versiones de reglas de negocio.</td>
+          <td>Pensamiento analítico, precisión conceptual, capacidad de explicar un número al regulador y a la auditoría.</td>
+          <td>El Jefe termina preparando reportes; observaciones de la CMF que se responden fuera de plazo; conocimiento que reside en una persona.</td>
+        </tr>
+        <tr>
+          <td class="grade">G3</td>
+          <td><b>Responde.</b> Responsable de un bloque de reportes ante la gerencia: revisa, aprueba el envío, gestiona el calendario, atiende al supervisor y a los auditores, asigna respaldos.</td>
+          <td>6–10 años, con al menos 3 liderando equipos de cierre o reportería; experiencia comprobable en atención a fiscalizaciones de la CMF.</td>
+          <td>Dominio integral del MSI y de la relación entre balance, estados financieros y archivos normativos; gestión de cambios normativos de punta a punta.</td>
+          <td>Herramientas de control de procesos, tableros de cumplimiento, capacidad de leer código o consultas para auditar lo que firma.</td>
+          <td>Liderazgo de equipos técnicos, juicio bajo presión de plazo, comunicación con el regulador, priorización.</td>
+          <td>Jefes con más de 8 archivos críticos sin respaldo; envíos firmados sin revisión efectiva; rotación de G2 sobre 20 % anual.</td>
+        </tr>
+        <tr>
+          <td class="grade">G4</td>
+          <td><b>Rinde cuentas por el proceso.</b> Dueño del proceso de reportería regulatoria: diseño de controles, automatización, plan de implementación de nuevas normas, firma de los reportes del núcleo prudencial.</td>
+          <td>10–15 años, con experiencia en al menos dos de estas áreas: contabilidad bancaria, riesgo, auditoría, tecnología de información financiera. Postgrado en finanzas o riesgo recomendable.</td>
+          <td>Basilea III completo (capital, liquidez, Pilar 2 y 3), Compendio de Normas Contables, normativa del Banco Central; interlocución con la CMF a nivel de supervisión.</td>
+          <td>Arquitectura de datos financieros, gobierno de datos, evaluación de soluciones de reportería regulatoria.</td>
+          <td>Diseño de controles, gestión de proyectos normativos, negociación con Tecnología y Riesgo, criterio para escalar.</td>
+          <td>Implementaciones normativas que llegan tarde; hallazgos repetidos de auditoría interna; sin métricas de calidad de envío.</td>
+        </tr>
+        <tr>
+          <td class="grade">G5</td>
+          <td><b>Rinde cuentas ante el regulador y el directorio.</b> Integridad de la información financiera y normativa; consolidación de filiales; firma de estados financieros y de los envíos con impacto en capital.</td>
+          <td>15+ años; trayectoria en contraloría, contabilidad o control financiero de bancos; experiencia con filiales y consolidación.</td>
+          <td>Visión completa del marco CMF, Banco Central y, si aplica, supervisores extranjeros de filiales; gobierno corporativo de la información.</td>
+          <td>Indicadores ejecutivos de cumplimiento, gestión de riesgo operacional de la función.</td>
+          <td>Criterio, independencia frente a las áreas de negocio, capacidad de sostener una posición técnica ante el supervisor.</td>
+          <td>El regulador escala directamente al gerente general; correcciones de estados financieros ya publicados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Matriz de responsabilidades por familia de reportes</h2>
+  <p class="sub">Regla general: quien prepara nunca es quien firma; todo reporte del núcleo prudencial y de la operación crítica tiene un preparador y un respaldo entrenado. "Segunda revisión" es una validación independiente fuera de la línea de preparación, habitualmente en Riesgo, Control Financiero o Contabilidad según el reporte.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Familia de reportes</th><th>Cuadrante</th><th class="raci">Prepara</th><th class="raci">Revisa</th><th class="raci">Segunda revisión</th><th class="raci">Firma y envía</th><th>Controles mínimos</th></tr></thead>
+      <tbody id="raci-body"></tbody>
+    </table>
+  </div>
+
+  <h2>Estructura de equipo recomendada para un banco sistémico</h2>
+  <p class="sub">Dimensionamiento inferido para un banco con el perímetro completo del MSI, filiales que consolidar y cargos sistémicos de capital, como Bci. Los rangos permiten absorber ausencias sin dejar reportes críticos con una sola persona capacitada. El G5 suele compartirse con la función de Contabilidad.</p>
+  <div class="team">
+    <div class="tcard"><div class="g">G5 · Gerente</div><div class="n">1</div><div class="t">Contabilidad e Información Normativa; rinde cuentas ante el regulador.</div></div>
+    <div class="tcard"><div class="g">G4 · Subgerente</div><div class="n">1</div><div class="t">Dueño del proceso; firma el núcleo prudencial.</div></div>
+    <div class="tcard"><div class="g">G3 · Jefes</div><div class="n">3</div><div class="t">Prudencial · Contable y financiero · Operación diaria y deudores.</div></div>
+    <div class="tcard"><div class="g">G2 · Especialistas</div><div class="n">5–6</div><div class="t">Uno por sistema del MSI y por tema prudencial, con respaldo cruzado.</div></div>
+    <div class="tcard"><div class="g">G1 · Analistas</div><div class="n">6–8</div><div class="t">Ejecución de rutina y alta frecuencia; rotación planificada entre bloques.</div></div>
+  </div>
+  <div class="cols" style="margin-top:18px">
+    <div>
+      <h3>Bloques a cargo de cada Jefe (G3)</h3>
+      <ul class="plain">
+        <li><b>Prudencial:</b> capital Basilea III, provisiones, liquidez, Pilar 3. Requiere los G2 más experimentados.</li>
+        <li><b>Contable y financiero:</b> balance y estados financieros, consolidación de filiales, riesgo de mercado y derivados, cambios al MSI.</li>
+        <li><b>Operación diaria y deudores:</b> reportes diarios al Banco Central y CMF, deudores y garantías, tasas de interés, límites legales, productos y estadísticas.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Condiciones para que la estructura sea confiable</h3>
+      <ul class="plain">
+        <li>Un calendario regulatorio único con alertas y dueño por reporte, revisado semanalmente por el G4.</li>
+        <li>Conciliación sistemática entre balance contable y archivos normativos antes de cada envío mensual.</li>
+        <li>Al menos dos personas capacitadas por reporte crítico; matriz de respaldos actualizada cada trimestre.</li>
+        <li>Soporte de uno o dos ingenieros de datos, dentro o fuera de la escala, para automatizar el cuadrante de rutina y liberar a los G2.</li>
+        <li>Registro de observaciones de la CMF con causa raíz y plan de acción; indicador de envíos a tiempo y sin reenvío como métrica de la función.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small">Bancos medianos pueden operar con un G4 o un G3 senior como responsable único, dos G3, tres G2 y cuatro G1; lo que no debe reducirse es la separación entre quien prepara y quien firma en el núcleo prudencial.</p>
+
+  <h2>Referencia de renta: la escala frente a los pares sistémicos</h2>
+  <p class="sub">Esta sección se mantiene como referencia de mercado para los mismos cinco grados. Las cifras son estimaciones sobre anclas públicas genéricas y no reemplazan una encuesta de remuneraciones.</p>
+
+<h3 style="font-size:18px;font-family:var(--font-display);font-weight:600">Mapa de cuadrantes: alcance del cargo vs. renta</h3>
   <p class="sub">Cada punto azul es un grado de referencia en el grupo de pares; las líneas finas muestran el rango estimado de renta (vertical) y de alcance (horizontal). Los rombos verdes son los datos internos de Bci que usted ingrese abajo. Las líneas centrales se cruzan en el cargo bisagra de la función, el Jefe de Reportes Normativos (índice 50, MM$ 4,7): todo lo que queda arriba y a la derecha es dirección; abajo y a la izquierda, base técnica; los otros dos cuadrantes señalan desalineación entre alcance y renta.</p>
 
   <div class="card">
@@ -434,6 +603,120 @@
     Documento de trabajo. Las rentas del grupo de pares son estimaciones del analista sobre anclas públicas genéricas; los efectos por banco y el índice de alcance son supuestos declarados. Los datos de Bci son los que usted ingresa y permanecen en su navegador. Verifique con una encuesta de remuneraciones pagada antes de usar en decisiones de compensación.
   </footer>
 </div>
+
+<script>
+(function () {
+  var FAM = [
+    { id: 'capital', name: 'Capital regulatorio Basilea III', ex: 'Activos ponderados por riesgo de crédito, mercado y operacional; patrimonio efectivo; colchones y cargo sistémico', freq: 'Mensual y trimestral', x: 9.5, y: 9.2, prep: 'G2 especialista', rev: 'G3 Prudencial', sec: 'Riesgo / Gestión de capital', sign: 'G4, visto G5', ctl: 'Conciliación con balance y con Riesgo; control de versiones de parámetros; revisión de variaciones mensuales; respaldo entrenado.', own: 'o3', q: 'Núcleo prudencial' },
+    { id: 'provisiones', name: 'Provisiones por riesgo de crédito', ex: 'Archivos C11, C12 y C13 de provisiones de consumo; provisiones comerciales y de vivienda bajo método estándar', freq: 'Mensual', x: 8.6, y: 9.0, prep: 'G2 especialista', rev: 'G3 Prudencial', sec: 'Riesgo de crédito', sign: 'G4', ctl: 'Cuadratura con la cartera y con Riesgo; pruebas de recálculo por muestra; trazabilidad de clasificaciones.', own: 'o3', q: 'Núcleo prudencial' },
+    { id: 'eeff', name: 'Balance mensual y estados financieros', ex: 'Balance y estados financieros bajo el Compendio de Normas Contables; notas y publicación trimestral', freq: 'Mensual, trimestral publicación', x: 7.0, y: 9.5, prep: 'G2', rev: 'G3 Contable', sec: 'Contabilidad / Auditoría externa', sign: 'G4, firma G5 y CEO en publicación', ctl: 'Cierre contable formal; conciliación estados financieros y archivos MSI; revisión de auditoría externa en trimestres.', own: 'o3', q: 'Núcleo prudencial' },
+    { id: 'liquidez', name: 'Liquidez', ex: 'Razón de cobertura de liquidez, financiamiento estable neto, brechas de plazo y situación de liquidez (RAN Capítulo 12-20)', freq: 'Diario y mensual', x: 7.8, y: 8.6, prep: 'G2 especialista', rev: 'G3 Prudencial', sec: 'Tesorería / Riesgo financiero', sign: 'G4', ctl: 'Validación diaria automática de saldos; umbrales de alerta; procedimiento de contingencia por caída de fuentes.', own: 'o3', q: 'Núcleo prudencial' },
+    { id: 'pilar3', name: 'Divulgación Pilar 3', ex: 'Informe público de gestión de riesgos y capital exigido por la normativa de Basilea III de la CMF', freq: 'Trimestral y anual', x: 6.6, y: 7.6, prep: 'G2', rev: 'G3 Prudencial', sec: 'Riesgo / Comunicaciones', sign: 'G4, visto G5', ctl: 'Consistencia con capital y estados financieros publicados; revisión de redacción; control de fechas de publicación.', own: 'o3', q: 'Núcleo prudencial' },
+    { id: 'consolidacion', name: 'Consolidación de filiales', ex: 'Sociedades de apoyo al giro y filiales, incluida la filial en Estados Unidos en el caso de Bci; homologación de planes de cuenta', freq: 'Mensual y trimestral', x: 9.0, y: 6.4, prep: 'G2 especialista', rev: 'G3 Contable', sec: 'Contabilidad de filiales', sign: 'G4 cuando impacta capital o estados financieros', ctl: 'Mapeo documentado de cuentas; conciliación intercompañía; calendario alineado con cierres de filiales.', own: 'o2', q: 'Especialización técnica' },
+    { id: 'mercado', name: 'Riesgo de mercado y derivados', ex: 'Posiciones y exposiciones por moneda y tasa; información de derivados a la CMF y al Banco Central', freq: 'Mensual, algunos diarios', x: 8.0, y: 6.0, prep: 'G2 especialista', rev: 'G3 Contable', sec: 'Riesgo financiero / Tesorería', sign: 'G3', ctl: 'Conciliación con sistemas de Tesorería; validación de valorizaciones; control de contrapartes.', own: 'o2', q: 'Especialización técnica' },
+    { id: 'cambios', name: 'Implementación de cambios al MSI', ex: 'Nuevas circulares, eliminación o modificación de archivos (por ejemplo, Circular N° 2.376), normas en consulta', freq: 'Continuo', x: 8.4, y: 5.2, prep: 'G2 especialista', rev: 'G3 del bloque afectado', sec: 'Tecnología / Auditoría interna', sign: 'G4', ctl: 'Análisis de impacto documentado; pruebas paralelas antes del primer envío; plan de capacitación.', own: 'o2', q: 'Especialización técnica' },
+    { id: 'diarios', name: 'Reportes diarios al Banco Central y a la CMF', ex: 'Posición de cambios internacionales, encaje y reserva técnica, información diaria de balance y operaciones de cambio', freq: 'Diario', x: 3.8, y: 8.6, prep: 'G1', rev: 'G2 (control dual)', sec: 'Tesorería', sign: 'G3 Operación', ctl: 'Automatización de extracción; checklist diario con hora límite; respaldo por turno; contingencia manual probada.', own: 'o2', q: 'Operación crítica' },
+    { id: 'deudores', name: 'Deudores y garantías', ex: 'Información mensual de deudores del sistema financiero y de garantías (Sistema de Deudores, archivos D)', freq: 'Mensual', x: 5.0, y: 8.0, prep: 'G1', rev: 'G2', sec: 'Riesgo de crédito / Operaciones', sign: 'G3 Operación', ctl: 'Validaciones de calidad de datos por deudor; conciliación con cartera contable; gestión de reclamos de clientes por información errónea.', own: 'o2', q: 'Operación crítica' },
+    { id: 'tasas', name: 'Tasas de interés y Tasa Máxima Convencional', ex: 'Tasas de operaciones de crédito que la CMF usa para determinar la Tasa Máxima Convencional', freq: 'Mensual, algunos semanales', x: 4.4, y: 7.2, prep: 'G1', rev: 'G2', sec: 'Productos / Pricing', sign: 'G3 Operación', ctl: 'Validación de rangos y outliers; conciliación con originación; revisión de cambios en productos.', own: 'o2', q: 'Operación crítica' },
+    { id: 'limites', name: 'Límites legales y partes relacionadas', ex: 'Límites de crédito individuales de la Ley General de Bancos y operaciones con personas relacionadas', freq: 'Mensual', x: 4.8, y: 7.8, prep: 'G1', rev: 'G2', sec: 'Riesgo de crédito / Cumplimiento', sign: 'G3 Operación', ctl: 'Padrón de relacionados actualizado; alertas tempranas de acercamiento a límites; conciliación con cartera.', own: 'o2', q: 'Operación crítica' },
+    { id: 'productos', name: 'Productos y colocaciones por segmento', ex: 'Colocaciones por producto y región, depósitos, tarjetas y otros archivos del Sistema de Productos', freq: 'Mensual', x: 3.4, y: 4.0, prep: 'G1', rev: 'G2', sec: 'No requerida', sign: 'G2', ctl: 'Validaciones automáticas de formato y totales; conciliación con balance.', own: 'o1', q: 'Rutina estadística' },
+    { id: 'estadistica', name: 'Estadísticas de canales, personal y sucursales', ex: 'Información informativa de sucursales, cajeros, canales y dotación', freq: 'Mensual o trimestral', x: 2.0, y: 2.4, prep: 'G1', rev: 'G2', sec: 'No requerida', sign: 'G2', ctl: 'Fuente única acordada con las áreas; revisión de variaciones.', own: 'o1', q: 'Rutina estadística' }
+  ];
+  var OWN = { o1: 'G2 · Analista Senior', o2: 'G3 · Jefe', o3: 'G4 · Subgerente' };
+  var svg = document.getElementById('cx'), NS = 'http://www.w3.org/2000/svg';
+  var W = 960, H = 600, m = { t: 34, r: 28, b: 58, l: 56 };
+  var pw = W - m.l - m.r, ph = H - m.t - m.b;
+  function sx(v) { return m.l + v / 10 * pw; }
+  function sy(v) { return m.t + ph - v / 10 * ph; }
+  function el(name, attrs, parent) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); (parent || svg).appendChild(e); return e; }
+  function txt(x, y, s, cls, anchor, parent) { var t = el('text', { x: x, y: y, 'class': cls, 'text-anchor': anchor || 'start' }, parent); t.textContent = s; return t; }
+
+  el('rect', { x: sx(5), y: sy(10), width: sx(10) - sx(5), height: sy(5) - sy(10), fill: 'var(--q-fill)', opacity: 0.55 });
+  el('rect', { x: sx(0), y: sy(5), width: sx(5) - sx(0), height: sy(0) - sy(5), fill: 'var(--q-fill)', opacity: 0.55 });
+  for (var v = 2; v <= 10; v += 2) {
+    el('line', { x1: sx(0), x2: sx(10), y1: sy(v), y2: sy(v), 'class': 'grid' });
+    txt(m.l - 10, sy(v) + 4, String(v), 'tick', 'end');
+    txt(sx(v), sy(0) + 20, String(v), 'tick', 'middle');
+  }
+  txt(m.l - 10, sy(0) + 4, '0', 'tick', 'end');
+  el('line', { x1: sx(0), x2: sx(10), y1: sy(0), y2: sy(0), 'class': 'axis' });
+  el('line', { x1: sx(0), x2: sx(0), y1: sy(0), y2: sy(10), 'class': 'axis' });
+  el('line', { x1: sx(5), x2: sx(5), y1: sy(0), y2: sy(10), 'class': 'mid' });
+  el('line', { x1: sx(0), x2: sx(10), y1: sy(5), y2: sy(5), 'class': 'mid' });
+  txt(sx(5), H - 14, 'Complejidad técnica (0–10): interpretación normativa, cálculo y modelos, fuentes de datos, juicio experto', 'axis-title', 'middle');
+  var yt = txt(0, 0, 'Criticidad (0–10)', 'axis-title', 'middle'); yt.setAttribute('transform', 'translate(16,' + (m.t + ph / 2) + ') rotate(-90)');
+  txt(sx(0) + 10, sy(10) + 16, 'OPERACIÓN CRÍTICA DE ALTA FRECUENCIA', 'qlabel');
+  txt(sx(10) - 10, sy(10) + 16, 'NÚCLEO PRUDENCIAL', 'qlabel', 'end');
+  txt(sx(0) + 10, sy(0) - 10, 'RUTINA ESTADÍSTICA', 'qlabel');
+  txt(sx(10) - 10, sy(0) - 10, 'ESPECIALIZACIÓN TÉCNICA', 'qlabel', 'end');
+
+  var tip = document.getElementById('cx-tip'), wrap = document.getElementById('cx-wrap');
+  function line(parent, cls, text) { var d = document.createElement('div'); d.className = cls; d.textContent = text; parent.appendChild(d); return d; }
+  function showTip(d, target) {
+    while (tip.firstChild) tip.removeChild(tip.firstChild);
+    line(tip, 'role', d.name);
+    var seg = document.createElement('div'); seg.className = 'seg';
+    var key = document.createElement('span'); key.className = 'key ' + d.own; seg.appendChild(key);
+    seg.appendChild(document.createTextNode('Responsable ' + OWN[d.own] + ' · ' + d.q)); tip.appendChild(seg);
+    line(tip, 'v', 'Complejidad ' + d.x.toFixed(1).replace('.', ',') + ' · Criticidad ' + d.y.toFixed(1).replace('.', ','));
+    line(tip, 'rng', d.ex + ' · ' + d.freq);
+    line(tip, 'ctl', 'Prepara ' + d.prep + ' · Revisa ' + d.rev + ' · Segunda revisión: ' + d.sec + ' · Firma ' + d.sign);
+    line(tip, 'conf', 'Controles mínimos: ' + d.ctl);
+    tip.hidden = false;
+    var rect = target.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+    var left = rect.left - wr.left + rect.width / 2 + 14, top = rect.top - wr.top - 10;
+    if (left + 300 > wr.width) left = rect.left - wr.left - 300;
+    if (left < 0) left = 8;
+    tip.style.left = left + 'px'; tip.style.top = Math.max(0, top) + 'px';
+  }
+  function hideTip() { tip.hidden = true; }
+
+  // label offsets: [dx, dy, anchor]
+  var OFF = {
+    capital: [-14, -10, 'end'], provisiones: [-14, 4, 'end'], eeff: [-14, -12, 'end'], liquidez: [14, 18, 'start'], pilar3: [14, 4, 'start'],
+    consolidacion: [-14, 4, 'end'], mercado: [-14, 18, 'end'], cambios: [-14, 4, 'end'],
+    diarios: [-14, 4, 'end'], deudores: [14, -10, 'start'], tasas: [-14, 4, 'end'], limites: [-14, 4, 'end'],
+    productos: [14, 4, 'start'], estadistica: [14, 4, 'start']
+  };
+  var gP = el('g', {});
+  FAM.forEach(function (d) {
+    var g = el('g', { 'class': 'pt' }, gP);
+    var hit = el('circle', { cx: sx(d.x), cy: sy(d.y), r: 14, 'class': 'hit', tabindex: 0, role: 'button' }, g);
+    var t = document.createElementNS(NS, 'title'); t.textContent = d.name + ': complejidad ' + d.x + ', criticidad ' + d.y + ', responsable ' + OWN[d.own]; hit.appendChild(t);
+    var dot = el('circle', { cx: sx(d.x), cy: sy(d.y), r: 6.5, 'class': 'dot ' + d.own }, g);
+    hit.addEventListener('pointerenter', function () { showTip(d, dot); });
+    hit.addEventListener('pointerleave', hideTip);
+    hit.addEventListener('focus', function () { showTip(d, dot); });
+    hit.addEventListener('blur', hideTip);
+  });
+  FAM.forEach(function (d) {
+    var o = OFF[d.id];
+    txt(sx(d.x) + o[0], sy(d.y) + o[1], d.name, 'flabel' + (d.own === 'o3' ? ' strong' : ''), o[2], gP);
+  });
+
+  // Table view
+  var tb = document.querySelector('#cx-table tbody');
+  FAM.forEach(function (d) {
+    var tr = document.createElement('tr');
+    function td(t, cls) { var c = document.createElement('td'); if (cls) c.className = cls; c.textContent = t; tr.appendChild(c); }
+    td(d.name); td(d.ex); td(d.freq); td(d.x.toFixed(1).replace('.', ','), 'num'); td(d.y.toFixed(1).replace('.', ','), 'num'); td(d.prep); td(OWN[d.own]); td(d.sign);
+    tb.appendChild(tr);
+  });
+  var bC = document.getElementById('cx-btn-chart'), bT = document.getElementById('cx-btn-table'), tv = document.getElementById('cx-table-view');
+  function setView(table) { tv.hidden = !table; wrap.hidden = table; bC.setAttribute('aria-pressed', String(!table)); bT.setAttribute('aria-pressed', String(table)); }
+  bC.addEventListener('click', function () { setView(false); });
+  bT.addEventListener('click', function () { setView(true); });
+
+  // RACI
+  var rb = document.getElementById('raci-body');
+  FAM.forEach(function (d) {
+    var tr = document.createElement('tr');
+    function td(t, cls) { var c = document.createElement('td'); if (cls) c.className = cls; c.textContent = t; tr.appendChild(c); }
+    td(d.name); td(d.q); td(d.prep, 'raci'); td(d.rev, 'raci'); td(d.sec, 'raci'); td(d.sign, 'raci'); td(d.ctl);
+    rb.appendChild(tr);
+  });
+})();
+</script>
 
 <script>
 (function () {
