@@ -148,17 +148,17 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   title(s, 'Lo que está en juego ya tiene precedentes en la banca chilena');
   const cards = [
     ['Bloqueo de acceso a información de la CMF', 'Un incumplimiento en RDC01, RDC02 o RDC40 puede derivar en la suspensión del acceso al Registro de Deuda Consolidada hasta por un año (Ley 21.680). Sin esa información, el banco no puede evaluar deuda consolidada al originar créditos.', true],
-    ['Multas por contenido, no solo por atraso', 'Julio de 2024: UF 2.500 a un banco y UF 1.000 a una cooperativa por incluir en el Estado de Deudores (D10) a personas que no cumplían las condiciones. Enero de 2026: UF 2.500 por información inexacta en un archivo del Sistema de Riesgo, citando debilidades de control.', true],
+    ['Multas por contenido, no solo por atraso', 'Julio de 2024: Banco Santander Chile, UF 2.500 (Res. Ex. N° 5.664) y Coopeuch, UF 1.000 (Res. Ex. N° 5.666), por incluir en el Estado de Deudores (D10) a personas que no cumplían las condiciones; RAN 18-5 y art. 14 LGB. Enero de 2026: Banco Santander-Chile, UF 2.500 (Res. N° 1.183), por informar en el archivo R13 una sensibilidad Delta EVE inferior a la exigida entre abril de 2023 y enero de 2025; la CMF citó debilidades de control (RAN 21-13).', true],
     ['Riesgo reputacional', 'Un error en información de deudores o en el reporte al SERNAC afecta a clientes concretos y a la relación con el regulador, con visibilidad pública.', false],
     ['Continuidad operativa', 'Seis personas sostienen 18 reportes con envíos diarios y semanales. La pérdida de una persona clave no se reemplaza en semanas: el conocimiento normativo y técnico es escaso.', false]
   ];
   cards.forEach((c, i) => {
-    const col = i % 2, row = Math.floor(i / 2), x = M + col * 6.15, y = 2.15 + row * 2.2, w = 5.95, h = 2.0;
+    const col = i % 2, row = Math.floor(i / 2), x = M + col * 6.15, y = 2.1 + row * 2.3, w = 5.95, h = 2.15;
     soft(s, x, y, w, h, c[2] ? C.redSoft : C.surface);
     s.addText(c[0], { x: x + 0.25, y: y + 0.18, w: w - 0.5, h: 0.4, fontFace: F.body, fontSize: 14, bold: true, color: c[2] ? C.red : C.ink, isTextBox: true, margin: 0 });
-    s.addText(c[1], { x: x + 0.25, y: y + 0.6, w: w - 0.5, h: h - 0.75, fontFace: F.body, fontSize: 11, color: C.ink, isTextBox: true, margin: 0, valign: 'top' });
+    s.addText(c[1], { x: x + 0.25, y: y + 0.6, w: w - 0.5, h: h - 0.75, fontFace: F.body, fontSize: 10.5, color: C.ink, isTextBox: true, margin: 0, valign: 'top' });
   });
-  foot(s, 'Fuentes: CMF, multas por deficiencias en el Estado de Deudores (jul. 2024) y por información inexacta en el archivo R13 (ene. 2026); Ley 21.680. Enlaces en el anexo 3.');
+  foot(s, 'Fuentes: comunicados de la CMF del 4 de julio de 2024 (Estado de Deudores) y del 30 de enero de 2026 (archivo R13); Ley 21.680 y NCG N° 540. Enlaces en el anexo 3.');
   s.addNotes('El riesgo de bloqueo de acceso convierte un problema de cumplimiento en un problema de negocio: afecta la originación. Los precedentes muestran que la CMF sanciona el criterio de inclusión, no solo el atraso; esa decisión la toma hoy un analista del equipo. Objeción: "nunca nos ha pasado". Respuesta: la eficacia de 98,78 % se logró con la mitad de los reportes y sin frecuencias diarias.');
 }
 
@@ -269,7 +269,7 @@ function table(s, hdr, rows, colW, y, rowH, fs = 9.5) {
 {
   const s = pres.addSlide(); frame(s, 'Anexo 3');
   title(s, 'Supuestos y fuentes', 20);
-  s.addText(bullets(['Listado de reportes, frecuencias, dotación y riesgos: entregados por el responsable del área (septiembre 2026).', 'Historia, métricas de portabilidad, eficacia de envíos y descripciones de cargo 2020 y 2024: presentaciones internas de la unidad.', 'Identificación de archivos y precedentes: comunicados de la CMF sobre multas por el Estado de Deudores (julio 2024) y por el archivo R13 (enero 2026); Ley 21.680 y NCG N° 540 del Registro de Deuda Consolidada; Manual del Sistema de Información (Sistema de Productos y de Deudores); Circular N° 2.376; Circular Interpretativa del SERNAC sobre portabilidad.', 'Mapa complejidad × criticidad, escala de grados, perfiles y competencias: documento de respaldo del área, con rúbrica declarada; no es una valoración formal de cargos.', 'Referencia de mercado: cualitativa; las cifras se presentarán con el diagnóstico de la fase 1.', 'La presentación no contiene montos ni datos individuales de remuneración por decisión del área. Verificar cada cita en su fuente antes del comité.'], 11.5, C.ink), { x: M, y: 1.6, w: W - 2 * M, h: 5.0, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
+  s.addText(bullets(['Listado de reportes, frecuencias, dotación y riesgos: entregados por el responsable del área (septiembre 2026).', 'Historia, métricas de portabilidad, eficacia de envíos y descripciones de cargo 2020 y 2024: presentaciones internas de la unidad.', 'Precedentes: CMF, 4 de julio de 2024, Resoluciones Exentas N° 5.664 (Banco Santander Chile, UF 2.500) y N° 5.666 (Coopeuch, UF 1.000) por el Estado de Deudores, RAN 18-5 y art. 14 LGB; CMF, 30 de enero de 2026, Resolución N° 1.183 (Banco Santander-Chile, UF 2.500) por el archivo R13, RAN 21-13. Identificación de archivos: Ley 21.680 y NCG N° 540 del Registro de Deuda Consolidada; Manual del Sistema de Información (Sistema de Productos y de Deudores); Circular N° 2.376; Circular Interpretativa del SERNAC sobre portabilidad.', 'Mapa complejidad × criticidad, escala de grados, perfiles y competencias: documento de respaldo del área, con rúbrica declarada; no es una valoración formal de cargos.', 'Referencia de mercado: cualitativa; las cifras se presentarán con el diagnóstico de la fase 1.', 'La presentación no contiene montos ni datos individuales de remuneración por decisión del área. Verificar cada cita en su fuente antes del comité.'], 11.5, C.ink), { x: M, y: 1.6, w: W - 2 * M, h: 5.0, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
   s.addNotes('Anexo de consulta.');
 }
 
