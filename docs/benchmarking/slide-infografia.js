@@ -1,7 +1,7 @@
 // Adds the 2020-vs-today skills infographic as one native slide.
 module.exports = function addInfographic(pres, C, F) {
   const W = 13.33, M = 0.45;
-  const G20 = '8E9AA6', G20S = 'E8ECF0', B26 = '1C5CAB', B26S = 'E4EEFB';
+  const G20 = C.g20 || '8E9AA6', G20S = C.g20s || 'E8ECF0', B26 = C.b26 || '1C5CAB', B26S = C.b26s || 'E4EEFB';
   const s = pres.addSlide();
   s.addText('El salto de competencias que la escala no registró', { x: M, y: 0.22, w: W - 2 * M, h: 0.45, fontFace: F.head, fontSize: 21, bold: true, color: C.navy, isTextBox: true, margin: 0 });
   s.addText('Nivel exigido por la descripción de cargo de 2020 frente al que exige hoy la generación, validación y envío de 18 reportes normativos.', { x: M, y: 0.66, w: W - 2 * M, h: 0.28, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0 });
@@ -70,7 +70,7 @@ module.exports = function addInfographic(pres, C, F) {
 
   // banner
   const by = chartBottom + 0.12;
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: by, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: 'E5C79A', width: 0.75 } });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: by, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: C.amberLine || 'E5C79A', width: 0.75 } });
   s.addText([{ text: 'Lo único que no cambió: la escala de cargos y remuneraciones. ', options: { bold: true, color: C.amber } }, { text: 'El rediseño de 2024 actualizó misión, funciones y requisitos y dejó pendiente el pesaje de remuneración respecto a responsabilidad. Las 15 competencias subieron en promedio 2,2 niveles; el grado, ninguno.', options: { color: C.ink } }],
     { x: M + 0.18, y: by, w: W - 2 * M - 0.36, h: 0.5, fontFace: F.body, fontSize: 9.5, valign: 'middle', isTextBox: true, margin: 0 });
   s.addText('Fuentes: descripción de cargo 2020 y rediseño 2024 (Diseño Organizacional Compliance 2024); perfil actual deducido del análisis de los 18 reportes. Niveles 2020 literales de la descripción; niveles actuales son exigencia de la función, no evaluación de personas.', { x: M, y: by + 0.54, w: W - 2 * M, h: 0.2, fontFace: F.body, fontSize: 6.5, color: C.muted, isTextBox: true, margin: 0 });
@@ -81,7 +81,7 @@ module.exports = function addInfographic(pres, C, F) {
 // Second slide: Funciones, Competencias e Interacción (previous in grey, new in blue)
 module.exports.addScopeSlide = function addScopeSlide(pres, C, F) {
   const W = 13.33, M = 0.45;
-  const G20 = '8E9AA6', G20S = 'E8ECF0', B26 = '1C5CAB', B26S = 'E4EEFB';
+  const G20 = C.g20 || '8E9AA6', G20S = C.g20s || 'E8ECF0', B26 = C.b26 || '1C5CAB', B26S = C.b26s || 'E4EEFB';
   const s = pres.addSlide();
   s.addText('Funciones, competencias e interlocutores: lo previo y lo nuevo', { x: M, y: 0.22, w: W - 2 * M, h: 0.45, fontFace: F.head, fontSize: 21, bold: true, color: C.navy, isTextBox: true, margin: 0 });
   s.addText('Tomado de la descripción de cargo vigente. En gris, lo que ya exigía el cargo de Portabilidad; en azul, lo que se agregó con la función de reportes normativos. Nada se quitó.', { x: M, y: 0.66, w: W - 2 * M, h: 0.3, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0 });
@@ -118,7 +118,7 @@ module.exports.addScopeSlide = function addScopeSlide(pres, C, F) {
     x += col.w + 0.2;
   });
   const by = 6.62;
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: by, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: 'E5C79A', width: 0.75 } });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: by, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: C.amberLine || 'E5C79A', width: 0.75 } });
   s.addText([{ text: 'El cargo no se reemplazó, se amplió: ', options: { bold: true, color: C.amber } }, { text: 'las funciones pasaron de 4 a 11, las competencias de 5 a 13 y los interlocutores de 3 a 7, incluidos dos reguladores y la Fiscalía. La escala de cargos sigue siendo la del punto de partida.', options: { color: C.ink } }],
     { x: M + 0.18, y: by, w: W - 2 * M - 0.36, h: 0.5, fontFace: F.body, fontSize: 9.5, valign: 'middle', isTextBox: true, margin: 0 });
   s.addText('Fuente: descripción de cargo vigente (Diseño Organizacional Compliance 2024), lámina "Funciones, competencias e interacción". Los elementos en azul corresponden a los destacados en azul en el documento original.', { x: M, y: by + 0.54, w: W - 2 * M, h: 0.2, fontFace: F.body, fontSize: 6.5, color: C.muted, isTextBox: true, margin: 0 });
@@ -129,7 +129,7 @@ module.exports.addScopeSlide = function addScopeSlide(pres, C, F) {
 // Single-slide synthesis of the whole infographic
 module.exports.addOneSlide = function addOneSlide(pres, C, F) {
   const W = 13.33, M = 0.4;
-  const G20 = '8E9AA6', G20S = 'E8ECF0', B26 = '1C5CAB', B26S = 'E4EEFB';
+  const G20 = C.g20 || '8E9AA6', G20S = C.g20s || 'E8ECF0', B26 = C.b26 || '1C5CAB', B26S = C.b26s || 'E4EEFB';
   const s = pres.addSlide();
   s.addText('El trabajo cambió, la escala no: de Contabilidad de Entrada a Especialista Normativo', { x: M, y: 0.18, w: W - 2 * M, h: 0.42, fontFace: F.head, fontSize: 17, bold: true, color: C.navy, isTextBox: true, margin: 0 });
 
@@ -213,7 +213,7 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
 
   // banner + source
   const bby = chartBottom + 0.14;
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: bby, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: 'E5C79A', width: 0.75 } });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: bby, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: C.amberLine || 'E5C79A', width: 0.75 } });
   s.addText([{ text: 'Lo único que no cambió: la escala de cargos y remuneraciones. ', options: { bold: true, color: C.amber } }, { text: 'Las 15 competencias subieron en promedio 2,2 niveles; las funciones pasaron de 4 a 11, los interlocutores de 3 a 7 y la consecuencia de un error de operativa a legal (Ley 21.680). El rediseño de 2024 dejó pendiente el pesaje de remuneración respecto a responsabilidad.', options: { color: C.ink } }],
     { x: M + 0.18, y: bby, w: W - 2 * M - 0.36, h: 0.5, fontFace: F.body, fontSize: 9, valign: 'middle', isTextBox: true, margin: 0 });
   s.addText('Fuentes: descripción de cargo 2020, rediseño 2024 y lámina de funciones, competencias e interacción (Diseño Organizacional Compliance 2024); perfil actual deducido del análisis de los 18 reportes normativos. Niveles 2020 literales de la descripción; niveles actuales son exigencia de la función, no evaluación de personas.', { x: M, y: bby + 0.54, w: W - 2 * M, h: 0.2, fontFace: F.body, fontSize: 6.5, color: C.muted, isTextBox: true, margin: 0 });
