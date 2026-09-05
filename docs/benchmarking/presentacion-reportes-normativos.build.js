@@ -219,8 +219,7 @@ function bigStat(slide, x, y, w, num, label, color) {
 }
 
 // ---------- 7b. Infografía 2020 vs hoy ----------
-require('./slide-infografia.js')(pres, C, F);
-require('./slide-infografia.js').addScopeSlide(pres, C, F);
+require('./slide-infografia.js').addOneSlide(pres, C, F);
 
 // ---------- 8. Grados de referencia ----------
 {
