@@ -216,7 +216,7 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.05, fill: { color: fill }, line: { color: fill } });
     s.addText(text, { x: x + 0.04, y, w: w - 0.08, h, fontFace: F.body, fontSize: size, bold, color, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
   };
-  const badge = (x, y) => { s.addShape(pres.shapes.OVAL, { x, y, w: 0.3, h: 0.3, fill: { color: C.green }, line: { color: C.white, width: 1 } }); s.addText('+1', { x, y, w: 0.3, h: 0.3, fontFace: F.body, fontSize: 8, bold: true, color: C.white, align: 'center', valign: 'middle', isTextBox: true, margin: 0 }); };
+  const badge = (x, y, t = '+1') => { s.addShape(pres.shapes.OVAL, { x, y, w: 0.3, h: 0.3, fill: { color: C.green }, line: { color: C.white, width: 1 } }); s.addText(t, { x, y, w: 0.3, h: 0.3, fontFace: F.body, fontSize: 8, bold: true, color: C.white, align: 'center', valign: 'middle', isTextBox: true, margin: 0 }); };
   const vline = (x, y1, y2, color) => s.addShape(pres.shapes.LINE, { x, y: y1, w: 0, h: y2 - y1, line: { color: color || C.line, width: 1.25 } });
   const hline = (x1, x2, y, color) => s.addShape(pres.shapes.LINE, { x: x1, y, w: x2 - x1, h: 0, line: { color: color || C.line, width: 1.25 } });
   const colW = (W - 2 * M - 0.6) / 3, top = 2.2;
@@ -249,13 +249,14 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   panel(2, 'ALTERNATIVA 2 · DOS CARGOS SENIOR', C.blue, (x, c, lc) => {
     vline(c, top + 1.34, top + 2.45, lc);
     hline(c - 1.55, c + 1.55, top + 1.75, lc);
-    box(c - 1.85, top + 1.5, 1.35, 0.5, 'Senior Especialista\nNormativo', C.blueDark, C.white, 7.5); badge(c - 0.65, top + 1.38);
-    box(c + 0.5, top + 1.5, 1.35, 0.5, 'Senior TI\n(datos y automatización)', C.blueDark, C.white, 7.5); badge(c + 1.7, top + 1.38);
-    rowOf(c, top + 2.45, 4, 0.78, 0.1, lc, (bx, by) => box(bx, by, 0.78, 0.42, 'Pleno', C.blue, C.white, 8));
-    s.addText('Dos seniors, grado +1; cuatro plenos', { x, y: top + 3.08, w: colW, h: 0.26, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
-  }, 'Los seniors asumen los bloques críticos (Deudores y REDEC; datos, automatización y controles) y la validación; los plenos ejecutan bajo control dual con ruta a senior.');
+    box(c - 1.85, top + 1.5, 1.35, 0.5, 'Senior Especialista\nNormativo', C.blueDark, C.white, 7.5); badge(c - 0.65, top + 1.38, '+2');
+    box(c + 0.5, top + 1.5, 1.35, 0.5, 'Senior TI\n(datos y automatización)', C.blueDark, C.white, 7.5); badge(c + 1.7, top + 1.38, '+2');
+    const ps = rowOf(c, top + 2.45, 4, 0.78, 0.1, lc, (bx, by) => box(bx, by, 0.78, 0.42, 'Pleno', C.blue, C.white, 8));
+    for (let i = 0; i < 4; i++) badge(ps + i * 0.88 + 0.6, top + 2.5, '+1');
+    s.addText('Dos seniors, grado +2; cuatro plenos, grado +1', { x, y: top + 3.08, w: colW, h: 0.26, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
+  }, 'Todo el equipo sube un grado; los dos seniors suben dos, asumen los bloques críticos (Deudores y REDEC; datos, automatización y controles) y la validación. Los plenos ejecutan bajo control dual con ruta a senior.');
   foot(s, 'Regla común: quien prepara nunca firma; ningún reporte crítico depende de una sola persona. Grados a validar con Personas en la evaluación.');
-  s.addNotes('Leer de izquierda a derecha: hoy, seis cargos con el mismo grado administran reportes de complejidad muy distinta. Los dos caminos parten del mismo diagnóstico. El primero reconoce a todo el equipo y mantiene la estructura; el segundo diferencia roles y crea una ruta de desarrollo. La lámina siguiente los compara criterio a criterio.');
+  s.addNotes('Leer de izquierda a derecha: hoy, seis cargos con el mismo grado administran reportes de complejidad muy distinta. Los dos caminos parten del mismo diagnóstico. El primero reconoce a todo el equipo con un grado más y mantiene la estructura; el segundo también sube un grado a todos y diferencia roles con dos seniors dos grados más, creando una ruta de desarrollo. La lámina siguiente los compara criterio a criterio.');
 }
 
 // ---------------- 10. Comparación de alternativas ----------------
@@ -264,12 +265,12 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   title(s, 'Las dos alternativas, criterio a criterio; ambas sin monto en esta etapa');
   const rows = [
     ['Qué reconoce', 'Las competencias adquiridas con el cambio de tareas, en los seis cargos', 'Las competencias adquiridas y, además, la diferencia de complejidad entre reportes'],
-    ['Remuneración', 'Se alinea con las expectativas del mercado para todo el equipo', 'Se alinea en los dos cargos que asumen los bloques críticos'],
-    ['Estructura', 'Plana: seis especialistas con el mismo grado', 'Diferenciada: dos seniors y cuatro plenos'],
+    ['Remuneración', 'Se alinea con las expectativas del mercado para todo el equipo', 'Se alinea para todo el equipo, con mayor reconocimiento en los dos cargos que asumen los bloques críticos'],
+    ['Estructura', 'Plana: seis especialistas con el mismo grado, un nivel más', 'Diferenciada: dos seniors dos niveles más y cuatro plenos un nivel más'],
     ['Validación y firma', 'Se mantienen en el Jefe Normativo', 'Los seniors validan sus bloques; el Jefe firma'],
     ['Respaldo', 'Mutuo entre pares: sin dependencia de una sola persona', 'Seniors respaldan los bloques críticos; plenos se respaldan entre sí'],
     ['Equidad interna', 'Igual para todos, sin criterios de selección', 'Requiere criterios de selección claros y comunicados'],
-    ['Alcance del ajuste', 'Seis cargos', 'Dos cargos'],
+    ['Alcance del ajuste', 'Seis cargos, un grado cada uno', 'Seis cargos: dos suben dos grados y cuatro suben uno'],
     ['Ruta de desarrollo', 'No abre expectativa de crecimiento posterior', 'Abre el paso de pleno a senior']
   ];
   const cx = [M, M + 2.3, M + 2.3 + 4.95], cw = [2.1, 4.75, 4.75], y0 = 2.15, rh = 0.5;
@@ -283,7 +284,7 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
     s.addText(r[2], { x: cx[2], y, w: cw[2] - 0.2, h: rh, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
   });
   s.addText('Ambas parten del mismo diagnóstico y son compatibles con una implementación por etapas. El costo de cada una se presenta al comité con el resultado de la evaluación del perfil de los cargos.', { x: M, y: y0 + rows.length * rh + 0.2, w: W - 2 * M, h: 0.5, fontFace: F.body, fontSize: 10.5, italic: true, color: C.ink2, isTextBox: true, margin: 0 });
-  s.addNotes('Presentar las alternativas con neutralidad y dejar que el comité pregunte. La 1 es simple y equitativa y reconoce a todo el equipo; la 2 diferencia responsabilidades, alinea grado con complejidad y crea una ruta de desarrollo, a cambio de definir criterios de selección transparentes. Son combinables: la 2 ahora y revisión de los plenos con la evaluación.');
+  s.addNotes('Presentar las alternativas con neutralidad y dejar que el comité pregunte. La 1 es simple y equitativa y reconoce a todo el equipo; la 2 también sube un grado a todos y, además, diferencia responsabilidades con dos seniors dos grados más, alineando grado con complejidad y creando una ruta de desarrollo, a cambio de definir criterios de selección transparentes.');
 }
 
 // ---------------- 11. Escenarios ----------------
