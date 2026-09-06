@@ -145,7 +145,7 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
   // center table
   const tx = M + cw + 0.15, tw = W - 2 * M - 2 * cw - 0.3;
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: tx, y: by0, w: tw, h: bh, rectRadius: 0.06, fill: { color: C.white }, line: { color: C.line, width: 0.75 } });
-  const rows = [['Requisitos excluyentes', '1', '5'], ['Funciones del cargo', '4', '11'], ['Competencias exigidas', '5', '13'], ['Interlocutores', '3', '7'], ['Reportes normativos', '0', '18'], ['Consecuencia de un error', 'Operativa', 'Legal']];
+  const rows = [['Requisitos excluyentes', '1', '5'], ['Funciones del cargo', '4', '11'], ['Competencias exigidas', '5', '13'], ['Interlocutores', '3', '10'], ['Reportes normativos', '0', '18'], ['Consecuencia de un error', 'Operativa', 'Legal']];
   const rh = (bh - 0.16) / rows.length;
   rows.forEach((r, i) => {
     const y = by0 + 0.08 + i * rh;
@@ -156,7 +156,7 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
   });
 
   // ---- dumbbell chart (left) + additions panel (right)
-  const HARD = [['Excel', 1, 3], ['SQL', 0, 3], ['Python / PySpark y Databricks', 0, 3], ['Power BI y DAX', 0, 2], ['Normativa CMF: MSI, RAN 18-5, Ley 21.680', 0, 3], ['Contabilidad bancaria (Compendio)', 1, 2], ['Calidad de datos y trazabilidad', 1, 3], ['Protección de datos, Ley 19.628', 0, 2], ['Documentación de procesos (BPMN)', 0, 2]];
+  const HARD = [['Excel', 1, 3], ['SQL', 0, 3], ['Python / PySpark y Databricks', 0, 3], ['Power BI', 0, 2], ['Normativa CMF: MSI, RAN 18-5, Ley 21.680', 0, 3], ['Contabilidad bancaria (Compendio)', 1, 2], ['Calidad de datos y trazabilidad', 1, 3], ['Protección de datos, Ley 19.628', 0, 2], ['Documentación de procesos (BPMN)', 0, 2]];
   const SOFT = [['Comunicación con reguladores', 0, 3], ['Juicio normativo y criterio para escalar', 1, 3], ['Colaboración transversal', 1, 3], ['Análisis y causa raíz', 1, 3], ['Gestión de calendario bajo plazo diario', 1, 3], ['Storytelling y mesas de trabajo', 0, 2]];
   const cy0 = 2.5, rowh = 0.196, labw = 2.85, x0 = M + labw, x3 = 8.35, px = 9.2, pw = W - M - px;
   const sx = v => x0 + v / 3 * (x3 - x0);
@@ -194,19 +194,19 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
   py += 0.24;
   const blocks = [
     ['Funciones', '+7', ['Reportes normativos', 'Controles e interpretación de datos', 'Análisis', 'Seguimiento de alertas', 'Rediseño de procesos', 'Mejoras reactivas y proactivas', 'Mesa de trabajo normativo (Governance)'], 1],
-    ['Competencias', '+8', ['DAX', 'SQL', 'Access', 'Agile', 'Analítica', 'Plazos', 'Databricks', 'Normas CMF'], 4],
-    ['Interlocutores', '+4', ['Reguladores Financieros', 'Reportes Regulatorios', 'Fiscalía', 'SERNAC'], 2],
+    ['Competencias', '+8', ['Power BI', 'SQL', 'Access', 'Agile', 'Analítica', 'Plazos', 'Databricks', 'Normas CMF'], 4],
+    ['Interlocutores', '+7', ['Reguladores Financieros', 'Reportes Regulatorios', 'Fiscalía', 'SERNAC', 'SIGIR', 'Área Comercial', 'Otras inst. financieras'], 3],
   ];
-  const ch = 0.2, cg = 0.04;
+  const ch = 0.19, cg = 0.03;
   blocks.forEach(([title, delta, items, perRow]) => {
     s.addText([{ text: title + '  ', options: { fontFace: F.head, fontSize: 10, bold: true, color: C.navy } }, { text: delta, options: { fontFace: F.mono, fontSize: 9, bold: true, color: B26 } }], { x: px + 0.12, y: py, w: pw - 0.24, h: 0.2, isTextBox: true, margin: 0, valign: 'middle' });
-    py += 0.22;
+    py += 0.21;
     const cwid = (pw - 0.24 - (perRow - 1) * cg) / perRow;
     items.forEach((t, i) => {
       const col = i % perRow, row = Math.floor(i / perRow);
       const x = px + 0.12 + col * (cwid + cg), yy = py + row * (ch + cg);
       s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: yy, w: cwid, h: ch, rectRadius: 0.04, fill: { color: B26S }, line: { color: B26, width: 0.5 } });
-      s.addText(t, { x: x + 0.06, y: yy, w: cwid - 0.12, h: ch, fontFace: F.body, fontSize: 7.5, bold: true, color: B26, isTextBox: true, margin: 0, valign: 'middle', align: perRow > 1 ? 'center' : 'left' });
+      s.addText(t, { x: x + 0.06, y: yy, w: cwid - 0.12, h: ch, fontFace: F.body, fontSize: perRow > 2 ? 7 : 7.5, bold: true, color: B26, isTextBox: true, margin: 0, valign: 'middle', align: perRow > 1 ? 'center' : 'left' });
     });
     py += Math.ceil(items.length / perRow) * (ch + cg) + 0.04;
   });
@@ -214,7 +214,7 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
   // banner + source
   const bby = chartBottom + 0.14;
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: bby, w: W - 2 * M, h: 0.5, rectRadius: 0.06, fill: { color: C.amberPale }, line: { color: C.amberLine || 'E5C79A', width: 0.75 } });
-  s.addText([{ text: 'Lo único que no cambió: la escala de cargos y remuneraciones. ', options: { bold: true, color: C.amber } }, { text: 'Las 15 competencias subieron en promedio 2,2 niveles; las funciones pasaron de 4 a 11, los interlocutores de 3 a 7 y la consecuencia de un error de operativa a legal (Ley 21.680). El rediseño de 2024 dejó pendiente el pesaje de remuneración respecto a responsabilidad.', options: { color: C.ink } }],
+  s.addText([{ text: 'Lo único que no cambió: la escala de cargos y remuneraciones. ', options: { bold: true, color: C.amber } }, { text: 'Las 15 competencias subieron en promedio 2,2 niveles; las funciones pasaron de 4 a 11, los interlocutores de 3 a 10 y la consecuencia de un error de operativa a legal (Ley 21.680). El rediseño de 2024 dejó pendiente el pesaje de remuneración respecto a responsabilidad.', options: { color: C.ink } }],
     { x: M + 0.18, y: bby, w: W - 2 * M - 0.36, h: 0.5, fontFace: F.body, fontSize: 9, valign: 'middle', isTextBox: true, margin: 0 });
   s.addText('Fuentes: descripción de cargo 2020, rediseño 2024 y lámina de funciones, competencias e interacción (Diseño Organizacional Compliance 2024); perfil actual deducido del análisis de los 18 reportes normativos. Niveles 2020 literales de la descripción; niveles actuales son exigencia de la función, no evaluación de personas.', { x: M, y: bby + 0.54, w: W - 2 * M, h: 0.2, fontFace: F.body, fontSize: 6.5, color: C.muted, isTextBox: true, margin: 0 });
   s.addNotes('Lámina de síntesis. Arriba: qué era el cargo y qué es hoy, con seis indicadores. Centro: el salto de nivel por competencia (gris 2020, azul hoy) y, a la derecha, todo lo que se sumó al cargo sin retirar lo anterior. Abajo: la escala es lo único que no cambió. Objeción probable: "el perfil ya se actualizó en 2024"; respuesta: se actualizaron funciones y requisitos y el pesaje de remuneración quedó pendiente en ese mismo documento.');
