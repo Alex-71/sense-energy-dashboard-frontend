@@ -211,7 +211,7 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
 // ---------------- 9. Estructura: hoy y dos caminos ----------------
 {
   const s = pres.addSlide(); frame(s, 'Los caminos');
-  title(s, 'De un equipo plano con un mismo grado a dos caminos para alinear la estructura con el trabajo');
+  title(s, 'De un equipo plano con un mismo grado a roles alineados con el trabajo: dos caminos, uno recomendado');
   const box = (x, y, w, h, text, fill, color, size = 8.5, bold = true) => {
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.05, fill: { color: fill }, line: { color: fill } });
     s.addText(text, { x: x + 0.04, y, w: w - 0.08, h, fontFace: F.body, fontSize: size, bold, color, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
@@ -220,10 +220,14 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   const vline = (x, y1, y2, color) => s.addShape(pres.shapes.LINE, { x, y: y1, w: 0, h: y2 - y1, line: { color: color || C.line, width: 1.25 } });
   const hline = (x1, x2, y, color) => s.addShape(pres.shapes.LINE, { x: x1, y, w: x2 - x1, h: 0, line: { color: color || C.line, width: 1.25 } });
   const colW = (W - 2 * M - 0.6) / 3, top = 2.2;
-  const panel = (idx, label, labelColor, draw, caption) => {
+  const panel = (idx, label, labelColor, draw, caption, rec = false) => {
     const x = M + idx * (colW + 0.3), c = x + colW / 2;
-    soft(s, x, top - 0.15, colW, 4.45, idx === 0 ? C.surface : C.white, idx === 0 ? C.surface : C.line);
-    s.addText(label, { x: x + 0.2, y: top - 0.05, w: colW - 0.4, h: 0.28, fontFace: F.body, fontSize: 9, bold: true, color: labelColor, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
+    soft(s, x, top - 0.15, colW, 4.45, idx === 0 ? C.surface : C.white, idx === 0 ? C.surface : rec ? C.green : C.line);
+    if (rec) {
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x + colW - 1.45, y: top - 0.02, w: 1.25, h: 0.26, rectRadius: 0.13, fill: { color: C.green }, line: { color: C.green } });
+      s.addText('RECOMENDADA', { x: x + colW - 1.45, y: top - 0.02, w: 1.25, h: 0.26, fontFace: F.body, fontSize: 7.5, bold: true, color: C.white, charSpacing: 1.5, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
+    }
+    s.addText(label, { x: x + 0.2, y: top - 0.05, w: colW - (rec ? 1.7 : 0.4), h: 0.28, fontFace: F.body, fontSize: 9, bold: true, color: labelColor, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
     const soft2 = idx === 0 ? C.g20s : C.blueSoft, ink2 = idx === 0 ? C.ink2 : C.blueDark, lc = idx === 0 ? C.line : C.blueLight;
     box(c - 0.75, top + 0.4, 1.5, 0.36, 'Subgerente', idx === 0 ? 'E0E4E9' : soft2, ink2);
     vline(c, top + 0.76, top + 0.98, lc);
@@ -238,15 +242,8 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
     rowOf(c, top + 1.62, 6, 0.56, 0.06, lc, (bx, by) => box(bx, by, 0.56, 0.62, 'Espe-\ncialista', C.g20, C.white, 7));
     s.addText('Seis Especialistas Normativos, un mismo grado', { x, y: top + 2.55, w: colW, h: 0.3, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
   }, 'Los 18 reportes se reparten sin diferenciar complejidad ni competencias; la validación y la firma recaen en el Jefe.');
-  // ALT 1
-  panel(1, 'ALTERNATIVA 1 · UN GRADO MÁS PARA TODOS', C.blue, (x, c, lc) => {
-    vline(c, top + 1.34, top + 1.62, lc);
-    const start = rowOf(c, top + 1.62, 6, 0.56, 0.06, lc, (bx, by) => box(bx, by, 0.56, 0.62, 'Espe-\ncialista', C.blue, C.white, 7));
-    for (let i = 0; i < 6; i++) badge(start + i * 0.62 + 0.36, top + 1.66);
-    s.addText('Seis Especialistas Normativos, grado +1', { x, y: top + 2.55, w: colW, h: 0.3, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
-  }, 'Reconoce las competencias adquiridas en todo el equipo y conserva el respaldo mutuo entre pares. La estructura sigue siendo plana.');
-  // ALT 2
-  panel(2, 'ALTERNATIVA 2 · DOS CARGOS SENIOR', C.blue, (x, c, lc) => {
+  // ALT 1 (recomendada)
+  panel(1, 'ALTERNATIVA 1 · DOS CARGOS SENIOR', C.greenDark, (x, c, lc) => {
     vline(c, top + 1.34, top + 2.45, lc);
     hline(c - 1.55, c + 1.55, top + 1.75, lc);
     box(c - 1.85, top + 1.5, 1.35, 0.5, 'Senior Especialista\nNormativo', C.blueDark, C.white, 7.5); badge(c - 0.65, top + 1.38, '+2');
@@ -254,9 +251,16 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
     const ps = rowOf(c, top + 2.45, 4, 0.78, 0.1, lc, (bx, by) => box(bx, by, 0.78, 0.42, 'Pleno', C.blue, C.white, 8));
     for (let i = 0; i < 4; i++) badge(ps + i * 0.88 + 0.6, top + 2.5, '+1');
     s.addText('Dos seniors, grado +2; cuatro plenos, grado +1', { x, y: top + 3.08, w: colW, h: 0.26, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
-  }, 'Todo el equipo sube un grado; los dos seniors suben dos, asumen los bloques críticos (Deudores y REDEC; datos, automatización y controles) y la validación. Los plenos ejecutan bajo control dual con ruta a senior.');
+  }, 'Todo el equipo sube un grado; los dos seniors suben dos, asumen los bloques críticos (Deudores y REDEC; datos, automatización y controles) y la validación. Los plenos ejecutan bajo control dual con ruta a senior.', true);
+  // ALT 2
+  panel(2, 'ALTERNATIVA 2 · UN GRADO MÁS PARA TODOS', C.muted, (x, c, lc) => {
+    vline(c, top + 1.34, top + 1.62, lc);
+    const start = rowOf(c, top + 1.62, 6, 0.56, 0.06, lc, (bx, by) => box(bx, by, 0.56, 0.62, 'Espe-\ncialista', C.blueLight, C.ink, 7));
+    for (let i = 0; i < 6; i++) badge(start + i * 0.62 + 0.36, top + 1.66);
+    s.addText('Seis Especialistas Normativos, grado +1', { x, y: top + 2.55, w: colW, h: 0.3, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
+  }, 'Reconoce las competencias adquiridas en todo el equipo y conserva el respaldo mutuo entre pares. La estructura sigue siendo plana.');
   foot(s, 'Regla común: quien prepara nunca firma; ningún reporte crítico depende de una sola persona. Grados a validar con Personas en la evaluación.');
-  s.addNotes('Leer de izquierda a derecha: hoy, seis cargos con el mismo grado administran reportes de complejidad muy distinta. Los dos caminos parten del mismo diagnóstico. El primero reconoce a todo el equipo con un grado más y mantiene la estructura; el segundo también sube un grado a todos y diferencia roles con dos seniors dos grados más, creando una ruta de desarrollo. La lámina siguiente los compara criterio a criterio.');
+  s.addNotes('Leer de izquierda a derecha: hoy, seis cargos con el mismo grado administran reportes de complejidad muy distinta. La alternativa recomendada sube un grado a todo el equipo y dos a los seniors que asumen los bloques críticos y la validación: reconoce a todos y además alinea grado con complejidad y abre una ruta de desarrollo. La alternativa 2 reconoce a todos pero mantiene la estructura plana. La lámina siguiente compara ambas criterio a criterio.');
 }
 
 // ---------------- 10. Comparación de alternativas ----------------
@@ -264,27 +268,31 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   const s = pres.addSlide(); frame(s, 'Las alternativas');
   title(s, 'Las dos alternativas, criterio a criterio; ambas sin monto en esta etapa');
   const rows = [
-    ['Qué reconoce', 'Las competencias adquiridas con el cambio de tareas, en los seis cargos', 'Las competencias adquiridas y, además, la diferencia de complejidad entre reportes'],
-    ['Remuneración', 'Se alinea con las expectativas del mercado para todo el equipo', 'Se alinea para todo el equipo, con mayor reconocimiento en los dos cargos que asumen los bloques críticos'],
-    ['Estructura', 'Plana: seis especialistas con el mismo grado, un nivel más', 'Diferenciada: dos seniors dos niveles más y cuatro plenos un nivel más'],
-    ['Validación y firma', 'Se mantienen en el Jefe Normativo', 'Los seniors validan sus bloques; el Jefe firma'],
-    ['Respaldo', 'Mutuo entre pares: sin dependencia de una sola persona', 'Seniors respaldan los bloques críticos; plenos se respaldan entre sí'],
-    ['Equidad interna', 'Igual para todos, sin criterios de selección', 'Requiere criterios de selección claros y comunicados'],
-    ['Alcance del ajuste', 'Seis cargos, un grado cada uno', 'Seis cargos: dos suben dos grados y cuatro suben uno'],
-    ['Ruta de desarrollo', 'No abre expectativa de crecimiento posterior', 'Abre el paso de pleno a senior']
+    ['Qué reconoce', 'Las competencias adquiridas y, además, la diferencia de complejidad entre reportes', 'Las competencias adquiridas con el cambio de tareas, en los seis cargos'],
+    ['Remuneración', 'Se alinea para todo el equipo, con mayor reconocimiento en los dos cargos que asumen los bloques críticos', 'Se alinea con las expectativas del mercado para todo el equipo'],
+    ['Estructura', 'Diferenciada: dos seniors dos niveles más y cuatro plenos un nivel más', 'Plana: seis especialistas con el mismo grado, un nivel más'],
+    ['Validación y firma', 'Los seniors validan sus bloques; el Jefe firma', 'Se mantienen en el Jefe Normativo'],
+    ['Respaldo', 'Seniors respaldan los bloques críticos; plenos se respaldan entre sí', 'Mutuo entre pares: sin dependencia de una sola persona'],
+    ['Equidad interna', 'Requiere criterios de selección claros y comunicados', 'Igual para todos, sin criterios de selección'],
+    ['Alcance del ajuste', 'Seis cargos: dos suben dos grados y cuatro suben uno', 'Seis cargos, un grado cada uno'],
+    ['Ruta de desarrollo', 'Abre el paso de pleno a senior', 'No abre expectativa de crecimiento posterior']
   ];
   const cx = [M, M + 2.3, M + 2.3 + 4.95], cw = [2.1, 4.75, 4.75], y0 = 2.15, rh = 0.5;
-  s.addText('ALTERNATIVA 1 · UN GRADO MÁS PARA TODOS', { x: cx[1], y: y0 - 0.35, w: cw[1], h: 0.3, fontFace: F.body, fontSize: 9, bold: true, color: C.blue, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
-  s.addText('ALTERNATIVA 2 · DOS CARGOS SENIOR', { x: cx[2], y: y0 - 0.35, w: cw[2], h: 0.3, fontFace: F.body, fontSize: 9, bold: true, color: C.blue, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
+  // recommended column highlight
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: cx[1] - 0.15, y: y0 - 0.42, w: cw[1] + 0.1, h: rows.length * rh + 0.5, rectRadius: 0.06, fill: { color: C.greenSoft }, line: { color: C.green, width: 0.75 } });
+  s.addText('ALTERNATIVA 1 · DOS CARGOS SENIOR', { x: cx[1], y: y0 - 0.35, w: cw[1] - 1.4, h: 0.3, fontFace: F.body, fontSize: 9, bold: true, color: C.greenDark, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: cx[1] + cw[1] - 1.5, y: y0 - 0.34, w: 1.25, h: 0.26, rectRadius: 0.13, fill: { color: C.green }, line: { color: C.green } });
+  s.addText('RECOMENDADA', { x: cx[1] + cw[1] - 1.5, y: y0 - 0.34, w: 1.25, h: 0.26, fontFace: F.body, fontSize: 7.5, bold: true, color: C.white, charSpacing: 1.5, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
+  s.addText('ALTERNATIVA 2 · UN GRADO MÁS PARA TODOS', { x: cx[2], y: y0 - 0.35, w: cw[2], h: 0.3, fontFace: F.body, fontSize: 9, bold: true, color: C.muted, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
   rows.forEach((r, i) => {
     const y = y0 + i * rh;
-    if (i % 2 === 0) s.addShape(pres.shapes.RECTANGLE, { x: M, y, w: W - 2 * M, h: rh, fill: { color: C.surface }, line: { color: C.surface } });
+    if (i % 2 === 0) { s.addShape(pres.shapes.RECTANGLE, { x: M, y, w: cx[1] - 0.15 - M, h: rh, fill: { color: C.surface }, line: { color: C.surface } }); s.addShape(pres.shapes.RECTANGLE, { x: cx[2] - 0.1, y, w: W - M - cx[2] + 0.1, h: rh, fill: { color: C.surface }, line: { color: C.surface } }); }
     s.addText(r[0], { x: cx[0] + 0.12, y, w: cw[0] - 0.12, h: rh, fontFace: F.body, fontSize: 10.5, bold: true, color: C.ink, isTextBox: true, margin: 0, valign: 'middle' });
-    s.addText(r[1], { x: cx[1], y, w: cw[1] - 0.2, h: rh, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
+    s.addText(r[1], { x: cx[1], y, w: cw[1] - 0.2, h: rh, fontFace: F.body, fontSize: 10.5, color: C.ink, isTextBox: true, margin: 0, valign: 'middle' });
     s.addText(r[2], { x: cx[2], y, w: cw[2] - 0.2, h: rh, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
   });
-  s.addText('Ambas parten del mismo diagnóstico y son compatibles con una implementación por etapas. El costo de cada una se presenta al comité con el resultado de la evaluación del perfil de los cargos.', { x: M, y: y0 + rows.length * rh + 0.2, w: W - 2 * M, h: 0.5, fontFace: F.body, fontSize: 10.5, italic: true, color: C.ink2, isTextBox: true, margin: 0 });
-  s.addNotes('Presentar las alternativas con neutralidad y dejar que el comité pregunte. La 1 es simple y equitativa y reconoce a todo el equipo; la 2 también sube un grado a todos y, además, diferencia responsabilidades con dos seniors dos grados más, alineando grado con complejidad y creando una ruta de desarrollo, a cambio de definir criterios de selección transparentes.');
+  s.addText('Por qué recomendamos la alternativa 1: reconoce a todo el equipo y, además, alinea grado con complejidad, crea una cadena de validación y abre una ruta de desarrollo. Ambas se costean con el resultado de la evaluación del perfil de los cargos.', { x: M, y: y0 + rows.length * rh + 0.2, w: W - 2 * M, h: 0.5, fontFace: F.body, fontSize: 10.5, italic: true, color: C.ink2, isTextBox: true, margin: 0 });
+  s.addNotes('Recomendar explícitamente la alternativa 1: sube un grado a todo el equipo y dos a los seniors que asumen los bloques críticos y la validación; alinea grado con complejidad, crea la cadena de confiabilidad y abre una ruta de desarrollo. La alternativa 2 queda como opción simple y equitativa si el comité prefiere no diferenciar roles en esta etapa. Objeción probable: criterios de selección de los seniors; respuesta: se definen con Personas en la evaluación, con la rúbrica de competencias.');
 }
 
 // ---------------- 11. Escenarios ----------------
