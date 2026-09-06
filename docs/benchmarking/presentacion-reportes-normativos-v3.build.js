@@ -58,7 +58,7 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
 // ---------------- 2. La decisión ----------------
 {
   const s = pres.addSlide(); frame(s, 'La decisión');
-  title(s, 'Lo que proponemos hoy son tres pasos, ninguno con monto');
+  title(s, 'Lo que proponemos hoy son tres pasos');
   const items = [
     ['Evaluación del perfil de los cargos', 'Que Personas y la gerencia evalúen el perfil de los cargos del equipo de reportes normativos, con la rúbrica de alcance de este documento, como una oportunidad de mejora.'],
     ['Reconocimiento de la función', 'Formalizar que generar, validar y enviar reportes normativos es una función de control del banco, no una tarea operativa de un producto.'],
@@ -293,16 +293,16 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
       if (up) s.addShape(pres.shapes.LINE, { x: start + i * step + 0.17, y: y + 0.98, w: 0, h: 0.15, line: { color: C.blueLight, width: 1.5, endArrowType: 'none' } });
     }
   };
-  alt(M, 5.95, 'ALTERNATIVA 1', 'Subir un grado a todo el equipo', 'Los seis especialistas normativos pasan al grado siguiente. Reconoce el cambio del trabajo para todos, pero mantiene un equipo plano: nadie asume formalmente la validación ni los bloques críticos.', (x, y, w) => {
+  alt(M, 5.95, 'ALTERNATIVA 1', 'Subir un grado a todo el equipo', 'Los seis especialistas normativos pasan al grado siguiente. Reconoce el cambio del trabajo para todo el equipo y conserva el esquema actual de respaldo mutuo.', (x, y, w) => {
     ladder(x, y, w, [0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1]);
-    s.addText(bullets(['Reconoce la diferencia de complejidad entre reportes: no', 'Separa quien prepara de quien valida: no cambia', 'Equidad interna: alta, todos por igual', 'Alcance del ajuste: seis cargos', 'Ruta de desarrollo: no la crea'], 9.5, C.ink2), { x, y: y + 1.75, w, h: 1.3, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
+    s.addText(bullets(['Reconoce las competencias adquiridas con el cambio de tareas', 'Alinea la remuneración con las expectativas del mercado', 'Mantiene el respaldo mutuo entre pares: sin dependencia de una sola persona', 'Alcance del ajuste: seis cargos', 'Ruta de desarrollo: no abre expectativa de crecimiento posterior'], 9.5, C.ink2), { x, y: y + 1.75, w, h: 1.3, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
   });
   alt(M + 6.15, 5.95, 'ALTERNATIVA 2', 'Dos cargos senior, un grado más', 'Se crean un Senior Especialista Normativo y un Senior TI, un grado por sobre el actual; cuatro plenos mantienen el grado con ruta de desarrollo. Es la estructura de la lámina anterior.', (x, y, w) => {
     ladder(x, y, w, [0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 0, 0]);
-    s.addText(bullets(['Reconoce la diferencia de complejidad entre reportes: sí', 'Separa quien prepara de quien valida: sí', 'Equidad interna: exige criterios de selección claros', 'Alcance del ajuste: dos cargos', 'Ruta de desarrollo: pleno a senior'], 9.5, C.ink2), { x, y: y + 1.75, w, h: 1.3, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
+    s.addText(bullets(['Reconoce la diferencia de complejidad entre reportes', 'Separa quien prepara de quien valida y firma', 'Equidad interna: exige criterios de selección claros', 'Alcance del ajuste: dos cargos', 'Ruta de desarrollo: de pleno a senior'], 9.5, C.ink2), { x, y: y + 1.75, w, h: 1.3, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
   });
   foot(s, 'Comparación cualitativa. El costo de cada alternativa se presenta con el resultado de la evaluación del perfil de los cargos.');
-  s.addNotes('Presentar las dos alternativas con neutralidad y dejar que el comité pregunte. La alternativa 1 es simple y equitativa pero no resuelve el problema de fondo: la responsabilidad sigue sin dueño diferenciado. La alternativa 2 alinea grado con complejidad y crea la cadena de confiabilidad, a cambio de definir criterios de selección transparentes. Una combinación es posible: alternativa 2 ahora y revisión de los plenos con la evaluación.');
+  s.addNotes('Presentar las dos alternativas con neutralidad y dejar que el comité pregunte. La alternativa 1 es simple y equitativa y reconoce a todo el equipo; la alternativa 2 además diferencia responsabilidades y crea una ruta de desarrollo. La alternativa 2 alinea grado con complejidad y crea la cadena de confiabilidad, a cambio de definir criterios de selección transparentes. Una combinación es posible: alternativa 2 ahora y revisión de los plenos con la evaluación.');
 }
 
 // ---------------- 11. Escenarios ----------------

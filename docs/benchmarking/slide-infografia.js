@@ -9,7 +9,7 @@ module.exports = function addInfographic(pres, C, F) {
   // headers
   const hw = (W - 2 * M - 0.2) / 2, hy = 1.0, hh = 0.72;
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: hy, w: hw, h: hh, rectRadius: 0.06, fill: { color: G20S }, line: { color: G20S } });
-  s.addText([{ text: '2020 · PUNTO DE PARTIDA', options: { fontFace: F.mono, fontSize: 7.5, color: G20, bold: true, breakLine: true } }, { text: 'Analista de Contabilidad de Entrada (Portabilidad Financiera)', options: { fontFace: F.head, fontSize: 11.5, bold: true, color: C.ink, breakLine: true } }, { text: 'Ejecutar el flujo de entrada de portabilidad, cuadrar pagos y resolver discrepancias vía Redbanc. Requisito excluyente: Excel básico.', options: { fontFace: F.body, fontSize: 9, color: C.ink2 } }],
+  s.addText([{ text: '2020 · PUNTO DE PARTIDA', options: { fontFace: F.mono, fontSize: 7.5, color: G20, bold: true, breakLine: true } }, { text: 'Analista de Portabilidad de Entrada', options: { fontFace: F.head, fontSize: 11.5, bold: true, color: C.ink, breakLine: true } }, { text: 'Ejecutar el flujo de entrada de portabilidad, cuadrar pagos y resolver discrepancias vía Redbanc. Requisito excluyente: Excel básico.', options: { fontFace: F.body, fontSize: 9, color: C.ink2 } }],
     { x: M + 0.15, y: hy, w: hw - 0.3, h: hh, valign: 'middle', isTextBox: true, margin: 0 });
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M + hw + 0.2, y: hy, w: hw, h: hh, rectRadius: 0.06, fill: { color: B26S }, line: { color: B26S } });
   s.addText([{ text: 'HOY · PERFIL NORMATIVO', options: { fontFace: F.mono, fontSize: 7.5, color: B26, bold: true, breakLine: true } }, { text: 'Especialista en Información Normativa', options: { fontFace: F.head, fontSize: 11.5, bold: true, color: C.ink, breakLine: true } }, { text: 'Modelar, monitorear y validar la información que responde a la CMF y al SERNAC; controles y alertas; posición del banco en mesas normativas.', options: { fontFace: F.body, fontSize: 9, color: C.ink2 } }],
@@ -131,7 +131,7 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
   const W = 13.33, M = 0.4;
   const G20 = C.g20 || '8E9AA6', G20S = C.g20s || 'E8ECF0', B26 = C.b26 || '1C5CAB', B26S = C.b26s || 'E4EEFB';
   const s = pres.addSlide();
-  s.addText('El trabajo cambió, la escala no: de Contabilidad de Entrada a Especialista Normativo', { x: M, y: 0.18, w: W - 2 * M, h: 0.42, fontFace: F.head, fontSize: 17, bold: true, color: C.navy, isTextBox: true, margin: 0 });
+  s.addText('El trabajo cambió, la escala no: de Portabilidad de Entrada a Especialista Normativo', { x: M, y: 0.18, w: W - 2 * M, h: 0.42, fontFace: F.head, fontSize: 17, bold: true, color: C.navy, isTextBox: true, margin: 0 });
 
   // ---- scoreboard band
   const by0 = 0.7, bh = 1.62, cw = 3.85;
@@ -140,7 +140,7 @@ module.exports.addOneSlide = function addOneSlide(pres, C, F) {
     s.addText([{ text: eyebrow, options: { fontFace: F.mono, fontSize: 7.5, bold: true, color: eyeColor, breakLine: true } }, { text: title, options: { fontFace: F.head, fontSize: 12, bold: true, color: C.ink, breakLine: true } }, { text: mission, options: { fontFace: F.body, fontSize: 8.5, color: C.ink2 } }],
       { x: x + 0.15, y: by0 + 0.08, w: cw - 0.3, h: bh - 0.16, valign: 'top', isTextBox: true, margin: 0, paraSpaceAfter: 3 });
   };
-  card(M, G20S, '2020 · PUNTO DE PARTIDA', G20, 'Analista de Contabilidad de Entrada (Portabilidad Financiera)', 'Ejecutar el flujo de entrada de portabilidad, cuadrar pagos y resolver discrepancias con la institución inicial vía Redbanc. Requisito excluyente: Excel básico. Demanda real: 1,5 solicitudes al mes.');
+  card(M, G20S, '2020 · PUNTO DE PARTIDA', G20, 'Analista de Portabilidad de Entrada', 'Ejecutar el flujo de entrada de portabilidad, cuadrar pagos y resolver discrepancias con la institución inicial vía Redbanc. Requisito excluyente: Excel básico. Demanda real: 1,5 solicitudes al mes.');
   card(W - M - cw, B26S, 'HOY · PERFIL NORMATIVO', B26, 'Especialista en Información Normativa', 'Modelar, monitorear y validar la información que responde a la CMF y al SERNAC; desarrollar controles y alertas; sostener la posición del banco ante observaciones del regulador y en mesas normativas.');
   // center table
   const tx = M + cw + 0.15, tw = W - 2 * M - 2 * cw - 0.3;
