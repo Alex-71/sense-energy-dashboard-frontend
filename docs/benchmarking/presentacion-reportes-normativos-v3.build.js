@@ -71,7 +71,7 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
     s.addText(it[0], { x: x + 0.3, y: 3.1, w: 3.3, h: 0.75, fontFace: F.body, fontSize: 16, bold: true, color: C.ink, isTextBox: true, margin: 0, valign: 'top' });
     s.addText(it[1], { x: x + 0.3, y: 3.85, w: 3.3, h: 1.5, fontFace: F.body, fontSize: 12, color: C.ink2, isTextBox: true, margin: 0, valign: 'top' });
   });
-  s.addText([{ text: 'Lo que no se propone hoy: ', options: { bold: true } }, { text: 'cifras de remuneración, dotación adicional ni cambios de estructura. Llegan al comité con el resultado de la evaluación.' }], { x: M, y: 5.8, w: W - 2 * M, h: 0.5, fontFace: F.body, fontSize: 12, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
+  s.addText('Tres pasos, una misma idea: valorar los cargos por el trabajo que hoy realizan.', { x: M, y: 5.8, w: W - 2 * M, h: 0.5, fontFace: F.head, fontSize: 15, italic: true, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
   s.addNotes('Presentar la propuesta como oportunidad de mejora, no como exigencia. Si preguntan "¿por qué ahora?": porque desde abril de 2026 el equipo envía reportes diarios del Registro de Deuda Consolidada, cuyo incumplimiento puede bloquear el acceso del banco a información de la CMF, y porque el rediseño de 2024 dejó pendiente el pesaje de remuneración.');
 }
 
@@ -192,63 +192,6 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
 // ---------------- 7. Infografía de síntesis ----------------
 { info.addOneSlide(pres, C, F); n += 1; }
 
-// ---------------- 8. Estructura: hoy vs propuesta ----------------
-{
-  const s = pres.addSlide(); frame(s, 'La función');
-  title(s, 'De un equipo plano con un mismo grado a roles diferenciados según complejidad y competencias');
-  const box = (x, y, w, h, text, fill, color, size = 10, bold = true) => {
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.06, fill: { color: fill }, line: { color: fill } });
-    s.addText(text, { x: x + 0.06, y, w: w - 0.12, h, fontFace: F.body, fontSize: size, bold, color, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
-  };
-  const vline = (x, y1, y2, color) => s.addShape(pres.shapes.LINE, { x, y: y1, w: 0, h: y2 - y1, line: { color: color || C.line, width: 1.25 } });
-  const hline = (x1, x2, y, color) => s.addShape(pres.shapes.LINE, { x: x1, y, w: x2 - x1, h: 0, line: { color: color || C.line, width: 1.25 } });
-  // ----- HOY (left)
-  const L0 = M, LW = 5.9, top = 2.15;
-  s.addText('HOY', { x: L0, y: top - 0.1, w: 2, h: 0.25, fontFace: F.body, fontSize: 9, bold: true, color: C.g20, charSpacing: 2, isTextBox: true, margin: 0 });
-  const lc = L0 + LW / 2;
-  box(lc - 0.9, top + 0.25, 1.8, 0.42, 'Subgerente', C.g20s, C.ink2);
-  vline(lc, top + 0.67, top + 0.95);
-  box(lc - 0.9, top + 0.95, 1.8, 0.42, 'Jefe Normativo', C.g20s, C.ink2);
-  vline(lc, top + 1.37, top + 1.7);
-  hline(L0 + 0.45, L0 + LW - 0.45, top + 1.7);
-  const bw = 0.9, gap = 0.08, startx = lc - (6 * bw + 5 * gap) / 2;
-  for (let i = 0; i < 6; i++) {
-    const x = startx + i * (bw + gap);
-    vline(x + bw / 2, top + 1.7, top + 1.95);
-    box(x, top + 1.95, bw, 0.62, 'Especialista\nNormativo', C.g20, C.white, 7.5);
-  }
-  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: startx - 0.08, y: top + 2.68, w: 6 * bw + 5 * gap + 0.16, h: 0.3, rectRadius: 0.05, fill: { color: C.g20s }, line: { color: C.g20s } });
-  s.addText('Seis cargos, un mismo grado, 18 reportes repartidos sin diferenciar complejidad', { x: startx - 0.08, y: top + 2.68, w: 6 * bw + 5 * gap + 0.16, h: 0.3, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
-  // arrow
-  s.addShape(pres.shapes.RIGHT_ARROW, { x: L0 + LW + 0.15, y: top + 1.45, w: 0.55, h: 0.4, fill: { color: C.blueLight }, line: { color: C.blueLight } });
-  // ----- PROPUESTA (right)
-  const R0 = L0 + LW + 0.75, RW = W - M - R0, rc = R0 + RW / 2;
-  s.addText('PROPUESTA', { x: R0, y: top - 0.1, w: 2, h: 0.25, fontFace: F.body, fontSize: 9, bold: true, color: C.blue, charSpacing: 2, isTextBox: true, margin: 0 });
-  box(rc - 0.9, top + 0.25, 1.8, 0.42, 'Subgerente', C.blueSoft, C.blueDark);
-  vline(rc, top + 0.67, top + 0.95, C.blueLight);
-  box(rc - 0.9, top + 0.95, 1.8, 0.42, 'Jefe Normativo', C.blueSoft, C.blueDark);
-  vline(rc, top + 1.37, top + 2.7, C.blueLight);
-  // seniors
-  const sy = top + 1.6, sw = 1.9;
-  hline(rc - 0.5 - sw + 0.2, rc + 0.5 + sw - 0.2, sy + 0.28, C.blueLight);
-  box(rc - 0.5 - sw, sy, sw, 0.56, 'Senior Especialista\nNormativo', C.blueDark, C.white, 9);
-  box(rc + 0.5, sy, sw, 0.56, 'Senior TI\n(datos y automatización)', C.blueDark, C.white, 9);
-  // plenos
-  const py = top + 2.7, pwd = 1.2, pg = 0.15, pstart = rc - (4 * pwd + 3 * pg) / 2;
-  hline(pstart + pwd / 2, pstart + 3 * (pwd + pg) + pwd / 2, py, C.blueLight);
-  for (let i = 0; i < 4; i++) {
-    const x = pstart + i * (pwd + pg);
-    vline(x + pwd / 2, py, py + 0.22, C.blueLight);
-    box(x, py + 0.2, pwd, 0.5, 'Especialista\nPleno', C.blue, C.white, 9);
-  }
-  // role captions
-  const cy = py + 0.85;
-  s.addText([{ text: 'Seniors: ', options: { bold: true, color: C.ink } }, { text: 'dueños de los bloques críticos (Deudores y REDEC; datos, automatización y controles). Preparan y validan D10 y los RDC; responden observaciones técnicas. Un grado por sobre el actual.', options: { color: C.ink2 } }], { x: R0, y: cy, w: RW, h: 0.55, fontFace: F.body, fontSize: 9, isTextBox: true, margin: 0, valign: 'top' });
-  s.addText([{ text: 'Plenos: ', options: { bold: true, color: C.ink } }, { text: 'ejecutan la rutina mensual y la alta frecuencia bajo control dual, con ruta de desarrollo hacia senior. ', options: { color: C.ink2 } }, { text: 'Jefe: ', options: { bold: true, color: C.ink } }, { text: 'firma, calendario regulatorio y relación con el supervisor.', options: { color: C.ink2 } }], { x: R0, y: cy + 0.55, w: RW, h: 0.55, fontFace: F.body, fontSize: 9, isTextBox: true, margin: 0, valign: 'top' });
-  foot(s, 'Regla de diseño: quien prepara nunca firma; ningún reporte crítico depende de una sola persona. Estructura propuesta por el área; grados a validar con Personas.');
-  s.addNotes('La estructura de hoy no distingue entre quien administra RDC40 y quien administra un archivo estadístico de tarjetas: mismo cargo, mismo grado. La propuesta crea dos posiciones senior, una normativa y una de datos y automatización, que asumen los bloques críticos y la validación, y deja cuatro plenos con una ruta de desarrollo. Objeción: "esto es crear jefaturas". Respuesta: no cambia la línea de mando; formaliza roles que ya se ejercen de hecho.');
-}
-
 // ---------------- 9. Mercado (cualitativo) ----------------
 {
   const s = pres.addSlide(); frame(s, 'El mercado');
@@ -265,44 +208,82 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   s.addNotes('Mantener cualitativo. Si piden cifras: existen rangos públicos para cargos contables genéricos (Robert Half, Buk) que el área puede compartir por separado; el diagnóstico los validará con una encuesta formal.');
 }
 
-// ---------------- 10. Alternativas ----------------
+// ---------------- 9. Estructura: hoy y dos caminos ----------------
+{
+  const s = pres.addSlide(); frame(s, 'Los caminos');
+  title(s, 'De un equipo plano con un mismo grado a dos caminos para alinear la estructura con el trabajo');
+  const box = (x, y, w, h, text, fill, color, size = 8.5, bold = true) => {
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.05, fill: { color: fill }, line: { color: fill } });
+    s.addText(text, { x: x + 0.04, y, w: w - 0.08, h, fontFace: F.body, fontSize: size, bold, color, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
+  };
+  const badge = (x, y) => { s.addShape(pres.shapes.OVAL, { x, y, w: 0.3, h: 0.3, fill: { color: C.green }, line: { color: C.white, width: 1 } }); s.addText('+1', { x, y, w: 0.3, h: 0.3, fontFace: F.body, fontSize: 8, bold: true, color: C.white, align: 'center', valign: 'middle', isTextBox: true, margin: 0 }); };
+  const vline = (x, y1, y2, color) => s.addShape(pres.shapes.LINE, { x, y: y1, w: 0, h: y2 - y1, line: { color: color || C.line, width: 1.25 } });
+  const hline = (x1, x2, y, color) => s.addShape(pres.shapes.LINE, { x: x1, y, w: x2 - x1, h: 0, line: { color: color || C.line, width: 1.25 } });
+  const colW = (W - 2 * M - 0.6) / 3, top = 2.2;
+  const panel = (idx, label, labelColor, draw, caption) => {
+    const x = M + idx * (colW + 0.3), c = x + colW / 2;
+    soft(s, x, top - 0.15, colW, 4.45, idx === 0 ? C.surface : C.white, idx === 0 ? C.surface : C.line);
+    s.addText(label, { x: x + 0.2, y: top - 0.05, w: colW - 0.4, h: 0.28, fontFace: F.body, fontSize: 9, bold: true, color: labelColor, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
+    const soft2 = idx === 0 ? C.g20s : C.blueSoft, ink2 = idx === 0 ? C.ink2 : C.blueDark, lc = idx === 0 ? C.line : C.blueLight;
+    box(c - 0.75, top + 0.4, 1.5, 0.36, 'Subgerente', idx === 0 ? 'E0E4E9' : soft2, ink2);
+    vline(c, top + 0.76, top + 0.98, lc);
+    box(c - 0.75, top + 0.98, 1.5, 0.36, 'Jefe Normativo', idx === 0 ? 'E0E4E9' : soft2, ink2);
+    draw(x, c, lc);
+    s.addText(caption, { x: x + 0.2, y: top + 3.35, w: colW - 0.4, h: 0.9, fontFace: F.body, fontSize: 9.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'top' });
+  };
+  const rowOf = (c, y, n, w, gap, lc, fn) => { const start = c - (n * w + (n - 1) * gap) / 2; hline(start + w / 2, start + (n - 1) * (w + gap) + w / 2, y, lc); for (let i = 0; i < n; i++) { const x = start + i * (w + gap); vline(x + w / 2, y, y + 0.18, lc); fn(x, y + 0.18, i); } return start; };
+  // HOY
+  panel(0, 'HOY', C.g20, (x, c, lc) => {
+    vline(c, top + 1.34, top + 1.62, lc);
+    rowOf(c, top + 1.62, 6, 0.56, 0.06, lc, (bx, by) => box(bx, by, 0.56, 0.62, 'Espe-\ncialista', C.g20, C.white, 7));
+    s.addText('Seis Especialistas Normativos, un mismo grado', { x, y: top + 2.55, w: colW, h: 0.3, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
+  }, 'Los 18 reportes se reparten sin diferenciar complejidad ni competencias; la validación y la firma recaen en el Jefe.');
+  // ALT 1
+  panel(1, 'ALTERNATIVA 1 · UN GRADO MÁS PARA TODOS', C.blue, (x, c, lc) => {
+    vline(c, top + 1.34, top + 1.62, lc);
+    const start = rowOf(c, top + 1.62, 6, 0.56, 0.06, lc, (bx, by) => box(bx, by, 0.56, 0.62, 'Espe-\ncialista', C.blue, C.white, 7));
+    for (let i = 0; i < 6; i++) badge(start + i * 0.62 + 0.36, top + 1.66);
+    s.addText('Seis Especialistas Normativos, grado +1', { x, y: top + 2.55, w: colW, h: 0.3, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
+  }, 'Reconoce las competencias adquiridas en todo el equipo y conserva el respaldo mutuo entre pares. La estructura sigue siendo plana.');
+  // ALT 2
+  panel(2, 'ALTERNATIVA 2 · DOS CARGOS SENIOR', C.blue, (x, c, lc) => {
+    vline(c, top + 1.34, top + 2.45, lc);
+    hline(c - 1.55, c + 1.55, top + 1.75, lc);
+    box(c - 1.85, top + 1.5, 1.35, 0.5, 'Senior Especialista\nNormativo', C.blueDark, C.white, 7.5); badge(c - 0.65, top + 1.38);
+    box(c + 0.5, top + 1.5, 1.35, 0.5, 'Senior TI\n(datos y automatización)', C.blueDark, C.white, 7.5); badge(c + 1.7, top + 1.38);
+    rowOf(c, top + 2.45, 4, 0.78, 0.1, lc, (bx, by) => box(bx, by, 0.78, 0.42, 'Pleno', C.blue, C.white, 8));
+    s.addText('Dos seniors, grado +1; cuatro plenos', { x, y: top + 3.08, w: colW, h: 0.26, fontFace: F.body, fontSize: 9, color: C.ink2, align: 'center', isTextBox: true, margin: 0 });
+  }, 'Los seniors asumen los bloques críticos (Deudores y REDEC; datos, automatización y controles) y la validación; los plenos ejecutan bajo control dual con ruta a senior.');
+  foot(s, 'Regla común: quien prepara nunca firma; ningún reporte crítico depende de una sola persona. Grados a validar con Personas en la evaluación.');
+  s.addNotes('Leer de izquierda a derecha: hoy, seis cargos con el mismo grado administran reportes de complejidad muy distinta. Los dos caminos parten del mismo diagnóstico. El primero reconoce a todo el equipo y mantiene la estructura; el segundo diferencia roles y crea una ruta de desarrollo. La lámina siguiente los compara criterio a criterio.');
+}
+
+// ---------------- 10. Comparación de alternativas ----------------
 {
   const s = pres.addSlide(); frame(s, 'Las alternativas');
-  title(s, 'Dos alternativas para alinear la escala con el trabajo; ambas sin monto en esta etapa');
-  const person = (x, y, fill, w = 0.34, h = 0.5) => {
-    s.addShape(pres.shapes.OVAL, { x: x + w * 0.25, y, w: w * 0.5, h: w * 0.5, fill: { color: fill }, line: { color: fill } });
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: y + w * 0.55, w, h: h - w * 0.55, rectRadius: 0.06, fill: { color: fill }, line: { color: fill } });
-  };
-  const alt = (x, w, tag, name, desc, draw) => {
-    soft(s, x, 2.1, w, 4.85, C.surface);
-    s.addText(tag, { x: x + 0.3, y: 2.25, w: 2, h: 0.25, fontFace: F.body, fontSize: 8.5, bold: true, color: C.green, charSpacing: 2, isTextBox: true, margin: 0 });
-    s.addText(name, { x: x + 0.3, y: 2.5, w: w - 0.6, h: 0.45, fontFace: F.body, fontSize: 17, bold: true, color: C.ink, isTextBox: true, margin: 0 });
-    s.addText(desc, { x: x + 0.3, y: 2.98, w: w - 0.6, h: 0.75, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'top' });
-    draw(x + 0.3, 3.85, w - 0.6);
-  };
-  const ladder = (x, y, w, before, after) => {
-    // two grade lines: JG actual and JG +1
-    s.addShape(pres.shapes.LINE, { x, y: y + 1.05, w, h: 0, line: { color: C.line, width: 1 } });
-    s.addShape(pres.shapes.LINE, { x, y: y + 0.35, w, h: 0, line: { color: C.line, width: 1 } });
-    s.addText('Grado +1', { x: x + w - 0.85, y: y + 0.1, w: 0.85, h: 0.22, fontFace: F.body, fontSize: 8, color: C.muted, align: 'right', isTextBox: true, margin: 0 });
-    s.addText('Grado actual', { x: x + w - 0.85, y: y + 0.8, w: 0.85, h: 0.22, fontFace: F.body, fontSize: 8, color: C.muted, align: 'right', isTextBox: true, margin: 0 });
-    const n = 6, step = 0.55, start = x + 0.1;
-    for (let i = 0; i < n; i++) {
-      const up = after[i];
-      person(start + i * step, up ? y + 0.42 : y + 1.12, up ? C.blue : C.g20);
-      if (up) s.addShape(pres.shapes.LINE, { x: start + i * step + 0.17, y: y + 0.98, w: 0, h: 0.15, line: { color: C.blueLight, width: 1.5, endArrowType: 'none' } });
-    }
-  };
-  alt(M, 5.95, 'ALTERNATIVA 1', 'Subir un grado a todo el equipo', 'Los seis especialistas normativos pasan al grado siguiente. Reconoce el cambio del trabajo para todo el equipo y conserva el esquema actual de respaldo mutuo.', (x, y, w) => {
-    ladder(x, y, w, [0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1]);
-    s.addText(bullets(['Reconoce las competencias adquiridas con el cambio de tareas', 'Alinea la remuneración con las expectativas del mercado', 'Mantiene el respaldo mutuo entre pares: sin dependencia de una sola persona', 'Alcance del ajuste: seis cargos', 'Ruta de desarrollo: no abre expectativa de crecimiento posterior'], 9.5, C.ink2), { x, y: y + 1.75, w, h: 1.3, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
+  title(s, 'Las dos alternativas, criterio a criterio; ambas sin monto en esta etapa');
+  const rows = [
+    ['Qué reconoce', 'Las competencias adquiridas con el cambio de tareas, en los seis cargos', 'Las competencias adquiridas y, además, la diferencia de complejidad entre reportes'],
+    ['Remuneración', 'Se alinea con las expectativas del mercado para todo el equipo', 'Se alinea en los dos cargos que asumen los bloques críticos'],
+    ['Estructura', 'Plana: seis especialistas con el mismo grado', 'Diferenciada: dos seniors y cuatro plenos'],
+    ['Validación y firma', 'Se mantienen en el Jefe Normativo', 'Los seniors validan sus bloques; el Jefe firma'],
+    ['Respaldo', 'Mutuo entre pares: sin dependencia de una sola persona', 'Seniors respaldan los bloques críticos; plenos se respaldan entre sí'],
+    ['Equidad interna', 'Igual para todos, sin criterios de selección', 'Requiere criterios de selección claros y comunicados'],
+    ['Alcance del ajuste', 'Seis cargos', 'Dos cargos'],
+    ['Ruta de desarrollo', 'No abre expectativa de crecimiento posterior', 'Abre el paso de pleno a senior']
+  ];
+  const cx = [M, M + 2.3, M + 2.3 + 4.95], cw = [2.1, 4.75, 4.75], y0 = 2.15, rh = 0.5;
+  s.addText('ALTERNATIVA 1 · UN GRADO MÁS PARA TODOS', { x: cx[1], y: y0 - 0.35, w: cw[1], h: 0.3, fontFace: F.body, fontSize: 9, bold: true, color: C.blue, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
+  s.addText('ALTERNATIVA 2 · DOS CARGOS SENIOR', { x: cx[2], y: y0 - 0.35, w: cw[2], h: 0.3, fontFace: F.body, fontSize: 9, bold: true, color: C.blue, charSpacing: 2, isTextBox: true, margin: 0, valign: 'middle' });
+  rows.forEach((r, i) => {
+    const y = y0 + i * rh;
+    if (i % 2 === 0) s.addShape(pres.shapes.RECTANGLE, { x: M, y, w: W - 2 * M, h: rh, fill: { color: C.surface }, line: { color: C.surface } });
+    s.addText(r[0], { x: cx[0] + 0.12, y, w: cw[0] - 0.12, h: rh, fontFace: F.body, fontSize: 10.5, bold: true, color: C.ink, isTextBox: true, margin: 0, valign: 'middle' });
+    s.addText(r[1], { x: cx[1], y, w: cw[1] - 0.2, h: rh, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
+    s.addText(r[2], { x: cx[2], y, w: cw[2] - 0.2, h: rh, fontFace: F.body, fontSize: 10.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'middle' });
   });
-  alt(M + 6.15, 5.95, 'ALTERNATIVA 2', 'Dos cargos senior, un grado más', 'Se crean un Senior Especialista Normativo y un Senior TI, un grado por sobre el actual; cuatro plenos mantienen el grado con ruta de desarrollo. Es la estructura de la lámina anterior.', (x, y, w) => {
-    ladder(x, y, w, [0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 0, 0]);
-    s.addText(bullets(['Reconoce la diferencia de complejidad entre reportes', 'Separa quien prepara de quien valida y firma', 'Equidad interna: exige criterios de selección claros', 'Alcance del ajuste: dos cargos', 'Ruta de desarrollo: de pleno a senior'], 9.5, C.ink2), { x, y: y + 1.75, w, h: 1.3, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
-  });
-  foot(s, 'Comparación cualitativa. El costo de cada alternativa se presenta con el resultado de la evaluación del perfil de los cargos.');
-  s.addNotes('Presentar las dos alternativas con neutralidad y dejar que el comité pregunte. La alternativa 1 es simple y equitativa y reconoce a todo el equipo; la alternativa 2 además diferencia responsabilidades y crea una ruta de desarrollo. La alternativa 2 alinea grado con complejidad y crea la cadena de confiabilidad, a cambio de definir criterios de selección transparentes. Una combinación es posible: alternativa 2 ahora y revisión de los plenos con la evaluación.');
+  s.addText('Ambas parten del mismo diagnóstico y son compatibles con una implementación por etapas. El costo de cada una se presenta al comité con el resultado de la evaluación del perfil de los cargos.', { x: M, y: y0 + rows.length * rh + 0.2, w: W - 2 * M, h: 0.5, fontFace: F.body, fontSize: 10.5, italic: true, color: C.ink2, isTextBox: true, margin: 0 });
+  s.addNotes('Presentar las alternativas con neutralidad y dejar que el comité pregunte. La 1 es simple y equitativa y reconoce a todo el equipo; la 2 diferencia responsabilidades, alinea grado con complejidad y crea una ruta de desarrollo, a cambio de definir criterios de selección transparentes. Son combinables: la 2 ahora y revisión de los plenos con la evaluación.');
 }
 
 // ---------------- 11. Escenarios ----------------
@@ -310,7 +291,7 @@ function chip(s, code, x, y, w = 0.9, h = 0.3, fill = C.blueSoft, color = C.blue
   const s = pres.addSlide(); frame(s, 'Los escenarios');
   title(s, 'Dos escenarios a doce meses');
   const left = ['La escala sigue anclada al proceso de portabilidad de 2020.', 'Salida de una o dos personas clave hacia áreas o bancos que ya reconocen la función; meses de curva de aprendizaje por reemplazo.', 'Reportes diarios del RDC sostenidos con respaldos improvisados; mayor probabilidad de atraso o error, con riesgo de bloqueo de acceso.', 'La conversación sobre remuneración se da igual, pero en modo reactivo, después de un incidente.'];
-  const right = ['Cargos valorados según lo que hoy hacen: producir, controlar y responder ante el regulador.', 'Roles diferenciados: seniors a cargo de los bloques críticos y de la validación; plenos con ruta de desarrollo.', 'Retención del conocimiento normativo y técnico acumulado desde 2022; capacidad para absorber los cambios del MSI.', 'El comité decide sobre cifras validadas, en la fecha acordada, y no bajo presión.'];
+  const right = ['Cargos valorados según lo que hoy hacen: producir, controlar y responder ante el regulador.', 'Grados y roles alineados con la complejidad de los reportes, según la alternativa que se elija.', 'Retención del conocimiento normativo y técnico acumulado desde 2022; capacidad para absorber los cambios del MSI.', 'El comité decide sobre cifras validadas, en la fecha acordada, y no bajo presión.'];
   soft(s, M, 2.15, 5.95, 4.3, C.redSoft); soft(s, M + 6.15, 2.15, 5.95, 4.3, C.greenSoft);
   s.addText('Si no se actúa', { x: M + 0.3, y: 2.35, w: 5.3, h: 0.45, fontFace: F.body, fontSize: 17, bold: true, color: C.red, isTextBox: true, margin: 0 });
   s.addText(bullets(left, 11.5), { x: M + 0.3, y: 2.9, w: 5.35, h: 3.4, fontFace: F.body, isTextBox: true, margin: 0, valign: 'top' });
