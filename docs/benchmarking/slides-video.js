@@ -1,0 +1,22 @@
+const fs = require('fs');
+module.exports = function addVideo(pres, deckFrame, C, F, paths) {
+  const W = 13.33, H = 7.5, M = 0.6;
+  const s = pres.addSlide(); s.background = { color: C.white }; deckFrame(s, 'Anexo 3 · Proceso asistido de control de entrega');
+  s.addText('Cómo se controlaría la entrega: del portal al dashboard en cuatro pasos', { x: M, y: 0.66, w: 12.1, h: 0.5, fontFace: F.head, fontSize: 22, color: C.ink, isTextBox: true, margin: 0, valign: 'middle' });
+  s.addText('Recorrido en 3D de 44 segundos. Una persona abre la sesión en CMF Supervisa; el asistente lee los módulos, Gemini convierte capturas en datos y el comité recibe el dashboard.', { x: M, y: 1.14, w: 12.1, h: 0.32, fontFace: F.body, fontSize: 11, color: C.ink2, isTextBox: true, margin: 0, valign: 'top' });
+  const vw = 8.3, vh = vw * 9 / 16, vy = 1.65;
+  const cover = fs.readFileSync(paths.cover).toString('base64');
+  s.addMedia({ type: 'video', path: paths.mp4, x: M, y: vy, w: vw, h: vh, cover: 'image/png;base64,' + cover });
+  s.addText('Reproducir en modo presentación · 1280×720 · 24 fps · sin audio', { x: M, y: vy + vh + 0.06, w: vw, h: 0.22, fontFace: F.body, fontSize: 8.5, color: C.muted, isTextBox: true, margin: 0 });
+  const rx = M + vw + 0.3, rw = W - M - rx;
+  const steps = [['1', 'Sesión asistida', 'La persona ingresa RUT y Clave Única; el asistente trabaja dentro de su sesión. La credencial nunca se almacena.'], ['2', 'Módulos de interés', 'Envíos, acuses y observaciones de los 18 reportes. Gemini Flash confirma la pantalla antes de capturar.'], ['3', 'Extracción estructurada', 'Capturas y PDF pasan al proyecto del banco; Gemini los convierte en filas con esquema fijo.'], ['4', 'Dashboard gerencial', 'Reglas SQL asignan el estado; Gemini redacta el resumen y responde preguntas. Revisión a cuatro ojos.']];
+  steps.forEach((st, i) => { const y = vy + i * 1.0;
+    s.addShape(pres.shapes.OVAL, { x: rx, y: y + 0.03, w: 0.34, h: 0.34, fill: { color: C.ink }, line: { color: C.ink } });
+    s.addText(st[0], { x: rx, y: y + 0.03, w: 0.34, h: 0.34, fontFace: F.mono, fontSize: 10, bold: true, color: C.white, align: 'center', valign: 'middle', isTextBox: true, margin: 0 });
+    s.addText(st[1], { x: rx + 0.45, y, w: rw - 0.45, h: 0.3, fontFace: F.body, fontSize: 12, bold: true, color: C.ink, isTextBox: true, margin: 0, valign: 'middle' });
+    s.addText(st[2], { x: rx + 0.45, y: y + 0.3, w: rw - 0.45, h: 0.62, fontFace: F.body, fontSize: 9.5, color: C.ink2, isTextBox: true, margin: 0, valign: 'top' }); });
+  const ry = vy + 4.05;
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: rx, y: ry, w: rw, h: 0.95, rectRadius: 0.06, fill: { color: C.greenSoft }, line: { color: C.greenSoft } });
+  s.addText([{ text: 'Tres reglas. ', options: { bold: true, color: C.greenDark } }, { text: 'La credencial es de la persona · solo lectura en el portal · Gemini explica, la regla decide. Computer Use y Gemini en Looker: confirmar disponibilidad.', options: { color: C.ink2 } }], { x: rx + 0.15, y: ry + 0.08, w: rw - 0.3, h: 0.8, fontFace: F.body, fontSize: 9.5, isTextBox: true, margin: 0, valign: 'middle' });
+  s.addNotes('Anexo de consulta. El video resume la propuesta de automatización asistida; el detalle de opciones de acceso y gobierno está en el documento de arquitectura del área.');
+};

@@ -345,5 +345,7 @@ function table(s, hdr, rows, colW, y, rowH, fs = 9.5) {
   s.addNotes('Anexo de consulta.');
 }
 
+require('./slides-video.js')(pres, frame, C, F, { mp4: __dirname + '/../auto/video/proceso-asistido-cmf.mp4', cover: __dirname + '/../auto/video/frames/f00070.png' });
+require('./slides-reporte.js')(pres, (s, sec) => frame(s, 'Anexo 4 · ' + sec));
 await pres.writeFile({ fileName: 'presentacion-reportes-normativos-v3.pptx' }); console.log('written v3');
 })();
