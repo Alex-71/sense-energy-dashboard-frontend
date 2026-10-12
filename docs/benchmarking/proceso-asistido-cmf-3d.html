@@ -294,8 +294,10 @@ Reglas: animaciones suaves (ease-in-out), nada parpadea, un solo movimiento de c
 
   // frame loop
   const proj=new THREE.Vector3();
-  function frame(now){ const dt=Math.min(0.05,(now-lastFrame)/1000); lastFrame=now;
-    if(playing){ time+=dt; if(time>=TOTAL){ time=TOTAL; pause(); } scrub.value=Math.round(time/TOTAL*1000); }
+  window.__renderAt=function(t){ time=t; playing=true; userMoved=false; tick(t*1000,1/24); const st=startOf(chapter); const f=Math.max(0,Math.min(1,(t-st)/0.6)); cap.style.opacity=f; cap.style.transform='translateY('+((1-f)*8)+'px)'; };
+  function frame(now){ if(window.__cap) return; const dt=Math.min(0.05,(now-lastFrame)/1000); lastFrame=now; tick(now,dt); requestAnimationFrame(frame); }
+  function tick(now,dt){
+    if(playing&&!window.__cap){ time+=dt; if(time>=TOTAL){ time=TOTAL; pause(); } scrub.value=Math.round(time/TOTAL*1000); }
     const [i,p]=shotAt(time); setChapter(i);
     if(!userMoved){ const s=SHOTS[i]; want.lerpVectors(s.from[0],s.to[0],ease(p)); wantT.lerpVectors(s.from[1],s.to[1],ease(p)); const k=reduced?1:1-Math.exp(-dt*2.2); camPos.lerp(want,k); camTgt.lerp(wantT,k); }
     camera.position.copy(camPos); camera.lookAt(camTgt);
@@ -309,11 +311,10 @@ Reglas: animaciones suaves (ease-in-out), nada parpadea, un solo movimiento de c
     stations.forEach(st=>st.ring.rotation.z=tt*0.2);
     renderer.render(scene,camera);
     // labels
-    const w=stage.clientWidth,h=stage.clientHeight; L.forEach(l=>{ proj.copy(l.pos).project(camera); const vis=proj.z<1&&Math.abs(proj.x)<1.2&&Math.abs(proj.y)<1.2; l.el.style.left=((proj.x+1)/2*w)+'px'; l.el.style.top=((1-proj.y)/2*h)+'px'; l.el.style.visibility=vis?'visible':'hidden'; });
-    requestAnimationFrame(frame); }
+    const w=stage.clientWidth,h=stage.clientHeight; L.forEach(l=>{ proj.copy(l.pos).project(camera); const vis=proj.z<1&&Math.abs(proj.x)<1.2&&Math.abs(proj.y)<1.2; l.el.style.left=((proj.x+1)/2*w)+'px'; l.el.style.top=((1-proj.y)/2*h)+'px'; l.el.style.visibility=vis?'visible':'hidden'; }); }
   setChapter(0); scrub.value=0;
   requestAnimationFrame(frame);
-  if(!reduced){ setTimeout(play,900); }
+  if(!reduced&&!window.__cap){ setTimeout(play,900); }
 
   // copy brief
   $('#copy').addEventListener('click',()=>{ const txt=$('#brief').textContent; const done=()=>{ $('#copied').textContent='Copiado'; setTimeout(()=>$('#copied').textContent='',2000); };
