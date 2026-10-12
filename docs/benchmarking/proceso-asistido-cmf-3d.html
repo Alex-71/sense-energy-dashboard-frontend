@@ -36,7 +36,8 @@ p{margin:0}
 .lb.show{opacity:1}
 .lb.title{font:600 clamp(11px,1.5vw,16px) var(--body);color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.8)}
 .lb.title small{display:block;font:400 clamp(9px,1.05vw,12px) var(--body);color:var(--fg2)}
-.lb.chip{transform:translate(-50%,-100%);font:500 clamp(9px,1.05vw,12px) var(--body);padding:3px 9px;border-radius:999px;background:rgba(74,111,165,.28);border:1px solid var(--blue);color:#DCE6F5;backdrop-filter:blur(4px)}
+.lb.chip{transform:translate(0,-50%);font:500 clamp(9px,1.05vw,12px) var(--body);padding:3px 9px;border-radius:999px;background:rgba(74,111,165,.28);border:1px solid var(--blue);color:#DCE6F5;backdrop-filter:blur(4px)}
+.lb.chip.lft{transform:translate(-100%,-50%)}
 .lb.chip.pv{background:rgba(201,180,88,.18);border-color:var(--yellow);border-style:dashed;color:var(--yellow-ink)}
 .lb.chip.ot{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.35);color:var(--fg2)}
 .lb.chip::before{content:"✦ "}.lb.chip.ot::before{content:""}
@@ -249,7 +250,7 @@ Reglas: animaciones suaves (ease-in-out), nada parpadea, un solo movimiento de c
   T.forEach((t,i)=>label('title',`${i+1} · ${t[0]}<small>${t[1]}</small>`,new THREE.Vector3(SX[i],2.75,0),null));
   label('wall','solo lectura · capturas · HTML · PDF',new THREE.Vector3(0,2.3,3.3),null);
   const CH=[[ ['pv','Computer Use · preview'],['ot','Navegador controlado'] ],[ ['pv','Computer Use · preview'],['gm','Flash · lectura de pantalla'],['ot','Calendario normativo'] ],[ ['gm','Pro / Flash · esquema JSON'],['ot','Document AI'],['ot','Cloud Run'] ],[ ['gm','Resumen ejecutivo'],['gm','Gemini en Looker · consultas'],['ot','BigQuery · Looker Studio'] ]];
-  CH.forEach((chips,i)=>chips.forEach((c,j)=>label('chip '+c[0],c[1],new THREE.Vector3(SX[i]+(j-(chips.length-1)/2)*1.9,3.25,0),i+1)));
+  const SIDE=[1,1,1,-1]; CH.forEach((chips,i)=>chips.forEach((c,j)=>label('chip '+c[0]+(SIDE[i]<0?' lft':' rgt'),c[1],new THREE.Vector3(SX[i]+SIDE[i]*1.7,2.05-j*0.42,0.6),i+1)));
 
   // shots
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
