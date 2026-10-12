@@ -1,0 +1,494 @@
+<title>Rutas de Automatización CMF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one master diagram (SVG) + a narrative panel, driven by a 7-scene stepper; static comparison, roadmap and verification sections below so the page is complete at rest. */
+:root{
+  --bg:#F6F7F9; --surface:#FFFFFF; --fg:#2B2F36; --fg2:#5B6470; --muted:#8A94A0; --line:#E3E6EA; --line2:#D5DAE0;
+  --blue:#4A6FA5; --blue-soft:#E6ECF5; --blue-ink:#34517D;
+  --green:#6A9B6E; --green-soft:#E8F0E8; --green-ink:#4F7A53;
+  --red:#B85C55; --red-soft:#F6E7E5; --red-ink:#8F443E;
+  --yellow:#C9B458; --yellow-soft:#F6F1D9; --yellow-ink:#6E5F1D;
+  --node:#FFFFFF; --dim:.2;
+  --display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1B1E23; --surface:#23272E; --fg:#E7EAEE; --fg2:#B7BEC7; --muted:#8F98A3; --line:#353B44; --line2:#414854;
+  --blue:#8FA9D3; --blue-soft:#2A3547; --blue-ink:#B8CBEA;
+  --green:#8DB890; --green-soft:#28352A; --green-ink:#B5D6B7;
+  --red:#D4867F; --red-soft:#432A28; --red-ink:#EBB0AA;
+  --yellow:#D7C66F; --yellow-soft:#3E3821; --yellow-ink:#E6D98F;
+  --node:#262B33; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#1B1E23; --surface:#23272E; --fg:#E7EAEE; --fg2:#B7BEC7; --muted:#8F98A3; --line:#353B44; --line2:#414854;
+  --blue:#8FA9D3; --blue-soft:#2A3547; --blue-ink:#B8CBEA;
+  --green:#8DB890; --green-soft:#28352A; --green-ink:#B5D6B7;
+  --red:#D4867F; --red-soft:#432A28; --red-ink:#EBB0AA;
+  --yellow:#D7C66F; --yellow-soft:#3E3821; --yellow-ink:#E6D98F;
+  --node:#262B33; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:28px 56px}
+a{color:var(--blue-ink)}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:clamp(26px,3.4vw,38px);line-height:1.15;max-width:22ch}
+h2{font-size:22px;line-height:1.25;margin-bottom:10px}
+h3{font-size:17px;line-height:1.3}
+p{margin:0}
+.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.top{display:grid;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{display:inline-flex;gap:4px}
+.mark i{width:10px;height:10px;display:block}
+.mark i:nth-child(1){background:var(--green)}.mark i:nth-child(2){background:var(--red)}.mark i:nth-child(3){background:var(--blue)}.mark i:nth-child(4){background:var(--yellow)}
+.lede{color:var(--fg2);max-width:68ch;font-size:16px}
+
+/* stepper */
+.steps{display:flex;gap:6px;overflow-x:auto;padding-block:4px;scrollbar-width:thin}
+.steps button{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--fg2);border-radius:999px;padding:7px 13px;font:500 13px var(--body);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .25s,color .25s,border-color .25s}
+.steps button b{font:500 11px var(--mono);color:var(--muted);transition:color .25s}
+.steps button[aria-current="step"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.steps button[aria-current="step"] b{color:var(--bg);opacity:.75}
+.steps button:hover:not([aria-current]){border-color:var(--muted)}
+.steps button:focus-visible,.ctl button:focus-visible,.opt:focus-visible,.phase:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.progress{height:2px;background:var(--line);margin-top:8px;border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--blue)}
+.progress.run i{transition:width 7s linear}
+
+/* stage */
+.stage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:20px;margin-top:16px;align-items:start}
+.diagram{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 14px 10px;min-width:0}
+.diagram svg{display:block;width:100%;height:auto;max-width:100%}
+.diagram figcaption{font-size:12.5px;color:var(--fg2);margin-top:8px;line-height:1.45}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;min-width:0;min-height:460px;display:grid;align-content:start;gap:14px;view-transition-name:panel}
+.panel .eyebrow{display:flex;align-items:center;gap:8px}
+.panel .eyebrow em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--blue-ink);background:var(--blue-soft);padding:2px 7px;border-radius:4px;letter-spacing:0}
+.panel ul{margin:0;padding-left:18px;display:grid;gap:7px;color:var(--fg2);font-size:14px}
+.panel li strong{color:var(--fg);font-weight:600}
+.panel p{color:var(--fg2);font-size:14px}
+.legend{display:grid;gap:6px;font-size:13px;color:var(--fg2);margin-top:4px}
+.legend span{display:flex;align-items:center;gap:9px}
+.legend i{width:22px;height:0;border-top:2px solid var(--muted)}
+.legend i.b{border-color:var(--blue)}.legend i.g{border-color:var(--green)}.legend i.r{border-color:var(--red);border-top-style:dashed}.legend i.y{border-color:var(--yellow);border-top-style:dashed}
+
+/* options */
+.opts{display:grid;gap:6px}
+.opt{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:9px 11px;font:500 13.5px var(--body);cursor:pointer;transition:border-color .25s,background .25s}
+.opt b{font:500 12px var(--mono);width:26px;height:26px;border-radius:6px;display:grid;place-items:center;background:var(--line);color:var(--fg2)}
+.opt small{font:500 11px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.opt[aria-pressed="true"] b{background:var(--blue);color:#fff}
+.opt.g[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft)}
+.opt.g[aria-pressed="true"] b{background:var(--green)}
+.opt.r[aria-pressed="true"]{border-color:var(--red);background:var(--red-soft)}
+.opt.r[aria-pressed="true"] b{background:var(--red)}
+.opt.r{color:var(--red-ink)}
+.detail{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:10px}
+.detail h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{font:500 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--line);color:var(--fg2)}
+.tag.g{background:var(--green-soft);color:var(--green-ink)}.tag.r{background:var(--red-soft);color:var(--red-ink)}.tag.b{background:var(--blue-soft);color:var(--blue-ink)}.tag.y{background:var(--yellow-soft);color:var(--yellow-ink)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px}
+.kv dt{color:var(--muted);font-weight:500}
+.kv dd{margin:0;color:var(--fg)}
+
+/* roles & phases */
+.roles,.phases{display:grid;gap:6px}
+.role,.phase{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:var(--surface);font-size:13.5px;text-align:left;color:var(--fg);cursor:default;transition:border-color .25s,background .25s}
+.role b,.phase b{font:500 11.5px var(--mono);color:var(--muted);padding-top:2px}
+.role span,.phase span{display:block;color:var(--fg2);font-size:12.5px;margin-top:2px}
+.role:hover,.role:focus-visible,.phase:hover{border-color:var(--blue)}
+.phase{cursor:pointer}
+.phase[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft)}
+
+/* controls */
+.ctl{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ctl button{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:8px 14px;font:500 13.5px var(--body);cursor:pointer}
+.ctl button:hover{border-color:var(--muted)}
+.ctl .count{font:500 12.5px var(--mono);color:var(--muted);margin-left:auto}
+.ctl .hint{font-size:12.5px;color:var(--muted)}
+
+/* diagram semantics */
+svg text{font-family:var(--body);pointer-events:none}
+.hdr{font-size:11px;letter-spacing:.14em;text-transform:uppercase;fill:var(--muted);font-weight:500}
+.n rect{fill:var(--node);stroke:var(--line2);stroke-width:1.2;transition:fill .4s,stroke .4s}
+.n .t{font-size:12.5px;font-weight:600;fill:var(--fg)}
+.n .s{font-size:10.5px;fill:var(--fg2)}
+.n .g{font-size:10.5px;fill:var(--green-ink);font-style:italic}
+.n,.e,.lbl{transition:opacity .5s ease}
+.stage:not([data-scene="0"]) .n:not(.on),.stage:not([data-scene="0"]) .e:not(.on),.stage:not([data-scene="0"]) .lbl:not(.on){opacity:var(--dim)}
+.n.on rect{stroke:var(--blue)}
+.e{fill:none;stroke:var(--muted);stroke-width:1.4;marker-end:url(#arr);transition:stroke .4s,opacity .5s}
+.e.on{stroke:var(--blue);stroke-width:1.8;marker-end:url(#arrB)}
+.e.dash{stroke-dasharray:5 4}
+.e.sel{stroke:var(--green);stroke-width:2;marker-end:url(#arrG)}
+.e.sel.bad{stroke:var(--red);stroke-dasharray:4 4;marker-end:url(#arrR)}
+.lbl{font-size:10.5px;fill:var(--muted)}
+.lbl.on{fill:var(--blue-ink)}
+.bound{fill:none;stroke:var(--line2);stroke-dasharray:6 5;stroke-width:1.2}
+.n.on .bound{stroke:var(--red)}
+.bl{font-size:10.5px;fill:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.grp rect.box{fill:var(--bg);stroke:var(--line2)}
+.row rect{fill:var(--node);stroke:var(--line2);stroke-width:1.1;transition:fill .35s,stroke .35s}
+.row .t{font-size:11.5px;font-weight:500}
+.row.sel rect{fill:var(--green-soft);stroke:var(--green)}
+.row.sel .t{fill:var(--green-ink)}
+.row.bad .t{fill:var(--red-ink)}
+.row.bad.sel rect{fill:var(--red-soft);stroke:var(--red)}
+.row .k{font-size:10px;font-family:var(--mono);fill:var(--muted)}
+.row.sel .k{fill:var(--green-ink)}
+.row.bad.sel .k{fill:var(--red-ink)}
+.strike{stroke:var(--red);stroke-width:1.4;opacity:0;transition:opacity .3s}
+.row.bad.sel .strike{opacity:1}
+#cu rect{fill:var(--yellow-soft);stroke:var(--yellow);stroke-dasharray:5 4}
+#cu .t{fill:var(--yellow-ink)}
+#cu .s{fill:var(--yellow-ink)}
+#gov rect.band{fill:var(--bg);stroke:var(--line2)}
+#gov .chip{fill:var(--surface);stroke:var(--line2)}
+#gov .ct{font-size:10.5px;fill:var(--fg2);font-weight:500}
+#gov.on .chip{stroke:var(--blue)}
+#rec .g{fill:var(--green-ink)}
+.dot{fill:var(--blue);stroke:var(--surface);stroke-width:1}
+.dot.g{fill:var(--green)}
+.n.pulse rect{animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{stroke-width:3;stroke:var(--blue)}}
+
+/* static sections */
+section.block{margin-top:44px;display:grid;gap:12px}
+section.block > p{color:var(--fg2);max-width:70ch}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:12.5px;color:var(--fg2);background:var(--bg)}
+tbody th{background:var(--surface);color:var(--fg);white-space:nowrap}
+tr:last-child td,tr:last-child th{border-bottom:0}
+td.g{background:var(--green-soft)} td.r{background:var(--red-soft);color:var(--red-ink)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:16px 18px;display:grid;gap:8px;align-content:start}
+.card .when{font:500 11.5px var(--mono);color:var(--muted)}
+.card ul{margin:0;padding-left:18px;color:var(--fg2);font-size:13.5px;display:grid;gap:5px}
+.verify ol{margin:0;padding-left:20px;color:var(--fg2);font-size:14px;display:grid;gap:8px;max-width:78ch}
+.verify li strong{color:var(--fg)}
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px;display:grid;gap:6px;max-width:80ch}
+
+::view-transition-old(panel){animation:140ms ease-out both vt-out}
+::view-transition-new(panel){animation:260ms ease-out both vt-in}
+@keyframes vt-out{to{opacity:0;transform:translateY(-4px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(8px)}}
+
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr}
+  .panel{min-height:0}
+}
+@media (prefers-reduced-motion: reduce){
+  .n,.e,.lbl,.progress.run i,.opt,.row rect{transition:none}
+  .n.pulse rect{animation:none;stroke-width:3}
+  ::view-transition-old(panel),::view-transition-new(panel){animation:none}
+}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span><p class="eyebrow">Supervisión normativa · Control de entrega de reportes a la CMF</p></div>
+  <h1>¿Cómo automatizar el control de entrega sin automatizar la Clave Única?</h1>
+  <p class="lede">Siete escenas recorren las opciones de arquitectura para generar informes periódicos de cumplimiento de entrega: las fuentes, el acceso al portal CMF Supervisa, el papel de Gemini, los datos, las salidas, el gobierno y la hoja de ruta. Cada escena ilumina solo la parte del mecanismo que cambia. Las opciones de acceso se pueden comparar una a una.</p>
+</header>
+
+<nav class="steps" id="steps" aria-label="Escenas del recorrido"></nav>
+<div class="progress" id="prog" aria-hidden="true"><i></i></div>
+
+<section class="stage" id="stage" data-scene="0" aria-label="Diagrama interactivo">
+<figure class="diagram">
+<svg viewBox="0 0 1150 625" role="img" aria-label="Arquitectura de referencia: fuentes internas y portal CMF alimentan conectores de ingesta, Gemini extrae datos estructurados hacia BigQuery, una conciliación determinista produce tablero, informe narrativo, alertas y un agente de consultas; una banda de gobierno aplica a todo." id="svg">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker>
+  <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--blue)"/></marker>
+  <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--green)"/></marker>
+  <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--red)"/></marker>
+</defs>
+
+<!-- column headers -->
+<text class="hdr" x="115" y="24" text-anchor="middle">Fuentes</text>
+<text class="hdr" x="345" y="24" text-anchor="middle">Ingesta y acceso</text>
+<text class="hdr" x="575" y="24" text-anchor="middle">Normalización</text>
+<text class="hdr" x="805" y="24" text-anchor="middle">Datos</text>
+<text class="hdr" x="1035" y="24" text-anchor="middle">Salidas</text>
+
+<!-- edges (drawn first so nodes sit on top) -->
+<path class="e" id="e1" pathLength="1" d="M200,125 C230,125 230,185 260,185"/>
+<path class="e" id="e2" pathLength="1" d="M200,190 C230,190 230,185 260,185"/>
+<path class="e" id="e3" pathLength="1" d="M200,255 C230,255 230,185 260,185"/>
+<path class="e" id="e4" pathLength="1" d="M430,185 L490,185"/>
+<path class="e" id="e5" pathLength="1" d="M660,185 C690,185 690,195 720,195"/>
+<path class="e" id="eA" pathLength="1" d="M200,375 C235,375 235,347 270,347"/>
+<path class="e" id="eB" pathLength="1" d="M200,385 L270,385"/>
+<path class="e" id="eC" pathLength="1" d="M200,395 C235,395 235,423 270,423"/>
+<path class="e bad" id="eX" pathLength="1" d="M200,405 C235,405 235,461 270,461"/>
+<path class="e" id="e6" pathLength="1" d="M430,385 L490,385"/>
+<path class="e" id="e7" pathLength="1" d="M660,385 C700,385 700,225 720,225"/>
+<path class="e" id="e8" pathLength="1" d="M805,240 L805,330"/>
+<path class="e" id="e9a" pathLength="1" d="M890,370 C920,370 920,135 950,135"/>
+<path class="e" id="e9b" pathLength="1" d="M890,370 C920,370 920,215 950,215"/>
+<path class="e" id="e9c" pathLength="1" d="M890,370 C920,370 920,295 950,295"/>
+<path class="e" id="e9d" pathLength="1" d="M890,370 C920,370 920,375 950,375"/>
+<path class="e dash" id="eS1" d="M345,76 L345,150"/>
+<path class="e dash" id="eS2" d="M345,220 L345,300"/>
+<path class="e dash" id="ecu" d="M575,420 L575,445"/>
+
+<!-- edge labels -->
+<text class="lbl" id="l4" x="460" y="176" text-anchor="middle">documentos crudos</text>
+<text class="lbl" id="l5" x="690" y="176" text-anchor="middle">registros tipados</text>
+<text class="lbl" id="l6" x="460" y="376" text-anchor="middle">sesión autorizada</text>
+<text class="lbl" id="l7" x="672" y="300" text-anchor="start">estados y acuses</text>
+<text class="lbl" id="l8" x="813" y="290" text-anchor="start">compara con el calendario</text>
+<text class="lbl" id="lS1" x="352" y="118" text-anchor="start">dispara</text>
+<text class="lbl" id="lS2" x="352" y="265" text-anchor="start">misma corrida</text>
+<text class="lbl" id="lcu" x="582" y="437" text-anchor="start">opción B</text>
+
+<!-- scheduler -->
+<g class="n" id="sched"><rect x="260" y="40" width="170" height="36" rx="6"/><text class="t" x="345" y="57" text-anchor="middle">Cloud Scheduler · Workflows</text><text class="s" x="345" y="70" text-anchor="middle">corrida diaria y cierre mensual</text></g>
+
+<!-- internal sources -->
+<g class="n" id="src1"><rect x="30" y="100" width="170" height="50" rx="6"/><text class="t" x="115" y="121" text-anchor="middle">Motor de envíos</text><text class="s" x="115" y="137" text-anchor="middle">logs de interfaces · fecha, archivo, versión</text></g>
+<g class="n" id="src2"><rect x="30" y="165" width="170" height="50" rx="6"/><text class="t" x="115" y="186" text-anchor="middle">Buzón de acuses</text><text class="s" x="115" y="202" text-anchor="middle">correos de recepción y rechazo</text></g>
+<g class="n" id="src3"><rect x="30" y="230" width="170" height="50" rx="6"/><text class="t" x="115" y="251" text-anchor="middle">Acuses PDF</text><text class="s" x="115" y="267" text-anchor="middle">repositorio documental del área</text></g>
+
+<!-- CMF perimeter -->
+<g class="n" id="cmf"><rect class="bound" x="20" y="320" width="190" height="120" rx="8"/><text class="bl" x="30" y="337">Perímetro CMF</text><rect x="30" y="350" width="170" height="70" rx="6"/><text class="t" x="115" y="378" text-anchor="middle">CMF Supervisa</text><text class="s" x="115" y="395" text-anchor="middle">portal de envío y consulta</text><text class="s" x="115" y="409" text-anchor="middle">fuera del banco</text></g>
+
+<!-- ingestion -->
+<g class="n" id="ing"><rect x="260" y="150" width="170" height="70" rx="6"/><text class="t" x="345" y="178" text-anchor="middle">Conectores de ingesta</text><text class="s" x="345" y="195" text-anchor="middle">Cloud Run · lectura programada</text><text class="s" x="345" y="209" text-anchor="middle">logs, buzón, repositorio</text></g>
+
+<!-- access group -->
+<g class="n grp" id="acc"><rect class="box" x="260" y="300" width="170" height="190" rx="8"/><text class="bl" x="270" y="318">Acceso al portal</text>
+  <g class="row" id="rowA"><rect x="270" y="332" width="150" height="30" rx="5"/><text class="k" x="280" y="351">A</text><text class="t" x="296" y="351">Certificado digital</text></g>
+  <g class="row" id="rowB"><rect x="270" y="370" width="150" height="30" rx="5"/><text class="k" x="280" y="389">B</text><text class="t" x="296" y="389">Sesión asistida</text></g>
+  <g class="row" id="rowC"><rect x="270" y="408" width="150" height="30" rx="5"/><text class="k" x="280" y="427">C</text><text class="t" x="296" y="427">Canal acordado</text></g>
+  <g class="row bad" id="rowX"><rect x="270" y="446" width="150" height="30" rx="5"/><text class="k" x="280" y="465">X</text><text class="t" x="296" y="465">Clave Única robot</text><line class="strike" x1="296" y1="461" x2="400" y2="461"/></g>
+</g>
+
+<!-- normalization -->
+<g class="n" id="norm"><rect x="490" y="150" width="170" height="70" rx="6"/><text class="t" x="575" y="178" text-anchor="middle">Extracción estructurada</text><text class="s" x="575" y="195" text-anchor="middle">Gemini + Document AI</text><text class="s" x="575" y="209" text-anchor="middle">salida con esquema JSON</text></g>
+<g class="n" id="scrape"><rect x="490" y="350" width="170" height="70" rx="6"/><text class="t" x="575" y="378" text-anchor="middle">Lectura del portal</text><text class="s" x="575" y="395" text-anchor="middle">estado de envíos y acuses</text><text class="s" x="575" y="409" text-anchor="middle">solo lectura · sin reenvíos</text></g>
+<g class="n" id="cu"><rect x="490" y="445" width="170" height="46" rx="6"/><text class="t" x="575" y="464" text-anchor="middle">Gemini Computer Use</text><text class="s" x="575" y="480" text-anchor="middle">preview · solo con supervisión</text></g>
+
+<!-- data -->
+<g class="n" id="bq"><rect x="720" y="150" width="170" height="90" rx="6"/><text class="t" x="805" y="180" text-anchor="middle">BigQuery</text><text class="s" x="805" y="198" text-anchor="middle">calendario normativo · entregas</text><text class="s" x="805" y="212" text-anchor="middle">acuses · estado del portal</text><text class="s" x="805" y="226" text-anchor="middle">región Santiago</text></g>
+<g class="n" id="rec"><rect x="720" y="330" width="170" height="80" rx="6"/><text class="t" x="805" y="356" text-anchor="middle">Conciliación</text><text class="s" x="805" y="373" text-anchor="middle">reglas deterministas · SQL</text><text class="g" x="805" y="392" text-anchor="middle">Gemini explica las excepciones</text></g>
+
+<!-- outputs -->
+<g class="n" id="out1"><rect x="950" y="110" width="170" height="50" rx="6"/><text class="t" x="1035" y="131" text-anchor="middle">Tablero de cumplimiento</text><text class="s" x="1035" y="147" text-anchor="middle">Looker Studio</text></g>
+<g class="n" id="out2"><rect x="950" y="190" width="170" height="50" rx="6"/><text class="t" x="1035" y="211" text-anchor="middle">Informe narrativo</text><text class="s" x="1035" y="227" text-anchor="middle">Gemini · revisión a cuatro ojos</text></g>
+<g class="n" id="out3"><rect x="950" y="270" width="170" height="50" rx="6"/><text class="t" x="1035" y="291" text-anchor="middle">Alertas</text><text class="s" x="1035" y="307" text-anchor="middle">atrasos y acuses faltantes</text></g>
+<g class="n" id="out4"><rect x="950" y="350" width="170" height="50" rx="6"/><text class="t" x="1035" y="371" text-anchor="middle">Agente de consultas</text><text class="s" x="1035" y="387" text-anchor="middle">ADK · preguntas del supervisor</text></g>
+
+<!-- governance band -->
+<g class="n" id="gov"><rect class="band" x="30" y="520" width="1090" height="90" rx="8"/><text class="bl" x="42" y="540">Gobierno y controles · aplican a todo el flujo</text>
+  <rect class="chip" x="45" y="560" width="120" height="30" rx="15"/><text class="ct" x="105" y="579" text-anchor="middle">Secret Manager</text>
+  <rect class="chip" x="177" y="560" width="150" height="30" rx="15"/><text class="ct" x="252" y="579" text-anchor="middle">VPC Service Controls</text>
+  <rect class="chip" x="339" y="560" width="60" height="30" rx="15"/><text class="ct" x="369" y="579" text-anchor="middle">CMEK</text>
+  <rect class="chip" x="411" y="560" width="120" height="30" rx="15"/><text class="ct" x="471" y="579" text-anchor="middle">Región Santiago</text>
+  <rect class="chip" x="543" y="560" width="140" height="30" rx="15"/><text class="ct" x="613" y="579" text-anchor="middle">Registro de prompts</text>
+  <rect class="chip" x="695" y="560" width="100" height="30" rx="15"/><text class="ct" x="745" y="579" text-anchor="middle">Evaluaciones</text>
+  <rect class="chip" x="807" y="560" width="95" height="30" rx="15"/><text class="ct" x="854" y="579" text-anchor="middle">Cuatro ojos</text>
+  <rect class="chip" x="914" y="560" width="185" height="30" rx="15"/><text class="ct" x="1006" y="579" text-anchor="middle">RAN 20-7 · 20-9 (verificar)</text>
+</g>
+</svg>
+<figcaption id="cap">Vista general: las fuentes internas son la verdad primaria; el portal CMF confirma lo recibido. Gemini extrae y explica; las reglas deciden.</figcaption>
+</figure>
+<aside class="panel" id="panel" aria-live="polite"></aside>
+</section>
+
+<div class="ctl">
+  <button type="button" id="prev">← Anterior</button>
+  <button type="button" id="next">Siguiente →</button>
+  <button type="button" id="play" aria-pressed="false">Reproducir recorrido</button>
+  <span class="hint">Teclas ← → para avanzar</span>
+  <span class="count" id="count"></span>
+</div>
+
+<section class="block" id="comparacion">
+  <h2>Las cuatro formas de llegar al portal, lado a lado</h2>
+  <p>La diferencia entre opciones está en una sola arista del diagrama: quién presenta la credencial ante CMF Supervisa y de quién es esa credencial. Todo lo demás (ingesta, Gemini, BigQuery, salidas) se mantiene igual.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Criterio</th><th>A · Certificado digital</th><th>B · Sesión asistida</th><th>C · Canal acordado con la CMF</th><th>X · Clave Única automatizada</th></tr></thead>
+    <tbody>
+      <tr><th>Quién presenta la credencial</th><td class="g">Un usuario operador institucional con certificado X.509</td><td>Una persona, con su Clave Única, en cada corrida</td><td>Ninguna persona: intercambio máquina a máquina</td><td class="r">Un robot usando la credencial personal de alguien</td></tr>
+      <tr><th>Grado de automatización</th><td class="g">Alto: corrida programada</td><td>Medio: requiere presencia humana</td><td>Alto, cuando exista</td><td class="r">Alto en apariencia</td></tr>
+      <tr><th>Uso de Clave Única</th><td class="g">No se usa</td><td>La ingresa la persona; el sistema nunca la ve</td><td>No se usa</td><td class="r">Uso indebido de una credencial personal e intransferible</td></tr>
+      <tr><th>Esfuerzo de implementación</th><td class="g">Medio: emitir certificado, crear usuario, probar por aplicación</td><td>Bajo a medio</td><td>Alto: gestión institucional con plazos inciertos</td><td class="r">Bajo, y por eso tentador</td></tr>
+      <tr><th>Dependencia externa</th><td class="g">Que la aplicación de Supervisa admita certificado para usuarios operadores (verificar)</td><td>Cambios de interfaz y políticas de sesión del portal</td><td>Total de la CMF</td><td class="r">Ninguna técnica; el bloqueo es regulatorio</td></tr>
+      <tr><th>Papel de Gemini</th><td class="g">Extracción y conciliación sobre lo descargado</td><td>Además, Computer Use en preview para navegar la sesión</td><td>Extracción y conciliación</td><td class="r">No cambia el problema</td></tr>
+      <tr><th>Decisión</th><td class="g">Primera opción</td><td>Respaldo mientras A se habilita</td><td>En paralelo, sin bloquear el MVP</td><td class="r">Descartada</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="block" id="ruta">
+  <h2>Hoja de ruta en cuatro fases</h2>
+  <p>El MVP no depende del portal: con las fuentes internas ya se puede emitir el informe con la marca "sin conciliar". La conciliación con CMF Supervisa entra cuando el acceso institucional está resuelto.</p>
+  <div class="cols">
+    <div class="card"><span class="when">Semanas 1 a 3</span><h3>Marco legal y credenciales</h3><ul><li>Consulta a Cumplimiento y Legal sobre Clave Única y certificado institucional</li><li>Emisión del certificado y creación del usuario operador en Supervisa</li><li>Confirmar qué aplicaciones del portal lo admiten</li></ul></div>
+    <div class="card"><span class="when">Semanas 2 a 8</span><h3>MVP con fuentes internas</h3><ul><li>Calendario normativo de los 18 reportes en BigQuery</li><li>Conectores a logs, buzón y repositorio</li><li>Extracción con Gemini y reglas de conciliación</li><li>Tablero y alertas</li></ul></div>
+    <div class="card"><span class="when">Semanas 6 a 12</span><h3>Conciliación con el portal</h3><ul><li>Lectura del estado de envíos con la credencial institucional</li><li>Cruce acuse interno contra acuse CMF</li><li>Informe narrativo con revisión a cuatro ojos</li></ul></div>
+    <div class="card"><span class="when">Después del MVP</span><h3>Agente y piloto supervisado</h3><ul><li>Agente de consultas (ADK) sobre BigQuery</li><li>Piloto de Computer Use en sesión asistida, con registro completo</li><li>Evaluaciones periódicas de precisión</li></ul></div>
+  </div>
+</section>
+
+<section class="block verify" id="verificar">
+  <h2>Qué debe verificarse antes de decidir</h2>
+  <ol>
+    <li><strong>Certificado digital en CMF Supervisa.</strong> La investigación previa indica que el portal admite autenticación con certificado digital para administradores. Falta confirmar que aplique a usuarios operadores y a la aplicación de consulta de envíos.</li>
+    <li><strong>Términos de Clave Única.</strong> Los términos publicados en el Diario Oficial el 6 de noviembre de 2025 la definen como personal e intransferible. Confirmar el texto vigente con Legal antes de descartar formalmente la opción X.</li>
+    <li><strong>Gemini Computer Use.</strong> Está en preview. Confirmar disponibilidad y condiciones de uso en la plataforma autorizada por el banco antes de planificar el piloto.</li>
+    <li><strong>Referencias normativas internas.</strong> Las menciones a RAN 20-7 y 20-9 (riesgo operacional y servicios externalizados) deben confirmarse con Cumplimiento; la numeración y el alcance no fueron verificados en fuente oficial.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>Fuentes consultadas por nombre: sitio de CMF Supervisa; términos y condiciones de Clave Única; documentación de Google Cloud sobre Gemini, Document AI, Agent Development Kit y Agent Engine. Las direcciones no se incluyen porque no pudieron verificarse desde este entorno.</p>
+  <p>Documento de trabajo del área de reportes normativos. Las opciones y plazos son una propuesta de arquitectura, no un compromiso de proyecto.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const stage=$('#stage'), svg=$('#svg'), panel=$('#panel'), cap=$('#cap'), steps=$('#steps'), count=$('#count'), prog=$('#prog');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ALL=[...svg.querySelectorAll('.n,.e,.lbl')].map(e=>e.id).filter(Boolean);
+  const NS='http://www.w3.org/2000/svg';
+  const FLOW_A=['cmf','acc','rowA','rowB','rowC','rowX','eA','eB','eC','eX','scrape','e6','l6'];
+
+  const OPTS={
+    A:{name:'Usuario operador con certificado digital',tag:'Recomendada',tone:'g',how:'El administrador del banco en CMF Supervisa crea un usuario operador asociado a un certificado digital institucional (X.509). El conector se autentica con ese certificado y descarga el estado de envíos. Ninguna credencial personal participa.',kv:[['Automatización','Alta: corrida programada sin intervención'],['Clave Única','No se usa'],['Esfuerzo','Medio: emitir certificado, crear usuario, probar por aplicación'],['Dependencia','Que la aplicación específica de Supervisa admita certificado (verificar)']],on:['rowA','eA']},
+    B:{name:'Sesión asistida por una persona',tag:'Respaldo',tone:'b',how:'Una persona inicia sesión con su Clave Única y mantiene la sesión abierta; el agente navega y descarga dentro de esa sesión, bajo su supervisión. Gemini Computer Use solo como piloto, porque está en preview.',kv:[['Automatización','Media: requiere a la persona en cada corrida'],['Clave Única','La ingresa la persona; el sistema nunca la almacena'],['Esfuerzo','Bajo a medio'],['Dependencia','Cambios de interfaz y políticas de sesión del portal']],on:['rowB','eB','cu','ecu','lcu']},
+    C:{name:'Canal acordado con la CMF',tag:'Largo plazo',tone:'b',how:'Solicitud formal a la CMF de un mecanismo de descarga o consulta del estado de envíos (API o archivo periódico). Se tramita en paralelo y no bloquea el MVP.',kv:[['Automatización','Alta, cuando exista'],['Clave Única','No se usa'],['Esfuerzo','Alto: gestión institucional, plazos inciertos'],['Dependencia','Total de la CMF']],on:['rowC','eC']},
+    X:{name:'Clave Única automatizada',tag:'Descartada',tone:'r',how:'Guardar el RUT y la Clave Única de una persona para que un robot inicie sesión. Los términos de Clave Única la definen como personal e intransferible; además expone a esa persona y al banco ante la CMF.',kv:[['Automatización','Alta en apariencia'],['Clave Única','Uso indebido de una credencial personal'],['Esfuerzo','Bajo, y por eso tentador'],['Riesgo','Responsabilidad personal, bloqueo de acceso, hallazgo de auditoría']],on:['rowX','eX']}
+  };
+  let opt='A';
+
+  const ROLES=[
+    ['1','Extracción estructurada','Acuses, correos y PDF se convierten en registros con esquema fijo (reporte, periodo, fecha de envío, resultado).','Producción',['norm','e4','e5']],
+    ['2','Explicar excepciones','La regla SQL decide si una entrega está a tiempo, tarde o sin acuse; Gemini redacta por qué y qué evidencia falta.','Producción',['rec','e8']],
+    ['3','Informe narrativo','Resumen semanal o mensual a partir de las tablas conciliadas, siempre con revisión a cuatro ojos antes de emitir.','Producción',['out2','e9b']],
+    ['4','Agente de consultas','Responde preguntas del supervisor sobre BigQuery mediante el Agent Development Kit (ADK).','Piloto',['out4','e9d']],
+    ['5','Computer Use','Navega el portal dentro de una sesión iniciada por una persona. Está en preview: solo con supervisión y registro completo.','Preview',['cu','ecu','rowB','eB']]
+  ];
+
+  const PHASES=[
+    ['F1','Semanas 1 a 3','Marco legal y credenciales','Consulta a Cumplimiento, certificado institucional, usuario operador en Supervisa.',['cmf','acc','rowA','eA','gov']],
+    ['F2','Semanas 2 a 8','MVP con fuentes internas','Calendario normativo, conectores, extracción, reglas, tablero y alertas. Sin depender del portal.',['src1','src2','src3','e1','e2','e3','ing','e4','l4','norm','e5','l5','bq','e8','l8','rec','e9a','e9c','out1','out3','sched','eS1','lS1']],
+    ['F3','Semanas 6 a 12','Conciliación con el portal','Lectura del estado de envíos con la credencial institucional; cruce de acuses; informe narrativo.',['cmf','acc','rowA','eA','e6','l6','scrape','e7','l7','bq','rec','out2','e9b','eS2','lS2']],
+    ['F4','Después del MVP','Agente y piloto supervisado','Agente de consultas sobre BigQuery y piloto de Computer Use en sesión asistida.',['out4','e9d','rec','cu','ecu','lcu','rowB','eB','acc','cmf']]
+  ];
+  let phase=1;
+
+  const SCENES=[
+    {key:'vista',chip:'Vista general',cap:'Vista general: las fuentes internas son la verdad primaria; el portal CMF confirma lo recibido. Gemini extrae y explica; las reglas deciden.',on:'*',
+     html:()=>`<p class="eyebrow"><em>1 / 7</em> El mecanismo completo</p><h2>Tres principios, un solo flujo</h2>
+      <ul><li><strong>La verdad primaria está dentro del banco.</strong> El motor de envíos, el buzón de acuses y los PDF alimentan el informe; el portal CMF sirve para conciliar, no como única fuente.</li>
+      <li><strong>Ninguna pieza automatizada guarda ni usa una Clave Única.</strong> El acceso al portal se resuelve con una credencial institucional o con una persona presente.</li>
+      <li><strong>Gemini extrae y explica; las reglas deciden.</strong> El estado de cada entrega lo determina SQL sobre BigQuery; el modelo convierte documentos en datos y excepciones en texto.</li></ul>
+      <div class="legend"><span><i class="b"></i>flujo activo en la escena</span><span><i class="g"></i>opción de acceso seleccionada</span><span><i class="r"></i>ruta descartada</span><span><i class="y"></i>capacidad en preview</span></div>`},
+    {key:'fuentes',chip:'Fuentes',cap:'Escena 2: tres fuentes internas entran por los conectores; el portal queda como contraste externo.',on:['src1','src2','src3','e1','e2','e3','ing','cmf'],
+     html:()=>`<p class="eyebrow"><em>2 / 7</em> Fuentes</p><h2>Primero lo que el banco ya tiene</h2>
+      <p>Cada envío deja tres rastros antes de que la CMF responda. Con ellos se construye el informe aunque el portal no esté disponible.</p>
+      <ul><li><strong>Motor de envíos.</strong> Fecha y hora, nombre del archivo, versión, usuario. Es el registro más confiable del hecho de enviar.</li>
+      <li><strong>Buzón de acuses.</strong> Correos de recepción o rechazo que hoy se revisan a mano.</li>
+      <li><strong>Acuses PDF.</strong> Evidencia que el área guarda en su repositorio documental.</li>
+      <li><strong>CMF Supervisa.</strong> Lo que la CMF declara haber recibido. Entra en la siguiente escena, porque exige resolver el acceso.</li></ul>
+      <p>Si el portal falla, el informe sale igual con la marca "sin conciliar con CMF".</p>`},
+    {key:'acceso',chip:'Acceso al portal',cap:'Escena 3: la única arista que cambia entre opciones es cómo se presenta la credencial ante CMF Supervisa.',on:FLOW_A,
+     html:()=>`<p class="eyebrow"><em>3 / 7</em> Acceso al portal</p><h2>Quién presenta la credencial</h2>
+      <p>Elige una opción para ver su ruta en el diagrama y sus consecuencias.</p>
+      <div class="opts" role="group" aria-label="Opciones de acceso">${Object.entries(OPTS).map(([k,o])=>`<button type="button" class="opt ${o.tone}" data-opt="${k}" aria-pressed="${k===opt}"><b>${k}</b><span>${o.name}</span><small>${o.tag}</small></button>`).join('')}</div>
+      <div class="detail" id="optDetail">${optDetail()}</div>`},
+    {key:'gemini',chip:'Capa Gemini',cap:'Escena 4: Gemini aparece en cinco puntos, tres en producción, uno en piloto y uno en preview.',on:['norm','e4','l4','e5','l5','rec','e8','l8','out2','e9b','out4','e9d','cu','ecu','lcu','scrape'],
+     html:()=>`<p class="eyebrow"><em>4 / 7</em> Capa Gemini</p><h2>Dónde trabaja el modelo y dónde no</h2>
+      <p>Pasa el cursor por cada rol para ubicarlo en el diagrama.</p>
+      <div class="roles">${ROLES.map(r=>`<div class="role" tabindex="0" data-node="${r[4].join(',')}"><b>${r[0]}</b><div>${r[1]}<span>${r[2]}</span></div><span class="tag ${r[3]==='Producción'?'b':r[3]==='Piloto'?'g':'y'}">${r[3]}</span></div>`).join('')}</div>
+      <p>El modelo nunca decide por sí solo si una entrega cumplió: esa es una regla, y la regla se puede auditar.</p>`},
+    {key:'datos',chip:'Datos',cap:'Escena 5: una corrida programada lee fuentes y portal, escribe en BigQuery y la conciliación compara contra el calendario normativo.',on:['sched','eS1','lS1','eS2','lS2','ing','e4','l4','norm','e5','l5','bq','scrape','e7','l7','rec','e8','l8','acc','e6','l6'],
+     html:()=>`<p class="eyebrow"><em>5 / 7</em> Datos y conciliación</p><h2>La regla decide, el modelo explica</h2>
+      <ul><li><strong>Calendario normativo.</strong> Los 18 reportes con su periodicidad (diaria, semanal, mensual, trimestral) y plazo de entrega. Es la tabla contra la que se mide todo.</li>
+      <li><strong>Entregas.</strong> Un registro por envío, con origen (motor, buzón, PDF) y evidencia asociada.</li>
+      <li><strong>Estado del portal.</strong> Lo que CMF Supervisa muestra para cada archivo, cuando el acceso está habilitado.</li>
+      <li><strong>Conciliación.</strong> Reglas SQL: a tiempo, tarde, sin acuse, rectificado, sin conciliar. Cada excepción lleva una explicación redactada por Gemini a partir de la evidencia.</li></ul>
+      <p>Una corrida diaria para los reportes diarios y semanales; un cierre mensual para el informe de cumplimiento.</p>`},
+    {key:'salidas',chip:'Salidas y gobierno',cap:'Escena 6: cuatro salidas desde la misma conciliación, con una banda de controles que aplica a todo el flujo.',on:['rec','e9a','e9b','e9c','e9d','out1','out2','out3','out4','gov'],
+     html:()=>`<p class="eyebrow"><em>6 / 7</em> Salidas y gobierno</p><h2>Lo que recibe el supervisor y lo que protege al banco</h2>
+      <ul><li><strong>Tablero.</strong> Cumplimiento por reporte y periodo, con el origen de cada dato.</li>
+      <li><strong>Informe narrativo.</strong> Borrador de Gemini sobre las tablas conciliadas; nadie lo emite sin una segunda revisión.</li>
+      <li><strong>Alertas.</strong> Atraso inminente o acuse faltante, antes del vencimiento.</li>
+      <li><strong>Agente de consultas.</strong> Preguntas en lenguaje natural sobre el histórico.</li></ul>
+      <p>Controles mínimos: secretos y certificado en Secret Manager, perímetro de datos con VPC Service Controls, claves propias (CMEK), residencia en la región de Santiago, registro de cada prompt y respuesta, evaluaciones periódicas de precisión y aprobación a cuatro ojos. Las referencias a RAN 20-7 y 20-9 deben confirmarse con Cumplimiento.</p>`},
+    {key:'ruta',chip:'Hoja de ruta',cap:'Escena 7: cada fase ilumina las piezas que entrega. El MVP no espera al portal.',on:()=>PHASES[phase][4],
+     html:()=>`<p class="eyebrow"><em>7 / 7</em> Hoja de ruta</p><h2>Cuatro fases, en orden de dependencia</h2>
+      <p>Elige una fase para ver qué piezas del mecanismo entrega.</p>
+      <div class="phases" role="group" aria-label="Fases">${PHASES.map((p,i)=>`<button type="button" class="phase" data-phase="${i}" aria-pressed="${i===phase}"><b>${p[0]}</b><div>${p[2]}<span>${p[3]}</span></div><span class="tag">${p[1]}</span></button>`).join('')}</div>`}
+  ];
+
+  function optDetail(){const o=OPTS[opt];return `<h3>${o.name} <span class="tag ${o.tone}">${o.tag}</span></h3><p>${o.how}</p><dl class="kv">${o.kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`}
+
+  let cur=0, dots=[], timer=null;
+
+  function setDiagram(onList){
+    const on=new Set(onList==='*'?ALL:onList);
+    ALL.forEach(id=>{const el=document.getElementById(id);if(!el)return;const was=el.classList.contains('on');el.classList.toggle('on',on.has(id));
+      if(!was&&on.has(id)&&el.classList.contains('e')&&!el.classList.contains('dash')&&!reduced&&onList!=='*'){el.animate([{strokeDasharray:'1',strokeDashoffset:1},{strokeDasharray:'1',strokeDashoffset:0}],{duration:650,easing:'ease-out'})}
+    });
+    // access option state
+    const sceneOpt=(cur===2);
+    ['A','B','C','X'].forEach(k=>{const r=document.getElementById('row'+k),e=document.getElementById('e'+k);const sel=sceneOpt&&k===opt;r.classList.toggle('sel',sel);e.classList.toggle('sel',sel)});
+    spawnDots([...on].filter(id=>/^e/.test(id)&&!['eS1','eS2','ecu'].includes(id)&&!(sceneOpt&&['eA','eB','eC','eX'].includes(id)&&id!=='e'+opt)));
+  }
+  function spawnDots(edgeIds){
+    dots.forEach(d=>d.remove());dots=[];
+    if(reduced||cur===0)return;
+    edgeIds.forEach(id=>{const p=document.getElementById(id);if(!p)return;const d=p.getAttribute('d');const n=id==='e8'?1:2;
+      for(let i=0;i<n;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('r','3.2');c.setAttribute('class','dot'+(p.classList.contains('sel')?' g':''));if(p.classList.contains('bad')&&p.classList.contains('sel'))c.style.fill='var(--red)';
+        c.style.offsetPath=`path('${d}')`;c.style.offsetRotate='0deg';svg.appendChild(c);dots.push(c);
+        c.animate([{offsetDistance:'0%'},{offsetDistance:'100%'}],{duration:2000+Math.random()*900,iterations:Infinity,delay:-Math.random()*2500-i*900,easing:'linear'})}});
+  }
+  function renderPanel(){panel.innerHTML=SCENES[cur].html();cap.textContent=SCENES[cur].cap}
+  function go(i,fromUser){
+    if(fromUser)stopPlay();
+    cur=(i+SCENES.length)%SCENES.length;
+    stage.dataset.scene=String(cur);
+    const sc=SCENES[cur];setDiagram(typeof sc.on==='function'?sc.on():sc.on);
+    if(document.startViewTransition&&!reduced)document.startViewTransition(renderPanel);else renderPanel();
+    [...steps.children].forEach((b,j)=>{if(j===cur)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+    steps.children[cur].scrollIntoView({block:'nearest',inline:'nearest',behavior:reduced?'auto':'smooth'});
+    count.textContent=`Escena ${cur+1} de ${SCENES.length}`;
+    try{history.replaceState(null,'','#'+sc.key)}catch(e){}
+  }
+  // stepper
+  SCENES.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.innerHTML=`<b>${i+1}</b>${s.chip}`;b.addEventListener('click',()=>go(i,true));steps.appendChild(b)});
+  $('#prev').addEventListener('click',()=>go(cur-1,true));
+  $('#next').addEventListener('click',()=>go(cur+1,true));
+  document.addEventListener('keydown',e=>{if(/input|textarea|select/i.test(e.target.tagName))return;if(e.key==='ArrowRight')go(cur+1,true);if(e.key==='ArrowLeft')go(cur-1,true)});
+  // autoplay
+  const playBtn=$('#play');
+  function tickProg(){prog.classList.remove('run');prog.firstElementChild.style.width='0';void prog.offsetWidth;prog.classList.add('run');prog.firstElementChild.style.width='100%'}
+  function startPlay(){playBtn.textContent='Pausar';playBtn.setAttribute('aria-pressed','true');tickProg();timer=setInterval(()=>{if(cur===SCENES.length-1){stopPlay();return}go(cur+1,false);tickProg()},7000)}
+  function stopPlay(){if(timer){clearInterval(timer);timer=null}playBtn.textContent='Reproducir recorrido';playBtn.setAttribute('aria-pressed','false');prog.classList.remove('run');prog.firstElementChild.style.width='0'}
+  playBtn.addEventListener('click',()=>{if(timer)stopPlay();else{if(cur===SCENES.length-1)go(0,false);startPlay()}});
+  // panel interactions
+  panel.addEventListener('click',e=>{
+    const b=e.target.closest('[data-opt]');if(b){opt=b.dataset.opt;panel.querySelectorAll('[data-opt]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.opt===opt)));const d=$('#optDetail');if(d)d.innerHTML=optDetail();setDiagram(FLOW_A.concat(OPTS[opt].on));cap.textContent=`Opción ${opt}: ${OPTS[opt].name}. ${opt==='X'?'Ruta descartada: una credencial personal no puede vivir en un sistema.':opt==='A'?'Ruta recomendada: credencial institucional, sin Clave Única.':opt==='B'?'Una persona abre la sesión; el agente trabaja dentro de ella.':'Depende de que la CMF habilite el canal.'}`;stopPlay();return}
+    const ph=e.target.closest('[data-phase]');if(ph){phase=+ph.dataset.phase;panel.querySelectorAll('[data-phase]').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.phase===phase)));setDiagram(PHASES[phase][4]);cap.textContent=`${PHASES[phase][0]} · ${PHASES[phase][1]}: ${PHASES[phase][2]}.`;stopPlay()}
+  });
+  function pulse(el,on){if(!el)return;el.dataset.node.split(',').forEach(id=>{const n=document.getElementById(id);if(n&&n.classList.contains('n'))n.classList.toggle('pulse',on)})}
+  panel.addEventListener('pointerover',e=>pulse(e.target.closest('[data-node]'),true));
+  panel.addEventListener('pointerout',e=>pulse(e.target.closest('[data-node]'),false));
+  panel.addEventListener('focusin',e=>pulse(e.target.closest('[data-node]'),true));
+  panel.addEventListener('focusout',e=>pulse(e.target.closest('[data-node]'),false));
+  // start
+  const h=(location.hash||'').slice(1);const idx=Math.max(0,SCENES.findIndex(s=>s.key===h));
+  go(idx,false);
+})();
+</script>
