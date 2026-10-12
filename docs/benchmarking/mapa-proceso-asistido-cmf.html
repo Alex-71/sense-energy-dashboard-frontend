@@ -1,0 +1,375 @@
+<title>Mapa del Proceso Asistido CMF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one large sticky rail diagram with four stations; narrative steps scroll beneath and drive the rail; tools by stage and scope follow as static sections. */
+:root{
+  --bg:#F6F7F9; --surface:#FFFFFF; --fg:#2B2F36; --fg2:#5B6470; --muted:#8A94A0; --line:#E3E6EA; --line2:#D5DAE0;
+  --blue:#4A6FA5; --blue-soft:#E6ECF5; --blue-ink:#34517D;
+  --green:#6A9B6E; --green-soft:#E8F0E8; --green-ink:#4F7A53;
+  --red:#B85C55; --red-soft:#F6E7E5; --red-ink:#8F443E;
+  --yellow:#C9B458; --yellow-soft:#F6F1D9; --yellow-ink:#6E5F1D;
+  --zoneA:#F1F2F4; --zoneB:#E9EEF6; --node:#FFFFFF;
+  --display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1B1E23; --surface:#23272E; --fg:#E7EAEE; --fg2:#B7BEC7; --muted:#8F98A3; --line:#353B44; --line2:#414854;
+  --blue:#8FA9D3; --blue-soft:#2A3547; --blue-ink:#B8CBEA; --green:#8DB890; --green-soft:#28352A; --green-ink:#B5D6B7;
+  --red:#D4867F; --red-soft:#432A28; --red-ink:#EBB0AA; --yellow:#D7C66F; --yellow-soft:#3E3821; --yellow-ink:#E6D98F;
+  --zoneA:#1F2228; --zoneB:#222A36; --node:#262B33; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#1B1E23; --surface:#23272E; --fg:#E7EAEE; --fg2:#B7BEC7; --muted:#8F98A3; --line:#353B44; --line2:#414854;
+  --blue:#8FA9D3; --blue-soft:#2A3547; --blue-ink:#B8CBEA; --green:#8DB890; --green-soft:#28352A; --green-ink:#B5D6B7;
+  --red:#D4867F; --red-soft:#432A28; --red-ink:#EBB0AA; --yellow:#D7C66F; --yellow-soft:#3E3821; --yellow-ink:#E6D98F;
+  --zoneA:#1F2228; --zoneB:#222A36; --node:#262B33; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:28px 64px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,4vw,44px);line-height:1.1;max-width:20ch}
+h2{font-size:24px;line-height:1.25}
+h3{font-size:20px;line-height:1.3}
+p{margin:0}
+.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.top{display:grid;gap:14px;margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{display:inline-flex;gap:4px}.mark i{width:10px;height:10px;display:block}
+.mark i:nth-child(1){background:var(--green)}.mark i:nth-child(2){background:var(--red)}.mark i:nth-child(3){background:var(--blue)}.mark i:nth-child(4){background:var(--yellow)}
+.lede{color:var(--fg2);max-width:62ch;font-size:17px}
+
+/* sticky stage */
+.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px 10px}
+.frame{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px 6px;overflow-x:auto;scrollbar-width:thin}
+.frame svg{display:block;width:100%;min-width:860px;height:auto;max-height:58vh;margin:0 auto}
+.bar{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.bar .dots{display:flex;gap:6px;align-items:center}
+.bar .dots button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--fg2);font:500 12px var(--mono);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.bar .dots button[aria-current="step"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.bar .dots button.done{border-color:var(--blue);color:var(--blue-ink)}
+.bar button.pl{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:6px 13px;font:500 13px var(--body);cursor:pointer}
+.bar button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.bar .st{font:500 12.5px var(--mono);color:var(--muted);margin-left:auto}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--fg2)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:14px;height:14px;border-radius:7px;display:inline-block;border:1px solid var(--line2);background:var(--node)}
+.legend i.gm{background:var(--blue-soft);border-color:var(--blue)}
+
+/* steps */
+.steps{display:grid;gap:min(18vh,150px);padding-block:40px 20px;max-width:720px}
+.step{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:start;opacity:.55;transition:opacity .4s}
+.step.on{opacity:1}
+.step .num{font:500 13px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:10px;height:56px;display:grid;place-items:center;background:var(--surface);transition:background .3s,color .3s,border-color .3s}
+.step.on .num{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.step .num.hook,.step .num.end{font-family:var(--display);font-size:22px}
+.step .body{display:grid;gap:10px;min-width:0}
+.step h3{margin-top:12px}
+.step p{color:var(--fg2);font-size:15.5px;max-width:60ch}
+.step p strong{color:var(--fg)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--node);color:var(--fg2);border-radius:999px;padding:4px 10px;font:500 12.5px var(--body)}
+.chip.gm{background:var(--blue-soft);border-color:var(--blue);color:var(--blue-ink)}
+.chip.gm::before{content:"✦";font-size:11px}
+.chip.pv{border-style:dashed;border-color:var(--yellow);background:var(--yellow-soft);color:var(--yellow-ink)}
+.chip.pv::before{content:"✦";font-size:11px}
+.note{border-left:3px solid var(--yellow);background:var(--yellow-soft);color:var(--yellow-ink);padding:8px 12px;border-radius:0 8px 8px 0;font-size:13.5px}
+.quote{font-family:var(--display);font-size:20px;line-height:1.4;color:var(--fg);max-width:34ch;text-wrap:balance}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .step .body{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+    @keyframes rise{from{transform:translateY(18px)}to{transform:none}}
+  }
+}
+
+/* static sections */
+section.block{margin-top:56px;display:grid;gap:14px}
+section.block > p{color:var(--fg2);max-width:70ch}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:700px;font-size:13.5px}
+th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:12.5px;color:var(--fg2);background:var(--bg)}
+tbody th{background:var(--surface);color:var(--fg);white-space:nowrap}
+tr:last-child td,tr:last-child th{border-bottom:0}
+td .tools{margin:0}
+.reps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.rep{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px 16px;display:grid;gap:8px;align-content:start}
+.rep .k{font:500 11.5px var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.codes{display:flex;flex-wrap:wrap;gap:5px}
+.codes span{font:500 12px var(--mono);border:1px solid var(--line2);border-radius:6px;padding:3px 7px;color:var(--fg)}
+.codes span.ret{border-style:dashed;color:var(--muted)}
+.codes span.ext{border-color:var(--yellow);background:var(--yellow-soft);color:var(--yellow-ink)}
+.fine{font-size:12.5px;color:var(--muted);max-width:80ch}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.rule{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px 18px;display:grid;gap:6px}
+.rule b{font-family:var(--display);font-size:17px;font-weight:600}
+.rule p{color:var(--fg2);font-size:13.5px}
+footer{margin-top:44px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px;display:grid;gap:6px;max-width:80ch}
+
+/* diagram */
+svg text{font-family:var(--body);pointer-events:none}
+.zone{rx:16}
+.zA{fill:var(--zoneA)}.zB{fill:var(--zoneB)}
+.zl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;fill:var(--muted);font-weight:500}
+.rail{stroke:var(--line2);stroke-width:3;fill:none;stroke-linecap:round}
+.lit{stroke:var(--blue);stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s ease-in-out}
+.lit.on{stroke-dashoffset:0}
+.stn{cursor:pointer}
+.stn .ring{fill:var(--node);stroke:var(--line2);stroke-width:2;transition:stroke .4s,fill .4s,stroke-width .4s}
+.stn.done .ring{stroke:var(--blue);stroke-width:2}
+.stn.on .ring{stroke:var(--blue);stroke-width:3;fill:var(--blue-soft)}
+.stn .halo{fill:none;stroke:var(--blue);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+.stn.on .halo{animation:halo 2.2s ease-out infinite}
+@keyframes halo{0%{opacity:.55;transform:scale(1)}100%{opacity:0;transform:scale(1.55)}}
+.stn .ic{stroke:var(--fg2);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.stn .icf{fill:var(--fg2);transition:fill .4s}
+.stn.on .ic{stroke:var(--blue-ink)}.stn.on .icf{fill:var(--blue-ink)}
+.stn .ict{font:500 22px var(--mono);fill:var(--fg2)}
+.stn.on .ict{fill:var(--blue-ink)}
+.stn .num{fill:var(--fg);stroke:none}
+.stn .numt{font:500 11px var(--mono);fill:var(--bg)}
+.stn .ttl{font-size:15px;font-weight:600;fill:var(--fg)}
+.stn .sub{font-size:11.5px;fill:var(--fg2)}
+.stn:focus-visible{outline:none}
+.stn:focus-visible .ring{stroke:var(--blue);stroke-width:3}
+.person .ic{stroke:var(--fg2)}
+.person text{font-size:11px;fill:var(--fg2)}
+.person .key{font-size:10.5px;fill:var(--yellow-ink);font-weight:500}
+.cross text{font-size:10.5px;fill:var(--muted)}
+.cross .sym{stroke:var(--muted);stroke-width:1.6;fill:none}
+.lane{stroke:var(--line);stroke-width:1}
+.ll{font-size:11px;letter-spacing:.12em;text-transform:uppercase;fill:var(--muted);font-weight:500}
+.ll.gm{fill:var(--blue-ink)}
+.tc{opacity:.32;transition:opacity .45s,transform .45s}
+.tc.on{opacity:1}
+.tc rect{fill:var(--node);stroke:var(--line2);stroke-width:1.1}
+.tc text{font-size:11px;fill:var(--fg2);font-weight:500}
+.tc.gm rect{fill:var(--blue-soft);stroke:var(--blue)}
+.tc.gm text{fill:var(--blue-ink)}
+.tc.pv rect{fill:var(--yellow-soft);stroke:var(--yellow);stroke-dasharray:4 3}
+.tc.pv text{fill:var(--yellow-ink)}
+.tok{fill:var(--blue);stroke:var(--surface);stroke-width:2;transition:opacity .4s}
+.tok.off{opacity:0}
+.rep-glow{fill:none;stroke:var(--green);stroke-width:2;opacity:0;transition:opacity .5s}
+.rep-glow.on{opacity:1}
+@media (max-width:700px){ .legend{display:none} .frame svg{max-height:46vh} .step{grid-template-columns:44px 1fr;gap:12px} .step .num{height:44px} }
+@media (prefers-reduced-motion: reduce){
+  .lit,.tc,.step,.stn .ring{transition:none}
+  .stn.on .halo{animation:none;opacity:.4}
+}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span><p class="eyebrow">Supervisión normativa · Control de entrega de reportes · Proceso asistido</p></div>
+  <h1>Del portal al dashboard en cuatro pasos</h1>
+  <p class="lede">Una persona abre la sesión en CMF Supervisa. Desde ahí, el asistente recorre los módulos, extrae el estado de cada reporte y lo convierte en un dashboard gerencial. Cada estación muestra qué hace Gemini y qué hacen las demás herramientas.</p>
+</header>
+
+<div class="sticky">
+<div class="frame">
+<svg viewBox="0 0 1200 500" role="img" aria-label="Mapa de proceso: 1 sesión asistida en CMF Supervisa, 2 módulos de interés, 3 extracción estructurada, 4 dashboard gerencial; con las herramientas Gemini y de otro tipo por estación." id="svg">
+  <defs><clipPath id="cp"><rect x="0" y="0" width="1200" height="500"/></clipPath></defs>
+  <!-- zones -->
+  <rect class="zone zA" x="70" y="62" width="540" height="248"/>
+  <rect class="zone zB" x="630" y="62" width="520" height="248"/>
+  <text class="zl" x="92" y="88">CMF Supervisa · sesión de la persona</text>
+  <text class="zl" x="652" y="88">Google Cloud · proyecto del banco</text>
+
+  <!-- rail -->
+  <path class="rail" d="M244,215 L436,215"/><path class="rail" d="M524,215 L716,215"/><path class="rail" d="M804,215 L996,215"/>
+  <path class="lit" id="s1" pathLength="1" d="M244,215 L436,215"/>
+  <path class="lit" id="s2" pathLength="1" d="M524,215 L716,215"/>
+  <path class="lit" id="s3" pathLength="1" d="M804,215 L996,215"/>
+
+  <!-- boundary crossing -->
+  <g class="cross"><text x="620" y="170" text-anchor="middle">solo lectura</text><text x="620" y="184" text-anchor="middle">capturas · HTML · PDF</text><path class="sym" d="M612,198 L628,198 M622,193 L628,198 L622,203"/></g>
+
+  <!-- person at station 1 -->
+  <g class="person" transform="translate(200,0)">
+    <circle class="ic" cx="0" cy="116" r="7"/><path class="ic" d="M-13,142 a13,13 0 0 1 26,0"/>
+    <text x="22" y="121" class="key">RUT + Clave Única</text><text x="22" y="135">solo la persona · nunca el sistema</text>
+  </g>
+
+  <!-- stations -->
+  <g class="stn" id="st1" data-stage="1" tabindex="0" role="button" aria-label="Paso 1: sesión asistida">
+    <circle class="halo" cx="200" cy="215" r="44"/><circle class="ring" cx="200" cy="215" r="44"/>
+    <g transform="translate(200,215)"><rect class="ic" x="-17" y="-6" width="34" height="24" rx="3"/><path class="ic" d="M-10,18 v5 h20 v-5"/><circle class="icf" cx="0" cy="6" r="3"/></g>
+    <circle class="num" cx="236" cy="183" r="11"/><text class="numt" x="236" y="187" text-anchor="middle">1</text>
+    <text class="ttl" x="200" y="282" text-anchor="middle">Sesión asistida</text><text class="sub" x="200" y="299" text-anchor="middle">la persona entra; el asistente trabaja en su sesión</text>
+  </g>
+  <g class="stn" id="st2" data-stage="2" tabindex="0" role="button" aria-label="Paso 2: módulos de interés">
+    <circle class="halo" cx="480" cy="215" r="44"/><circle class="ring" cx="480" cy="215" r="44"/>
+    <g transform="translate(480,215)"><rect class="ic" x="-16" y="-16" width="13" height="13" rx="2"/><rect class="ic" x="3" y="-16" width="13" height="13" rx="2"/><rect class="ic" x="-16" y="3" width="13" height="13" rx="2"/><rect class="icf" x="3" y="3" width="13" height="13" rx="2"/></g>
+    <circle class="num" cx="516" cy="183" r="11"/><text class="numt" x="516" y="187" text-anchor="middle">2</text>
+    <text class="ttl" x="480" y="282" text-anchor="middle">Módulos de interés</text><text class="sub" x="480" y="299" text-anchor="middle">envíos · acuses · observaciones de los 18 reportes</text>
+  </g>
+  <g class="stn" id="st3" data-stage="3" tabindex="0" role="button" aria-label="Paso 3: extracción estructurada">
+    <circle class="halo" cx="760" cy="215" r="44"/><circle class="ring" cx="760" cy="215" r="44"/>
+    <text class="ict" x="760" y="223" text-anchor="middle">{ }</text>
+    <circle class="num" cx="796" cy="183" r="11"/><text class="numt" x="796" y="187" text-anchor="middle">3</text>
+    <text class="ttl" x="760" y="282" text-anchor="middle">Extracción estructurada</text><text class="sub" x="760" y="299" text-anchor="middle">de pantalla y PDF a filas con esquema fijo</text>
+  </g>
+  <g class="stn" id="st4" data-stage="4" tabindex="0" role="button" aria-label="Paso 4: dashboard gerencial">
+    <circle class="rep-glow" id="glow" cx="1040" cy="215" r="54"/>
+    <circle class="halo" cx="1040" cy="215" r="44"/><circle class="ring" cx="1040" cy="215" r="44"/>
+    <g transform="translate(1040,215)"><rect class="icf" x="-17" y="2" width="8" height="14" rx="1.5"/><rect class="icf" x="-4" y="-6" width="8" height="22" rx="1.5"/><rect class="icf" x="9" y="-15" width="8" height="31" rx="1.5"/></g>
+    <circle class="num" cx="1076" cy="183" r="11"/><text class="numt" x="1076" y="187" text-anchor="middle">4</text>
+    <text class="ttl" x="1040" y="282" text-anchor="middle">Dashboard gerencial</text><text class="sub" x="1040" y="299" text-anchor="middle">estado de entrega, resumen y preguntas</text>
+  </g>
+
+  <!-- token -->
+  <circle class="tok off" id="tok" cx="200" cy="215" r="7"/>
+
+  <!-- tool lanes -->
+  <line class="lane" x1="70" y1="326" x2="1150" y2="326"/>
+  <text class="ll gm" x="70" y="346">✦ Gemini</text>
+  <line class="lane" x1="70" y1="418" x2="1150" y2="418"/>
+  <text class="ll" x="70" y="438">Otras herramientas</text>
+
+  <!-- station 1 tools -->
+  <g class="tc pv" data-st="1"><rect x="122" y="356" width="156" height="26" rx="13"/><text x="200" y="373" text-anchor="middle">Computer Use · preview</text></g>
+  <g class="tc" data-st="1"><rect x="128" y="448" width="144" height="26" rx="13"/><text x="200" y="465" text-anchor="middle">Navegador controlado</text></g>
+  <!-- station 2 tools -->
+  <g class="tc pv" data-st="2"><rect x="402" y="356" width="156" height="26" rx="13"/><text x="480" y="373" text-anchor="middle">Computer Use · preview</text></g>
+  <g class="tc gm" data-st="2"><rect x="386" y="388" width="188" height="26" rx="13"/><text x="480" y="405" text-anchor="middle">Flash · lectura de pantalla</text></g>
+  <g class="tc" data-st="2"><rect x="402" y="448" width="156" height="26" rx="13"/><text x="480" y="465" text-anchor="middle">Calendario normativo</text></g>
+  <!-- station 3 tools -->
+  <g class="tc gm" data-st="3"><rect x="668" y="356" width="184" height="26" rx="13"/><text x="760" y="373" text-anchor="middle">Pro / Flash · esquema JSON</text></g>
+  <g class="tc" data-st="3"><rect x="678" y="448" width="164" height="26" rx="13"/><text x="760" y="465" text-anchor="middle">Cloud Run · Document AI</text></g>
+  <!-- station 4 tools -->
+  <g class="tc gm" data-st="4"><rect x="976" y="356" width="128" height="26" rx="13"/><text x="1040" y="373" text-anchor="middle">Resumen ejecutivo</text></g>
+  <g class="tc gm" data-st="4"><rect x="952" y="388" width="176" height="26" rx="13"/><text x="1040" y="405" text-anchor="middle">Gemini en Looker · consultas</text></g>
+  <g class="tc" data-st="4"><rect x="952" y="448" width="176" height="26" rx="13"/><text x="1040" y="465" text-anchor="middle">BigQuery · Looker Studio</text></g>
+</svg>
+</div>
+<div class="bar">
+  <div class="dots" id="dots" aria-label="Pasos"></div>
+  <button type="button" class="pl" id="play" aria-pressed="false">Reproducir</button>
+  <div class="legend"><span><i class="gm"></i>herramienta Gemini</span><span><i style="border-style:dashed;border-color:var(--yellow);background:var(--yellow-soft)"></i>Gemini en preview</span><span><i></i>otra herramienta</span></div>
+  <span class="st" id="st"></span>
+</div>
+</div>
+
+<div class="steps" id="steps">
+  <article class="step on" data-stage="0"><div class="num hook">8:30</div><div class="body">
+    <p class="quote">Primer día hábil del mes. Ayer salieron los últimos archivos mensuales. Hoy el comité quiere saber: ¿llegaron los 18, cuáles fueron observados y qué queda abierto?</p>
+    <p>Hasta ahora la respuesta se arma a mano: entrar al portal, abrir módulo por módulo, copiar estados a una planilla. El mapa de arriba muestra cómo esa mañana se convierte en cuatro estaciones, con una persona al inicio y un dashboard al final.</p>
+  </div></article>
+
+  <article class="step" data-stage="1"><div class="num">01</div><div class="body">
+    <p class="eyebrow">Sesión asistida</p><h3>La persona abre la puerta; el asistente entra con ella</h3>
+    <p>Una especialista del equipo inicia sesión en CMF Supervisa con su RUT y su Clave Única, como cualquier día. <strong>La credencial no se guarda en ningún sistema ni la escribe ningún robot.</strong> A partir de ese momento el asistente opera dentro de la sesión ya abierta, en la misma pantalla, mientras ella supervisa.</p>
+    <div class="tools"><span class="chip pv">Gemini Computer Use · preview</span><span class="chip">Navegador controlado (Playwright)</span><span class="chip">Registro de sesión y pantalla</span></div>
+    <div class="note">Computer Use está en preview. Mientras no esté en disponibilidad general, el recorrido lo puede hacer un navegador controlado con pasos fijos; el principio es el mismo: la persona entra, el asistente navega.</div>
+  </div></article>
+
+  <article class="step" data-stage="2"><div class="num">02</div><div class="body">
+    <p class="eyebrow">Módulos de interés</p><h3>Solo las pantallas que responden la pregunta</h3>
+    <p>El asistente visita los módulos donde aparece el estado de cada archivo: envíos realizados, acuses de recepción y observaciones o rechazos. Filtra por los 18 reportes y los periodos esperados según el calendario normativo. <strong>Antes de capturar, Gemini confirma que la pantalla es la correcta</strong> (qué módulo, qué periodo, qué archivo) para no extraer datos de la vista equivocada.</p>
+    <div class="tools"><span class="chip pv">Gemini Computer Use · preview</span><span class="chip gm">Gemini Flash · lectura de pantalla</span><span class="chip">Calendario normativo (18 reportes)</span><span class="chip">Capturas, HTML y PDF</span></div>
+    <p>Todo es lectura. Ningún paso del asistente envía, reenvía ni rectifica archivos.</p>
+  </div></article>
+
+  <article class="step" data-stage="3"><div class="num">03</div><div class="body">
+    <p class="eyebrow">Extracción estructurada</p><h3>De pantallas a filas que se pueden auditar</h3>
+    <p>Las capturas, el HTML y los PDF cruzan al proyecto del banco en Google Cloud. <strong>Gemini los convierte en registros con esquema fijo:</strong> reporte, periodo, fecha y hora de envío, estado, observación, evidencia de origen. La salida se valida contra el esquema; una fila que no calza no entra. Los PDF largos pasan por Document AI antes del modelo.</p>
+    <div class="tools"><span class="chip gm">Gemini Pro / Flash · salida con esquema JSON</span><span class="chip">Document AI</span><span class="chip">Cloud Run</span><span class="chip">Cloud Storage</span><span class="chip">BigQuery (zona de llegada)</span></div>
+  </div></article>
+
+  <article class="step" data-stage="4"><div class="num">04</div><div class="body">
+    <p class="eyebrow">Dashboard gerencial</p><h3>El estado de los 18, listo para el comité</h3>
+    <p>Reglas SQL en BigQuery cruzan lo extraído con el calendario y asignan un estado por reporte y periodo: a tiempo, tarde, observado, pendiente. Looker Studio lo muestra por frecuencia y por mes. <strong>Gemini redacta el resumen ejecutivo</strong> a partir de las tablas ya conciliadas y responde preguntas en lenguaje natural sobre el histórico. Nada se envía sin una segunda revisión.</p>
+    <div class="tools"><span class="chip gm">Gemini · resumen ejecutivo</span><span class="chip gm">Gemini en Looker · consultas</span><span class="chip">BigQuery · reglas SQL</span><span class="chip">Looker Studio</span><span class="chip">Cloud Scheduler</span></div>
+  </div></article>
+
+  <article class="step" data-stage="5"><div class="num end">9:15</div><div class="body">
+    <p class="quote">Cuarenta y cinco minutos después, el supervisor lee el resumen, corrige una línea y lo comparte. La mañana de clics se convirtió en una revisión.</p>
+    <p>Ese es el objetivo del proceso, no una medición: la persona sigue siendo quien entra, quien mira y quien aprueba. Lo que cambia es que ya no transcribe.</p>
+  </div></article>
+</div>
+
+<section class="block" id="herramientas">
+  <h2>Herramientas por estación</h2>
+  <p>Gemini aparece donde hay que entender una pantalla, convertir un documento en datos o redactar; las reglas, el almacenamiento y la orquestación quedan en herramientas deterministas.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Estación</th><th>Gemini</th><th>Otras herramientas</th><th>Quién decide</th></tr></thead>
+    <tbody>
+      <tr><th>1 · Sesión asistida</th><td><div class="tools"><span class="chip pv">Computer Use · preview</span></div></td><td><div class="tools"><span class="chip">Navegador controlado</span><span class="chip">Registro de sesión</span></div></td><td>La persona: inicia sesión y supervisa</td></tr>
+      <tr><th>2 · Módulos de interés</th><td><div class="tools"><span class="chip pv">Computer Use · preview</span><span class="chip gm">Flash · lectura de pantalla</span></div></td><td><div class="tools"><span class="chip">Calendario normativo</span><span class="chip">Capturas · HTML · PDF</span></div></td><td>El calendario: qué reportes y periodos buscar</td></tr>
+      <tr><th>3 · Extracción</th><td><div class="tools"><span class="chip gm">Pro / Flash · esquema JSON</span></div></td><td><div class="tools"><span class="chip">Document AI</span><span class="chip">Cloud Run</span><span class="chip">Cloud Storage</span><span class="chip">BigQuery</span></div></td><td>El esquema: lo que no calza se rechaza</td></tr>
+      <tr><th>4 · Dashboard</th><td><div class="tools"><span class="chip gm">Resumen ejecutivo</span><span class="chip gm">Gemini en Looker · consultas</span></div></td><td><div class="tools"><span class="chip">BigQuery · reglas SQL</span><span class="chip">Looker Studio</span><span class="chip">Cloud Scheduler</span></div></td><td>Las reglas SQL asignan el estado; una segunda persona aprueba</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="block" id="reportes">
+  <h2>Reportes contemplados</h2>
+  <div class="reps">
+    <div class="rep"><span class="k">Diario</span><div class="codes"><span>R05</span><span>RDC40</span></div></div>
+    <div class="rep"><span class="k">Semanal</span><div class="codes"><span>D10</span><span>RDC01</span><span>RDC02</span></div></div>
+    <div class="rep"><span class="k">Mensual</span><div class="codes"><span>D10</span><span>RDC01</span><span>E23</span><span class="ret">D02</span><span>D03</span><span>T01</span><span>P14</span><span class="ret">P15</span><span>P16</span><span class="ret">P22</span><span>P37</span><span>P38</span><span>P39</span><span class="ext">SERNAC</span></div></div>
+    <div class="rep"><span class="k">Trimestral</span><div class="codes"><span>D51</span></div></div>
+  </div>
+  <p class="fine">Con borde punteado: archivos en retiro según la Circular 2.376 (último envío previsto para septiembre de 2026); confirmar su estado antes de incluirlos en el calendario. SERNAC: el reporte se entrega a otro regulador, no a CMF Supervisa; aplica la misma lógica de extracción sobre su propia fuente.</p>
+</section>
+
+<section class="block" id="reglas">
+  <h2>Tres reglas que no cambian</h2>
+  <div class="rules">
+    <div class="rule"><b>La credencial es de la persona</b><p>El sistema nunca almacena ni escribe una Clave Única. Los términos del servicio la definen como personal e intransferible.</p></div>
+    <div class="rule"><b>Solo lectura en el portal</b><p>El asistente consulta y captura. Enviar, reenviar o rectificar sigue siendo un acto humano, con su propio control.</p></div>
+    <div class="rule"><b>Gemini explica, la regla decide</b><p>El estado de cada entrega lo asigna una regla SQL que se puede auditar. El modelo convierte y redacta; no dictamina.</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>Supuestos a confirmar: disponibilidad y condiciones de Gemini Computer Use en la plataforma autorizada del banco; disponibilidad de Gemini en Looker para la organización; nombres exactos de los módulos de CMF Supervisa, que aquí se describen por función (envíos, acuses, observaciones) y no por su denominación oficial.</p>
+  <p>Documento de trabajo del área de reportes normativos. Las referencias a productos de Google Cloud se citan por nombre; no se incluyen direcciones porque no pudieron verificarse desde este entorno.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const X=[200,200,480,760,1040,1040];
+  const steps=$$('.step'), dots=$('#dots'), st=$('#st'), tok=$('#tok'), glow=$('#glow'), playBtn=$('#play');
+  const LABEL=['Inicio','Paso 1 de 4','Paso 2 de 4','Paso 3 de 4','Paso 4 de 4','Cierre'];
+  let cur=0, timer=null, lock=false;
+
+  // fit chip widths to real text after fonts load
+  function fit(){$$('.tc').forEach(g=>{const t=g.querySelector('text'),r=g.querySelector('rect');const w=t.getComputedTextLength()+26;const cx=+t.getAttribute('x');r.setAttribute('width',w);r.setAttribute('x',cx-w/2)})}
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);else fit();
+
+  function setStage(n,animateToken){
+    const prev=cur;cur=n;
+    for(let i=1;i<=4;i++){const s=$('#st'+i);s.classList.toggle('on',i===n);s.classList.toggle('done',i<n||n===5)}
+    for(let i=1;i<=3;i++)$('#s'+i).classList.toggle('on',n>i||n===5);
+    $$('.tc').forEach(c=>c.classList.toggle('on',n===0||n===5||+c.dataset.st===n));
+    glow.classList.toggle('on',n===5||n===4);
+    tok.classList.toggle('off',n===0);
+    const x=X[n];
+    if(animateToken&&!reduced&&n>0&&prev!==n){const from=X[prev];tok.animate([{cx:from},{cx:x}],{duration:700,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).onfinish=()=>tok.setAttribute('cx',x)}
+    else tok.setAttribute('cx',x);
+    steps.forEach(s=>s.classList.toggle('on',+s.dataset.stage===n));
+    [...dots.children].forEach((d,i)=>{if(i===n)d.setAttribute('aria-current','step');else d.removeAttribute('aria-current');d.classList.toggle('done',i<n)});
+    st.textContent=LABEL[n];
+  }
+  // dots
+  LABEL.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.textContent=i===0?'●':i===5?'✓':String(i);b.setAttribute('aria-label',l);b.addEventListener('click',()=>jump(i));dots.appendChild(b)});
+  function jump(i){stopPlay();lock=true;setStage(i,true);steps[i].scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});setTimeout(()=>lock=false,900)}
+  $$('.stn').forEach(s=>{s.addEventListener('click',()=>jump(+s.dataset.stage));s.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();jump(+s.dataset.stage)}})});
+  // scroll sync
+  const io=new IntersectionObserver(es=>{if(lock)return;es.forEach(e=>{if(e.isIntersecting){const n=+e.target.dataset.stage;if(n!==cur)setStage(n,true)}})},{rootMargin:'-42% 0px -42% 0px',threshold:0});
+  steps.forEach(s=>io.observe(s));
+  // autoplay
+  function startPlay(){playBtn.textContent='Pausar';playBtn.setAttribute('aria-pressed','true');if(cur>=5)setStage(0,false);timer=setInterval(()=>{if(cur>=5){stopPlay();return}lock=true;setStage(cur+1,true);steps[cur].scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'});setTimeout(()=>lock=false,900)},5200)}
+  function stopPlay(){if(timer){clearInterval(timer);timer=null}playBtn.textContent='Reproducir';playBtn.setAttribute('aria-pressed','false')}
+  playBtn.addEventListener('click',()=>timer?stopPlay():startPlay());
+  document.addEventListener('keydown',e=>{if(/input|textarea|select/i.test(e.target.tagName))return;if(e.key==='ArrowRight'&&cur<5)jump(cur+1);if(e.key==='ArrowLeft'&&cur>0)jump(cur-1)});
+  setStage(0,false);
+})();
+</script>
