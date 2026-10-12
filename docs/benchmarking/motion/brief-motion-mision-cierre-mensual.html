@@ -1,0 +1,167 @@
+<title>Misión Cierre Mensual · Brief Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a production brief read top to bottom: verified facts, creative direction, storyboard table, repository concepts, identity and music notes, then the copyable prompt. */
+:root{--bg:#F6F7F9;--surface:#FFFFFF;--fg:#2B2F36;--fg2:#5B6470;--muted:#8A94A0;--line:#E3E6EA;--blue:#4A6FA5;--blue-soft:#E6ECF5;--blue-ink:#34517D;--green:#6A9B6E;--green-soft:#E8F0E8;--green-ink:#4F7A53;--red:#B85C55;--red-soft:#F6E7E5;--red-ink:#8F443E;--yellow:#C9B458;--yellow-soft:#F6F1D9;--yellow-ink:#6E5F1D;--gold:#B8973A;
+--display:"Source Serif 4",Georgia,"Times New Roman",serif;--body:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;--mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1B1E23;--surface:#23272E;--fg:#E7EAEE;--fg2:#B7BEC7;--muted:#8F98A3;--line:#353B44;--blue:#8FA9D3;--blue-soft:#2A3547;--blue-ink:#B8CBEA;--green:#8DB890;--green-soft:#28352A;--green-ink:#B5D6B7;--red:#D4867F;--red-soft:#432A28;--red-ink:#EBB0AA;--yellow:#D7C66F;--yellow-soft:#3E3821;--yellow-ink:#E6D98F;--gold:#D9BC62;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1E23;--surface:#23272E;--fg:#E7EAEE;--fg2:#B7BEC7;--muted:#8F98A3;--line:#353B44;--blue:#8FA9D3;--blue-soft:#2A3547;--blue-ink:#B8CBEA;--green:#8DB890;--green-soft:#28352A;--green-ink:#B5D6B7;--red:#D4867F;--red-soft:#432A28;--red-ink:#EBB0AA;--yellow:#D7C66F;--yellow-soft:#3E3821;--yellow-ink:#E6D98F;--gold:#D9BC62;color-scheme:dark}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:clamp(16px,3vw,32px);padding-block:28px 64px;display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}h1{font-size:clamp(28px,3.8vw,42px);line-height:1.1;max-width:22ch}h2{font-size:24px;line-height:1.25}h3{font-size:17px}
+p{margin:0}.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.top{display:grid;gap:12px}.brand{display:flex;align-items:center;gap:12px}.mark{display:inline-flex;gap:4px}.mark i{width:10px;height:10px;display:block}.mark i:nth-child(1){background:var(--green)}.mark i:nth-child(2){background:var(--red)}.mark i:nth-child(3){background:var(--blue)}.mark i:nth-child(4){background:var(--yellow)}
+.lede{color:var(--fg2);max-width:66ch;font-size:16.5px}
+section{display:grid;gap:14px}section>p{color:var(--fg2);max-width:70ch}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px 18px;display:grid;gap:8px;align-content:start}
+.card .k{font:500 11.5px var(--mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}.card p,.card li{color:var(--fg2);font-size:13.5px}.card ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.card.rec{border-color:var(--green);background:var(--green-soft)}.card.rec .k{color:var(--green-ink)}
+.tag{display:inline-block;font:500 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px}.tag.ok{background:var(--green-soft);color:var(--green-ink)}.tag.warn{background:var(--yellow-soft);color:var(--yellow-ink)}.tag.no{background:var(--red-soft);color:var(--red-ink)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}table{border-collapse:collapse;width:100%;min-width:860px;font-size:13.5px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-weight:600;font-size:12.5px;color:var(--fg2);background:var(--bg)}tbody th{background:var(--surface);color:var(--fg);white-space:nowrap;font-family:var(--mono);font-weight:500}tr:last-child td,tr:last-child th{border-bottom:0}
+td.t{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.hud{font-family:var(--mono);font-size:12px;color:var(--blue-ink);background:var(--blue-soft);padding:1px 6px;border-radius:4px}
+.rar{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}.rar.l{background:var(--gold)}.rar.e{background:var(--blue)}.rar.c{background:var(--muted)}
+.cue{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px;color:var(--fg2)}.cue b{font:500 12px var(--mono);color:var(--muted)}
+.brief{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px 18px;display:grid;gap:10px}.brief pre{margin:0;white-space:pre-wrap;font:400 12.5px/1.6 var(--mono);color:var(--fg2);max-height:560px;overflow:auto}
+.brief .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.brief button{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;padding:7px 13px;font:500 13px var(--body);cursor:pointer}.brief button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.hint{font-size:12.5px;color:var(--muted)}
+.src{font-size:12.5px;color:var(--muted);display:grid;gap:4px}.src a{color:var(--blue-ink)}
+footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px;display:grid;gap:6px;max-width:80ch}
+</style>
+<div class="wrap">
+<header class="top">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span><p class="eyebrow">Supervisión normativa · Brief de producción para Claude Motion</p></div>
+  <h1>Misión: Cierre Mensual</h1>
+  <p class="lede">Una animación de 90 segundos en clave de videojuego en primera persona: la persona equipa su credencial, abre el portal CMF Supervisa, elige los 18 reportes del arsenal, el asistente captura y extrae, la regla consolida, se cierra la sesión y aparece el reporte. Este brief reúne lo verificado sobre Claude Motion, la dirección creativa, el guion por escenas, las ideas para el repositorio, la guía de identidad y el prompt listo para pegar.</p>
+</header>
+
+<section id="verificado">
+  <h2>Qué puede hacer Claude Motion, según Anthropic</h2>
+  <p>Lo que sigue proviene del artículo de soporte de Claude Motion y del anuncio de Anthropic de octubre de 2026. Lo que no aparece en esas fuentes se marca como no documentado.</p>
+  <div class="cols">
+    <div class="card"><span class="k">Verificado</span><ul><li>Convierte texto, gráficos, diagramas e imágenes en videos explicativos construidos con código; cada palabra, número o tiempo se puede editar.</li><li>No usa un modelo de generación de video: no produce metraje realista ni personas.</li><li>Se invoca con <code>/motion</code> o desde la opción de salida; exporta MP4 y abre en Adobe, Descript, HeyGen o Runway.</li><li>Beta en planes Team y Enterprise; en Enterprise lo habilita un administrador en Organización › Artifacts.</li><li>Consume el límite de uso; animaciones largas o complejas consumen más.</li></ul></div>
+    <div class="card"><span class="k">Buenas prácticas oficiales</span><ul><li>Decir quién verá la animación, dónde se reproducirá y cuánto debe durar.</li><li>Adjuntar el informe, los datos o las imágenes propias para que se construya desde contenido real.</li><li>Pedir cambios por escena en el chat ("acorta la segunda escena", "cambia el número") o ajustar en el editor.</li><li>De las guías generales de prompting de Anthropic: describir exactamente lo que se quiere ver y pedir la animación de forma explícita.</li></ul></div>
+    <div class="card"><span class="k">No documentado</span><ul><li><span class="tag warn">Audio</span> Ninguna fuente de Anthropic menciona música ni voz. Proveedores externos lo describen como "solo visual" y Runway, socio de lanzamiento, ofrece agregar voz y música al importar. Plan: entregar el MP4 sin audio y mezclar la música en edición.</li><li><span class="tag warn">Duración máxima</span> No publicada. El brief pide 90 s y trae un corte de 45 s por si el resultado se degrada.</li><li><span class="tag no">3D real</span> No es un motor 3D. La estética "Unreal 5" se logra con capas en paralaje, HUD, viñeta y luz simulada.</li></ul></div>
+  </div>
+</section>
+
+<section id="direccion">
+  <h2>Dirección creativa</h2>
+  <div class="cols">
+    <div class="card"><span class="k">Premisa</span><p>El cierre mensual como una misión de un solo jugador. La persona es el jugador; Gemini es el compañero que nunca va solo. El portal es un lugar al que se entra y del que se sale, y esa salida es parte de la misión.</p></div>
+    <div class="card"><span class="k">La credencial como arma</span><p>La Clave Única es una llave-arma amarilla "vinculada al jugador": no se suelta, no se transfiere, dispara luz y no daña. Es el único objeto amarillo de la pieza, así el ojo la sigue siempre. El RUT es la placa de identificación en la otra ranura.</p></div>
+    <div class="card"><span class="k">Lenguaje de cámara</span><p>Primera persona: HUD fijo al cuadro, head bob leve al avanzar, paralaje de tres capas, viñeta y desenfoque de profundidad. Un movimiento por escena. El arma ocupa la posición clásica abajo a la derecha.</p></div>
+    <div class="card"><span class="k">Estructura</span><p>Ocho escenas en tres actos: preparación (carga, equipamiento, puerta), misión (arsenal, captura, consolidación) y retorno (cierre de sesión, reporte). Cada objetivo del HUD se tacha cuando se cumple; el espectador sabe siempre en qué punto está.</p></div>
+  </div>
+</section>
+
+<section id="guion">
+  <h2>Guion por escenas</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Escena</th><th>Tiempo</th><th>Qué se ve (primera persona)</th><th>HUD y subtítulo</th><th>Música</th></tr></thead>
+    <tbody>
+      <tr><th>1 · Carga</th><td class="t">0–6 s</td><td>Negro; se enciende el HUD de arranque con barra de progreso y la lista de seis objetivos.</td><td><span class="hud">Cargando nivel: Cierre Septiembre 2026</span><br>"Primer día hábil del mes."</td><td>Dron grave, riser al final.</td></tr>
+      <tr><th>2 · Equipamiento</th><td class="t">6–16 s</td><td>Pasillo oscuro con luz azul al fondo. Panel de inventario con dos ranuras: placa RUT y llave-arma amarilla que se coloca abajo a la derecha.</td><td><span class="hud">VINCULADA AL JUGADOR · no se suelta · no se transfiere</span><br>"Solo la persona porta la llave. Ningún sistema la guarda."</td><td>Golpe suave en 6 s; entra el pulso.</td></tr>
+      <tr><th>3 · La puerta</th><td class="t">16–28 s</td><td>Puerta monumental "CMF SUPERVISA" con sello circular. El haz amarillo abre el sello; se une el orbe asistente.</td><td><span class="hud">SESIÓN INICIADA · modo lectura</span> · <span class="hud">ASISTENTE · Gemini</span><br>"El asistente entra con la persona. Nunca solo."</td><td>Riser 13–16 s, golpe en 16 s.</td></tr>
+      <tr><th>4 · El arsenal</th><td class="t">28–42 s</td><td>Grilla holográfica de 18 casillas con rareza por complejidad; la retícula las selecciona; D51 bloqueada "vence en octubre".</td><td><span class="hud">18/18 seleccionados</span> · pestañas Envíos · Acuses · Observaciones<br>"Solo los módulos que responden la pregunta."</td><td>Pulso más presente (arpegio).</td></tr>
+      <tr><th>5 · Captura</th><td class="t">42–58 s</td><td>El orbe escanea cada casilla; destello de captura; fragmentos vuelan a un cofre donde un haz Gemini los ordena en filas.</td><td><span class="hud">Extraídos 70/70 · Validados 70 · Rechazados 0</span> · chips Gemini Flash, Gemini Pro/Flash esquema JSON, Document AI<br>"De pantallas a filas que se pueden auditar."</td><td>Mantiene el pulso; riser hacia 58 s.</td></tr>
+      <tr><th>6 · Consolidación</th><td class="t">58–68 s</td><td>Las filas forman un cubo "BigQuery"; panel "REGLA SQL" con cuatro sellos; barra de experiencia hasta 97,1 %.</td><td><span class="hud">Cumplimiento 97,1 %</span><br>"La regla decide. El modelo explica."</td><td>Golpe en 58 s; armonía abre.</td></tr>
+      <tr><th>7 · Cierre de sesión</th><td class="t">68–76 s</td><td>Vuelta a la puerta; diálogo "¿Cerrar sesión?"; la llave se enfunda; la puerta se cierra.</td><td><span class="hud">SESIÓN CERRADA · 7 min · 0 escrituras</span><br>"Solo lectura. Nada enviado, nada rectificado."</td><td>Golpe en 68 s; el pulso se retira.</td></tr>
+      <tr><th>8 · Misión cumplida</th><td class="t">76–90 s</td><td>"MISIÓN CUMPLIDA" se disuelve en la lámina del reporte: cifras con conteo, sello de cuatro ojos, tres reglas finales, fundido a negro.</td><td><span class="hud">Revisión a cuatro ojos ✓</span> · rótulo "datos ficticios"<br>Tres líneas: credencial · solo lectura · la regla decide.</td><td>Resolución a mayor (76 s), fundido 4 s.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Corte de 45 segundos, si hace falta: escenas 1 y 2 en 8 s, puerta 7 s, arsenal 8 s, captura 9 s, consolidación 5 s, cierre 3 s, reporte 5 s. Mismo texto, menos pausas.</p>
+</section>
+
+<section id="repositorio">
+  <h2>Cómo representar el repositorio de reportes</h2>
+  <p>Cuatro ideas; la primera es la recomendada porque convierte en imagen el análisis de complejidad que ya existe en el área.</p>
+  <div class="cols">
+    <div class="card rec"><span class="k">Recomendada · Inventario con rareza</span><p>Grilla holográfica de 18 casillas al estilo inventario de rol. El brillo codifica la complejidad del reporte: <span class="rar l"></span>legendario RDC01, RDC02, RDC40, D10 · <span class="rar e"></span>épico R05, D03, P14, P16, E23 · <span class="rar c"></span>común P37, P38, P39, T01, P15, P22, D02, SERNAC. D51 bloqueada con candado hasta octubre. Pestañas Envíos, Acuses, Observaciones sobre la grilla.</p><p>Por qué: el espectador entiende en dos segundos que no todos los reportes pesan lo mismo, el mismo argumento del deck.</p></div>
+    <div class="card"><span class="k">Armería de cartuchos</span><p>Una pared con 18 cartuchos o cargadores etiquetados con el código; el jugador "carga" los del mes. Visualmente potente y coherente con la llave-arma, pero acerca demasiado la metáfora a lo bélico para un comité.</p></div>
+    <div class="card"><span class="k">Bóveda de archivos</span><p>Cajoneras de una bóveda con placas metálicas por reporte, agrupadas por periodicidad (diario, semanal, mensual, trimestral). Sobria y bancaria; pierde algo del tono de juego.</p></div>
+    <div class="card"><span class="k">Sala de servidores</span><p>Racks con luces por reporte que parpadean al enviarse; los acuses se encienden en verde. Buena para mostrar el estado, menos clara para la selección.</p></div>
+  </div>
+</section>
+
+<section id="identidad">
+  <h2>Identidad visual de la CMF: dónde aporta y dónde no</h2>
+  <div class="cols">
+    <div class="card"><span class="k">Dónde aporta</span><ul><li>En la puerta del portal y en la pantalla de cierre: el nombre "CMF Supervisa" como texto, en el azul institucional de la CMF.</li><li>En el sello circular de la puerta, una forma geométrica propia (no el logotipo).</li><li>El azul institucional solo en el perímetro CMF; el resto de la pieza usa la paleta del área.</li></ul></div>
+    <div class="card"><span class="k">Dónde no</span><ul><li>No reproducir el logotipo ni el isotipo de la CMF: es una marca institucional y el video es material interno de un banco; usarlo insinuaría aval.</li><li>No imitar pantallas reales del portal; los módulos se nombran por función (envíos, acuses, observaciones).</li></ul></div>
+    <div class="card"><span class="k">Por verificar</span><p>El valor exacto del azul y la tipografía institucional no pudieron confirmarse desde este entorno. Tomarlos del sitio cmfchile.cl antes de producir; mientras tanto el prompt usa "azul institucional, verificar".</p></div>
+  </div>
+</section>
+
+<section id="musica">
+  <h2>Música de fondo</h2>
+  <p>Claude Motion no documenta audio, así que la música se mezcla después (Runway, Descript, HeyGen o ffmpeg). Se incluye una pista temporal original de 90 segundos, generada por síntesis, con los golpes en los mismos segundos del guion para que el montaje encaje desde el primer corte. Es una guía de ritmo, no la mezcla final.</p>
+  <div class="card"><span class="k">Hoja de cues · 100 bpm · La menor que resuelve a Do mayor</span>
+    <div class="cue"><b>0–6 s</b><span>Dron grave y pads; riser hacia la carga completa.</span><b>6 s</b><span>Golpe: se abre el inventario; entra el pulso de bajo.</span><b>13–16 s</b><span>Riser; golpe en 16 s al abrirse la puerta.</span><b>28–58 s</b><span>Arpegio más presente durante arsenal y captura.</span><b>58 s</b><span>Golpe: consolidación; la armonía se abre.</span><b>68 s</b><span>Golpe seco: cierre de sesión; el pulso se retira.</span><b>76 s</b><span>Resolución a mayor: misión cumplida; fundido de 4 s.</span></div>
+    <p>Archivo: <code>mision-cierre-mensual-temp.m4a</code> (y .wav) en <code>docs/benchmarking/motion/</code>. Para una versión final, un compositor o una librería con licencia puede reemplazarla respetando estos cues.</p></div>
+</section>
+
+<section id="prompt">
+  <h2>Prompt listo para pegar en /motion</h2>
+  <p>Adjuntar antes de enviar: el PNG del mapa de proceso, la lámina 1 del reporte de ejemplo, un fotograma de la versión 3D y este brief. El texto sigue las cuatro prácticas oficiales: audiencia, lugar de reproducción, duración y material propio, y describe cada escena con el texto exacto en pantalla.</p>
+  <div class="brief"><div class="row"><h3>Prompt · Misión: Cierre Mensual</h3><button type="button" id="copy">Copiar prompt</button><span class="hint" id="copied"></span></div>
+<pre id="brieftext">Crea una animación explicativa de 90 segundos, 16:9, 1080p, en español de Chile, titulada &quot;Misión: Cierre Mensual&quot;.
+
+AUDIENCIA Y USO. La verán gerentes y el comité de un banco en una reunión presencial, proyectada desde PowerPoint, sin audio en sala (la música se agrega después en edición). Debe entenderse sin narración: todo el mensaje va en texto en pantalla, subtítulos grandes y HUD.
+
+PROPÓSITO. Mostrar cómo una persona del equipo de reportes normativos, acompañada por un asistente de IA (Gemini), controla la entrega mensual de 18 reportes a la CMF: abre el portal CMF Supervisa con su propia credencial, selecciona los reportes, captura y extrae la información, la consolida, cierra sesión y entrega un reporte gerencial. El mensaje de fondo: la credencial es de la persona, el asistente solo lee, la regla decide.
+
+ESTILO. Videojuego en primera persona, inspirado en la estética de Unreal Engine 5: HUD fijo al borde del cuadro, viñeta suave, ligero balanceo de cámara (head bob) al avanzar, profundidad con capas en paralaje y desenfoque, luz volumétrica simulada con gradientes, reflejos sutiles en superficies oscuras. Construido con formas, texto y las imágenes adjuntas; sin personas realistas, sin violencia, sin enemigos: las &quot;armas&quot; son herramientas de acceso que disparan luz. Paleta: fondo #0F1218, azul #4A6FA5, verde #6A9B6E, rojo #B85C55 (solo riesgo), amarillo #C9B458 (solo la credencial), gris claro #E7EAEE. Un azul institucional más profundo, tomado de la identidad de la CMF (verificar en cmfchile.cl), se reserva para el portal. Tipografía: una serif elegante para títulos de misión, una sans para HUD y subtítulos, una monoespaciada para códigos de reporte. Movimiento: ease-in-out, nada parpadea, un movimiento de cámara por escena, los elementos del HUD entran deslizándose 8 px.
+
+IDENTIDAD CMF. Escribe &quot;CMF Supervisa&quot; como texto en la puerta del portal y en la pantalla de cierre de sesión. No reproduzcas el logotipo de la CMF ni insinúes que la CMF produjo o avala el video; es material interno de un banco.
+
+DATOS. Todos los números provienen del reporte adjunto y son ficticios: 70 entregas esperadas, 97,1 % a tiempo, 2 con atraso, 1 observada, 1 sin conciliar, 69 acuses conciliados. Mantén un pequeño rótulo &quot;datos ficticios&quot; en la escena 8.
+
+ESCENAS (tiempos acumulados).
+
+1. Carga de nivel (0–6 s). Pantalla negra; se enciende un HUD de arranque: &quot;SISTEMA DE SUPERVISIÓN NORMATIVA&quot; y debajo &quot;Cargando nivel: Cierre Septiembre 2026&quot; con barra de progreso. Aparece la lista de objetivos, uno por línea, en gris: 1 Abrir portal · 2 Seleccionar 18 reportes · 3 Capturar y extraer · 4 Consolidar · 5 Cerrar sesión · 6 Entregar reporte. Subtítulo: &quot;Primer día hábil del mes.&quot;
+
+2. Equipamiento (6–16 s). Vista en primera persona de un pasillo oscuro con luz azul al fondo. Se abre el panel de inventario (loadout) con dos ranuras: &quot;RUT&quot; (una placa de identificación con el número difuminado) y &quot;CLAVE ÚNICA&quot; (una llave-arma estilizada, amarilla, que se coloca en la posición clásica del arma, abajo a la derecha del cuadro). Sobre la llave-arma, una etiqueta: &quot;VINCULADA AL JUGADOR · no se suelta · no se transfiere&quot;. Subtítulo: &quot;Solo la persona porta la llave. Ningún sistema la guarda.&quot; Objetivo 1 pasa a &quot;en curso&quot;.
+
+3. La puerta del portal (16–28 s). Avanzamos hacia una puerta monumental con el texto &quot;CMF SUPERVISA&quot; en azul institucional y un sello circular con cerradura en el centro. La llave-arma dispara un haz de luz amarilla; el sello gira y se abre en dos. En el HUD aparece la insignia &quot;SESIÓN INICIADA · modo lectura&quot;. Un pequeño orbe azul con una chispa ✦ se une al jugador: &quot;ASISTENTE · Gemini&quot;. Subtítulo: &quot;El asistente entra con la persona. Nunca solo.&quot; Objetivo 1 pasa a ✓.
+
+4. El arsenal de reportes (28–42 s). Dentro, una sala con una grilla holográfica de 18 casillas, al estilo inventario de rol, con el código de cada reporte en monoespaciada y un brillo por rareza que representa su complejidad: dorado (legendario) para RDC01, RDC02, RDC40 y D10; azul (épico) para R05, D03, P14, P16 y E23; gris (común) para P37, P38, P39, T01, P15, P22, D02 y SERNAC; una casilla adicional D51 aparece bloqueada con candado y &quot;vence en octubre&quot;. La retícula recorre la grilla y selecciona las casillas; contador &quot;18/18 seleccionados&quot;. Sobre la grilla, tres pestañas: &quot;Envíos · Acuses · Observaciones&quot;. Subtítulo: &quot;Solo los módulos que responden la pregunta.&quot; Objetivo 2 ✓.
+
+5. Captura y extracción (42–58 s). El orbe asistente escanea cada casilla: destello de captura (flash blanco corto, 120 ms) y la etiqueta &quot;CAPTURA&quot; sobre la casilla; fragmentos de pantalla y páginas PDF vuelan hacia un cofre de datos flotante. Dentro del cofre, un haz azul con la chispa ✦ los ordena en filas y columnas limpias; sobre el haz, la etiqueta &quot;Gemini · esquema JSON&quot;. Contador HUD: &quot;Extraídos 70 / 70 · Validados 70 · Rechazados 0&quot;. Chips que entran una a una: &quot;✦ Gemini Flash · lectura de pantalla&quot;, &quot;✦ Gemini Pro / Flash · esquema JSON&quot;, &quot;Document AI&quot;. Subtítulo: &quot;De pantallas a filas que se pueden auditar.&quot; Objetivo 3 ✓.
+
+6. Consolidación (58–68 s). Las filas se funden en un cubo de cristal etiquetado &quot;BigQuery&quot;. A su lado, un panel &quot;REGLA SQL&quot; con cuatro sellos que caen con un golpe suave: A tiempo (verde), Con atraso (amarillo), Observado (rojo), Sin conciliar (rojo). Una barra de experiencia se llena hasta &quot;Cumplimiento 97,1 %&quot;. Subtítulo: &quot;La regla decide. El modelo explica.&quot; Objetivo 4 ✓.
+
+7. Cierre de sesión (68–76 s). Regresamos a la puerta. Un cuadro de diálogo del HUD: &quot;¿Cerrar sesión en CMF Supervisa?&quot; con el botón &quot;Cerrar&quot; que se pulsa. La llave-arma se enfunda y desaparece del cuadro; la puerta se cierra con el texto &quot;CMF SUPERVISA&quot;. Insignia: &quot;SESIÓN CERRADA · 7 min en el portal · 0 escrituras&quot;. Subtítulo: &quot;Solo lectura. Nada enviado, nada rectificado.&quot; Objetivo 5 ✓.
+
+8. Misión cumplida (76–90 s). Pantalla &quot;MISIÓN CUMPLIDA&quot; en serif, que se disuelve en la lámina del reporte adjunto: entran las cinco cifras principales (70 · 97,1 % · 2 · 1 · 1) con conteo animado, luego un sello &quot;Revisión a cuatro ojos ✓&quot;. Objetivo 6 ✓. Cierre con tres líneas, una por segundo: &quot;La credencial es de la persona&quot; · &quot;Solo lectura en el portal&quot; · &quot;Gemini explica, la regla decide&quot;. Rótulo pequeño: &quot;datos ficticios · ejemplo&quot;. Fundido a negro.
+
+HUD PERMANENTE. Arriba a la izquierda, la lista de objetivos con su estado; arriba a la derecha, un reloj de misión; abajo, la franja de subtítulos con fondo semitransparente y texto de al menos 36 px a 1080p; márgenes seguros del 5 %.
+
+ENTREGA. MP4 16:9 1080p, 90 segundos, sin audio. Deja cada escena como un bloque editable para poder ajustar duración y textos después.</pre></div>
+  <div class="card"><span class="k">Prompts de iteración, escena por escena</span><ul>
+    <li>"La escena 4 dura 14 s; déjala en 10 s y acelera la selección de casillas."</li><li>"En la escena 2, haz la llave-arma más pequeña y súbele el brillo amarillo; que no tape el subtítulo."</li><li>"Cambia 97,1 % por el valor nuevo del reporte adjunto en las escenas 6 y 8."</li><li>"Sube el contraste del HUD: texto de subtítulos a 40 px con fondo al 70 %."</li><li>"Elimina el head bob en las escenas 5 y 6; mantén la cámara fija mientras se ordenan las filas."</li><li>"Exporta también una versión de 45 s con las duraciones del corte corto."</li></ul></div>
+</section>
+
+<section id="fuentes">
+  <h2>Fuentes consultadas</h2>
+  <div class="src">
+    <a href="https://support.claude.com/en/articles/17454997-get-started-with-claude-motion">Get started with Claude Motion (support.claude.com)</a>
+    <a href="https://claude.com/resources/articles/dashboards-and-motion">Build live dashboards and animate explainers with Claude (claude.com)</a>
+    <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">Prompting best practices (platform.claude.com)</a>
+    <a href="https://runway.com/news/company-news/runway-claude-motion">Runway: anuncio de integración con Claude Motion</a>
+    <span>Las afirmaciones sobre audio provienen de terceros (Runway y proveedores de herramientas de exportación), no de Anthropic; verificar en el producto antes de planificar la mezcla.</span>
+  </div>
+</section>
+
+<footer>
+  <p>Este brief no fue ejecutado en Claude Motion: la función no está disponible en la sesión donde se produjo. Los datos del reporte son ficticios. Documento de trabajo del área de reportes normativos.</p>
+</footer>
+</div>
+<script>
+(function(){const b=document.getElementById('copy'),o=document.getElementById('copied'),p=document.getElementById('brieftext');
+b.addEventListener('click',()=>{const t=p.textContent;const sel=()=>{const r=document.createRange();r.selectNodeContents(p);const s=getSelection();s.removeAllRanges();s.addRange(r);o.textContent='Selecciona y copia con Ctrl+C'};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>{o.textContent='Copiado';setTimeout(()=>o.textContent='',2000)}).catch(sel)}else sel()});})();
+</script>
