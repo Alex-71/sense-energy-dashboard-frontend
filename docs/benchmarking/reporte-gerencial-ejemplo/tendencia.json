@@ -1,0 +1,50 @@
+[
+{
+"mes": "2026-04",
+"etiqueta": "Abr",
+"esperadas": 72,
+"a_tiempo": 68,
+"tarde": 3,
+"observadas": 1
+},
+{
+"mes": "2026-05",
+"etiqueta": "May",
+"esperadas": 70,
+"a_tiempo": 67,
+"tarde": 2,
+"observadas": 1
+},
+{
+"mes": "2026-06",
+"etiqueta": "Jun",
+"esperadas": 71,
+"a_tiempo": 68,
+"tarde": 2,
+"observadas": 1
+},
+{
+"mes": "2026-07",
+"etiqueta": "Jul",
+"esperadas": 72,
+"a_tiempo": 70,
+"tarde": 1,
+"observadas": 1
+},
+{
+"mes": "2026-08",
+"etiqueta": "Ago",
+"esperadas": 70,
+"a_tiempo": 69,
+"tarde": 1,
+"observadas": 0
+},
+{
+"mes": "2026-09",
+"etiqueta": "Sep",
+"esperadas": 70,
+"a_tiempo": 68,
+"tarde": 2,
+"observadas": 1
+}
+]

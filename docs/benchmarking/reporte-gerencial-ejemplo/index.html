@@ -1,0 +1,198 @@
+<style>
+.rg{display:grid;gap:var(--cds-gap-md);font-family:var(--font-anthropic-sans);max-width:1180px;margin-inline:auto}
+.rg h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0}
+.rg .take{color:var(--color-fg-muted);margin:0;font-size:var(--cds-font-size-body)}
+.rg .fict{display:inline-flex;align-items:center;gap:.5rem;border:1px dashed var(--color-warn);color:var(--color-warn);border-radius:var(--cds-radius);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption);width:max-content;max-width:100%}
+.rg .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10.5rem),1fr));gap:var(--cds-gap-md)}
+.rg .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:grid;gap:var(--cds-gap-xs);align-content:start;min-width:0}
+.rg .card h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
+.rg .card .note{color:var(--color-fg-muted);font-size:var(--cds-font-size-caption);margin:0}
+.rg .lbl{color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.rg .big{font-family:var(--font-anthropic-serif);font-weight:400;font-size:2.1rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.rg .delta{font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.rg .delta.up{color:var(--color-ok)}.rg .delta.down{color:var(--color-bad)}
+.rg .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--cds-gap-md)}
+.rg .chart{position:relative;min-height:240px}
+.rg .chart svg{display:block;width:100%;height:auto}
+.rg .tip{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption);display:none;white-space:nowrap}
+.rg .tip b{display:block;color:var(--cds-text-secondary);font-weight:400}
+.rg table{border-collapse:collapse;width:100%;font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.rg th,.rg td{text-align:left;padding:.45rem .5rem;border-bottom:1px solid var(--color-border-line);vertical-align:top}
+.rg th{position:sticky;top:0;background:var(--color-panel);color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium)}
+.rg th button{all:unset;cursor:pointer;display:inline-flex;gap:.3rem;align-items:center}
+.rg th[aria-sort="ascending"] button::after{content:"↑"}.rg th[aria-sort="descending"] button::after{content:"↓"}
+.rg td.n,.rg th.n{text-align:right}
+.rg .tbox{max-height:520px;overflow:auto}
+.rg .chip{display:inline-block;border-radius:999px;padding:.1rem .55rem;font-size:var(--cds-font-size-caption);border:1px solid var(--color-border-line)}
+.rg .chip.ok{color:var(--color-ok);border-color:var(--color-ok)}.rg .chip.warn{color:var(--color-warn);border-color:var(--color-warn)}.rg .chip.bad{color:var(--color-bad);border-color:var(--color-bad)}.rg .chip.mut{color:var(--color-fg-muted)}
+.rg .bar{display:inline-block;height:.5rem;border-radius:4px;background:var(--cds-chart-muted);vertical-align:middle;margin-right:.4rem}
+.rg .sum{font-size:var(--cds-font-size-body);line-height:1.55;margin:0}
+.rg .sum span[data-source]{font-weight:var(--cds-font-weight-medium)}
+.rg input{font:inherit;padding:.35rem .5rem;border:1px solid var(--cds-border);border-radius:var(--cds-radius);background:var(--color-bg);color:var(--color-fg);max-width:16rem}
+[data-dash-source-state=empty]{color:transparent}
+[data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
+</style>
+<div class="rg">
+  <div>
+    <h1 id="titulo">Reporte gerencial de entrega de reportes normativos · Septiembre 2026</h1>
+    <p class="take" id="take">—</p>
+  </div>
+  <p class="fict">Datos ficticios · ejemplo ilustrativo del dashboard que produciría el proceso asistido. Ningún valor corresponde a entregas reales.</p>
+
+  <div class="tiles" id="kpis">
+    <div class="card"><span class="lbl">Entregas esperadas · Sep 2026</span><span class="big dash-skeleton" data-source="kpi" data-field="esperadas" data-row="0">—</span><span class="lbl">de los 18 reportes del perímetro</span></div>
+    <div class="card"><span class="lbl">Entregadas a tiempo</span><span class="big dash-skeleton" data-source="kpi" data-field="pct_a_tiempo" data-row="0">—</span><span class="delta" id="dpct" data-source="delta" data-field="dif_pct" data-row="0">—</span></div>
+    <div class="card"><span class="lbl">Con atraso</span><span class="big dash-skeleton" data-source="kpi" data-field="tarde" data-row="0">—</span><span class="lbl">atraso máximo <span data-source="kpi" data-field="atraso_max_h" data-row="0">—</span> h</span></div>
+    <div class="card"><span class="lbl">Observadas por la CMF</span><span class="big dash-skeleton" data-source="kpi" data-field="observadas" data-row="0">—</span><span class="lbl">reenviadas y cerradas</span></div>
+    <div class="card"><span class="lbl">Sin conciliar con CMF Supervisa</span><span class="big dash-skeleton" data-source="kpi" data-field="sin_conciliar" data-row="0">—</span><span class="lbl"><span data-source="kpi" data-field="acuses_conciliados" data-row="0">—</span> acuses conciliados</span></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h2 id="h-tend">Entregas a tiempo por mes</h2><p class="note">Porcentaje de entregas a tiempo sobre las esperadas, últimos seis meses. Línea punteada: meta interna de 95 % (supuesto de ejemplo).</p><div class="chart" id="c-tend" data-source="tend_pct"><div class="tip"></div></div></div>
+    <div class="card"><h2 id="h-per">Resultado por periodicidad</h2><p class="note">Entregas de septiembre por frecuencia: a tiempo, con atraso y observadas.</p><div class="chart" id="c-per" data-source="por_periodicidad"><div class="tip"></div></div></div>
+  </div>
+
+  <div class="card" id="resumen">
+    <h2>Resumen ejecutivo</h2>
+    <p class="note">Ejemplo del borrador que redactaría Gemini a partir de las tablas conciliadas. Se emite solo tras revisión a cuatro ojos.</p>
+    <p class="sum">En septiembre se esperaban <span data-source="kpi" data-field="esperadas" data-row="0">—</span> entregas de los reportes normativos del perímetro; <span data-source="kpi" data-field="pct_a_tiempo" data-row="0">—</span> llegaron a tiempo. Hubo <span data-source="kpi" data-field="tarde" data-row="0">—</span> envíos con atraso, ambos cerrados el mismo día, y <span data-source="kpi" data-field="observadas" data-row="0">—</span> archivo observado por la CMF que fue reenviado. Queda <span data-source="kpi" data-field="sin_conciliar" data-row="0">—</span> entrega sin acuse visible en el portal, pendiente de conciliar. Los archivos en retiro según la Circular 2.376 cumplieron su último envío previsto.</p>
+  </div>
+
+  <div class="card" id="detalle">
+    <h2>Detalle por reporte</h2>
+    <p class="note">Una fila por reporte y periodicidad. Ordena por cualquier columna o filtra por texto.</p>
+    <input id="q" type="search" placeholder="Filtrar por código, sistema o estado" aria-label="Filtrar filas">
+    <div class="tbox"><table id="t-rep" data-source="reportes" data-row-key="codigo">
+      <thead><tr>
+        <th data-field="codigo"><button type="button" data-k="codigo">Código</button></th>
+        <th data-field="nombre"><button type="button" data-k="nombre">Reporte</button></th>
+        <th data-field="sistema"><button type="button" data-k="sistema">Sistema</button></th>
+        <th data-field="periodicidad"><button type="button" data-k="periodicidad">Periodicidad</button></th>
+        <th class="n" data-field="esperadas"><button type="button" data-k="esperadas">Esperadas</button></th>
+        <th class="n" data-field="a_tiempo"><button type="button" data-k="a_tiempo">A tiempo</button></th>
+        <th class="n" data-field="tarde"><button type="button" data-k="tarde">Atraso</button></th>
+        <th class="n" data-field="observadas"><button type="button" data-k="observadas">Observ.</button></th>
+        <th class="n" data-field="acuses_conciliados"><button type="button" data-k="acuses_conciliados">Acuses</button></th>
+        <th data-field="estado"><button type="button" data-k="estado">Estado</button></th>
+        <th data-field="nota">Nota</th>
+      </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="card" id="incid">
+    <h2>Incidentes del periodo</h2>
+    <p class="note">Atrasos, observaciones y acuses pendientes registrados por la conciliación.</p>
+    <div class="tbox"><table id="t-inc" data-source="incidentes" data-row-key="fecha,reporte">
+      <thead><tr><th data-field="fecha">Fecha</th><th data-field="reporte">Reporte</th><th data-field="tipo">Tipo</th><th data-field="detalle">Detalle</th><th data-field="estado">Estado</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</div>
+
+<script>
+dash.calc('kpi', { inputs: ['reportes'], title: 'Totales de septiembre', description: 'Suma de entregas esperadas, a tiempo, con atraso, observadas y acuses conciliados; porcentaje a tiempo sobre esperadas.',
+  fn: (reportes) => { const s = (k) => reportes.reduce((a, r) => a + Number(r[k]), 0); const esp = s('esperadas');
+    return [{ esperadas: esp, a_tiempo: s('a_tiempo'), tarde: s('tarde'), observadas: s('observadas'), acuses_conciliados: s('acuses_conciliados'), sin_conciliar: s('entregadas') - s('acuses_conciliados'), atraso_max_h: Math.max(...reportes.map(r => Number(r.atraso_max_h))), pct_a_tiempo: esp ? s('a_tiempo') / esp : 0 }]; } });
+dash.calc('tend_pct', { inputs: ['tendencia'], title: 'A tiempo por mes (%)', description: 'Entregas a tiempo divididas por las esperadas, por mes.',
+  fn: (tendencia) => tendencia.map(t => ({ mes: t.mes, etiqueta: t.etiqueta, esperadas: Number(t.esperadas), a_tiempo: Number(t.a_tiempo), pct: Number(t.a_tiempo) / Number(t.esperadas) })) });
+dash.calc('delta', { inputs: ['tend_pct'], title: 'Variación vs. mes anterior', description: 'Diferencia en puntos porcentuales entre el último mes y el anterior.',
+  fn: (tend_pct) => { const n = tend_pct.length; return [{ dif_pct: n > 1 ? tend_pct[n - 1].pct - tend_pct[n - 2].pct : 0, mes_anterior: n > 1 ? tend_pct[n - 2].etiqueta : '' }]; } });
+dash.calc('por_periodicidad', { inputs: ['reportes'], title: 'Entregas por periodicidad', description: 'Suma de a tiempo, con atraso y observadas por periodicidad, septiembre.',
+  fn: (reportes) => { const m = {}; reportes.forEach(r => { const k = r.periodicidad; m[k] = m[k] || { periodicidad: k, a_tiempo: 0, tarde: 0, observadas: 0, esperadas: 0 }; m[k].a_tiempo += Number(r.a_tiempo); m[k].tarde += Number(r.tarde); m[k].observadas += Number(r.observadas); m[k].esperadas += Number(r.esperadas); });
+    return ['Diario', 'Semanal', 'Mensual', 'Trimestral'].filter(k => m[k]).map(k => m[k]); } });
+</script>
+<script>
+const fmtN = d3.format(','), fmtP = d3.format('.1%'), fmtPP = d3.format('+.1f');
+const chipClass = (e) => e === 'A tiempo' ? 'ok' : e === 'Con atraso' ? 'warn' : e === 'Observado' || e === 'Sin conciliar' ? 'bad' : 'mut';
+let sortK = null, sortDir = 1, drawnOnce = false;
+const fail = (el) => { el.innerHTML = ''; const d = document.createElement('div'); d.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:200px;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)'; d.innerHTML = '<i style="width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)"></i>Failed to load'; el.appendChild(d); };
+
+function fillMarks() {
+  document.querySelectorAll('#kpis [data-source], #resumen [data-source]').forEach(el => {
+    const id = el.dataset.source, f = el.dataset.field, r = dash.data(id);
+    if (r.status !== 'ok' || !r.data || !r.data.length) { el.textContent = '—'; return; }
+    el.classList.remove('dash-skeleton');
+    const v = r.data[0][f];
+    if (f === 'pct_a_tiempo') el.textContent = fmtP(v);
+    else if (f === 'dif_pct') { el.textContent = fmtPP(v * 100) + ' pp vs. ' + r.data[0].mes_anterior; el.classList.toggle('up', v >= 0); el.classList.toggle('down', v < 0); }
+    else if (f === 'atraso_max_h') el.textContent = String(v).replace('.', ',');
+    else el.textContent = fmtN(v);
+  });
+  const k = dash.data('kpi'), t = document.getElementById('take');
+  t.textContent = k.status === 'ok' && k.data.length ? (k.data[0].pct_a_tiempo >= 0.95 ? 'Cumplimiento sobre la meta interna; la atención del mes está en los acuses pendientes de conciliar y en los atrasos de los envíos diarios.' : 'Cumplimiento bajo la meta interna; revisar las causas de los atrasos antes del próximo cierre.') : '—';
+}
+
+function drawTrend() {
+  const box = document.getElementById('c-tend'), r = dash.data('tend_pct');
+  const tip = box.querySelector('.tip'); [...box.querySelectorAll('svg')].forEach(s => s.remove());
+  if (r.status === 'error' || r.status === 'connect') { fail(box); return; }
+  if (r.status !== 'ok') { box.classList.add('dash-skeleton'); return; }
+  box.classList.remove('dash-skeleton');
+  const rows = r.data, W = Math.max(280, box.clientWidth), H = 240, m = { t: 16, r: 12, b: 28, l: 40 };
+  const svg = d3.select(box).insert('svg', '.tip').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%');
+  const x = d3.scaleBand(rows.map(d => d.etiqueta), [m.l, W - m.r]).padding(0.35);
+  const y = d3.scaleLinear([0.85, 1], [H - m.b, m.t]);
+  svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('.0%')).tickSize(-(W - m.l - m.r))).attr('font-size', null).attr('font-family', null)
+    .call(g => { g.select('.domain').remove(); g.selectAll('line').attr('stroke', 'var(--cds-chart-grid)'); g.selectAll('text').attr('fill', 'var(--color-fg-muted)').attr('font-size', 'var(--cds-font-size-caption)'); });
+  svg.append('g').attr('transform', `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0)).attr('font-size', null).attr('font-family', null)
+    .call(g => { g.select('.domain').attr('stroke', 'var(--cds-chart-axis)'); g.selectAll('text').attr('fill', 'var(--color-fg-muted)').attr('font-size', 'var(--cds-font-size-caption)').attr('dy', '1.2em'); });
+  svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0.95)).attr('y2', y(0.95)).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+  svg.append('text').attr('x', W - m.r).attr('y', y(0.95) - 4).attr('text-anchor', 'end').attr('fill', 'var(--color-fg-muted)').attr('font-size', 'var(--cds-font-size-caption)').text('meta 95 %');
+  const last = rows.length - 1;
+  svg.selectAll('rect').data(rows).join('rect').attr('x', d => x(d.etiqueta)).attr('y', d => y(d.pct)).attr('width', Math.min(32, x.bandwidth())).attr('transform', d => `translate(${(x.bandwidth() - Math.min(32, x.bandwidth())) / 2},0)`).attr('height', d => H - m.b - y(d.pct)).attr('rx', 4)
+    .attr('fill', (d, i) => i === last ? dash.colors[0] : 'var(--cds-chart-muted)')
+    .on('pointermove', (ev, d) => { tip.style.display = 'block'; tip.innerHTML = `<b>${d.etiqueta} 2026</b>${fmtP(d.pct)} a tiempo · ${d.a_tiempo} de ${d.esperadas}`; const bx = box.getBoundingClientRect(); tip.style.left = Math.min(ev.clientX - bx.left + 10, bx.width - tip.offsetWidth - 4) + 'px'; tip.style.top = (ev.clientY - bx.top - 36) + 'px'; })
+    .on('pointerleave', () => tip.style.display = 'none');
+  svg.selectAll('text.v').data(rows).join('text').attr('class', 'v').attr('x', d => x(d.etiqueta) + x.bandwidth() / 2).attr('y', d => y(d.pct) - 5).attr('text-anchor', 'middle').attr('fill', 'var(--color-fg)').attr('font-size', 'var(--cds-font-size-caption)').text(d => fmtP(d.pct));
+}
+
+function drawPer() {
+  const box = document.getElementById('c-per'), r = dash.data('por_periodicidad');
+  const tip = box.querySelector('.tip'); [...box.querySelectorAll('svg')].forEach(s => s.remove());
+  if (r.status === 'error' || r.status === 'connect') { fail(box); return; }
+  if (r.status !== 'ok') { box.classList.add('dash-skeleton'); return; }
+  box.classList.remove('dash-skeleton');
+  const rows = r.data, W = Math.max(280, box.clientWidth), H = 240, m = { t: 26, r: 12, b: 8, l: 78 };
+  const svg = d3.select(box).insert('svg', '.tp').attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%');
+  const keys = ['a_tiempo', 'tarde', 'observadas'], names = { a_tiempo: 'a tiempo', tarde: 'con atraso', observadas: 'observadas' };
+  const cols = { a_tiempo: dash.colors[0], tarde: 'var(--color-warn)', observadas: 'var(--color-bad)' };
+  const y = d3.scaleBand(rows.map(d => d.periodicidad), [m.t, H - m.b]).padding(0.35);
+  const x = d3.scaleLinear([0, d3.max(rows, d => d.a_tiempo + d.tarde + d.observadas) || 1], [m.l, W - m.r]);
+  svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).tickSize(0)).attr('font-size', null).attr('font-family', null)
+    .call(g => { g.select('.domain').remove(); g.selectAll('text').attr('fill', 'var(--color-fg)').attr('font-size', 'var(--cds-font-size-caption)'); });
+  const lg = svg.append('g').attr('transform', `translate(${m.l},12)`); let lx = 0;
+  keys.forEach(k => { lg.append('rect').attr('x', lx).attr('y', -6).attr('width', 10).attr('height', 10).attr('rx', 2).attr('fill', cols[k]); const t = lg.append('text').attr('x', lx + 14).attr('y', 3).attr('fill', 'var(--color-fg-muted)').attr('font-size', 'var(--cds-font-size-caption)').text(names[k]); lx += 14 + t.node().getComputedTextLength() + 16; });
+  const stacked = d3.stack().keys(keys)(rows);
+  svg.append('g').selectAll('g').data(stacked).join('g').attr('fill', d => cols[d.key]).selectAll('rect').data(d => d.map(v => ({ ...v, key: d.key }))).join('rect')
+    .attr('x', d => x(d[0])).attr('y', d => y(d.data.periodicidad)).attr('height', Math.min(32, y.bandwidth())).attr('width', d => Math.max(0, x(d[1]) - x(d[0]))).attr('rx', 3)
+    .on('pointermove', (ev, d) => { tip.style.display = 'block'; tip.innerHTML = `<b>${d.data.periodicidad}</b>${names[d.key]}: ${d.data[d.key]} de ${d.data.esperadas}`; const bx = box.getBoundingClientRect(); tip.style.left = Math.min(ev.clientX - bx.left + 10, bx.width - tip.offsetWidth - 4) + 'px'; tip.style.top = (ev.clientY - bx.top - 36) + 'px'; })
+    .on('pointerleave', () => tip.style.display = 'none');
+  svg.selectAll('text.v').data(rows).join('text').attr('class', 'v').attr('x', d => x(d.a_tiempo + d.tarde + d.observadas) + 6).attr('y', d => y(d.periodicidad) + Math.min(32, y.bandwidth()) / 2 + 4).attr('fill', 'var(--color-fg)').attr('font-size', 'var(--cds-font-size-caption)').text(d => d.esperadas ? `${d.a_tiempo + d.tarde + d.observadas} de ${d.esperadas}` : 'sin vencimiento');
+}
+
+function drawTable() {
+  const r = dash.data('reportes'), tb = document.querySelector('#t-rep tbody'); tb.innerHTML = '';
+  if (r.status !== 'ok') return;
+  const q = (document.getElementById('q').value || '').toLowerCase();
+  let rows = r.data.filter(d => !q || [d.codigo, d.nombre, d.sistema, d.periodicidad, d.estado].join(' ').toLowerCase().includes(q));
+  if (sortK) rows = rows.slice().sort((a, b) => { const va = a[sortK], vb = b[sortK]; const na = Number(va), nb = Number(vb); return (isNaN(na) || isNaN(nb) ? String(va).localeCompare(String(vb)) : na - nb) * sortDir; });
+  const maxE = d3.max(r.data, d => Number(d.esperadas)) || 1;
+  rows.forEach(d => {
+    const tr = document.createElement('tr');
+    const cell = (txt, cls) => { const td = document.createElement('td'); if (cls) td.className = cls; td.textContent = txt; tr.appendChild(td); return td; };
+    cell(d.codigo); cell(d.nombre); cell(d.sistema); cell(d.periodicidad); cell(fmtN(Number(d.esperadas)), 'n');
+    const ta = cell('', 'n'); const bar = document.createElement('i'); bar.className = 'bar'; bar.style.width = Math.round(60 * Number(d.a_tiempo) / maxE) + 'px'; ta.appendChild(bar); ta.appendChild(document.createTextNode(fmtN(Number(d.a_tiempo))));
+    cell(fmtN(Number(d.tarde)), 'n'); cell(fmtN(Number(d.observadas)), 'n'); cell(fmtN(Number(d.acuses_conciliados)), 'n');
+    const te = cell(''); const c = document.createElement('span'); c.className = 'chip ' + chipClass(d.estado); c.textContent = d.estado; te.appendChild(c);
+    cell(d.nota || '');
+    tb.appendChild(tr);
+  });
+}
+function drawInc() {
+  const r = dash.data('incidentes'), tb = document.querySelector('#t-inc tbody'); tb.innerHTML = '';
+  if (r.status !== 'ok') return;
+  r.data.forEach(d => { const tr = document.createElement('tr'); [d.fecha, d.reporte, d.tipo, d.detalle].forEach(v => { const td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
+    const td = document.createElement('td'); const c = document.createElement('span'); c.className = 'chip ' + (d.estado === 'Abierto' ? 'bad' : 'ok'); c.textContent = d.estado; td.appendChild(c); tr.appendChild(td); tb.appendChild(tr); });
+}
+document.querySelectorAll('#t-rep th button').forEach(b => b.addEventListener('click', () => { const k = b.dataset.k; if (sortK === k) sortDir = -sortDir; else { sortK = k; sortDir = 1; }
+  document.querySelectorAll('#t-rep th').forEach(th => th.removeAttribute('aria-sort')); b.parentElement.setAttribute('aria-sort', sortDir === 1 ? 'ascending' : 'descending'); drawTable(); }));
+document.getElementById('q').addEventListener('input', drawTable);
+dash.onData(() => { fillMarks(); drawTrend(); drawPer(); drawTable(); drawInc(); });
+</script>

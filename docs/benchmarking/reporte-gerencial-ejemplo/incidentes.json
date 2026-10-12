@@ -1,0 +1,30 @@
+[
+{
+"fecha": "2026-09-04",
+"reporte": "RDC02",
+"tipo": "Atraso",
+"detalle": "Rectificación semanal enviada 2 h después del corte por reproceso en origen.",
+"estado": "Cerrado"
+},
+{
+"fecha": "2026-09-10",
+"reporte": "D03",
+"tipo": "Observación",
+"detalle": "Observación de la CMF por diferencia de totales con D10; archivo reenviado el 12-09.",
+"estado": "Cerrado"
+},
+{
+"fecha": "2026-09-15",
+"reporte": "RDC40",
+"tipo": "Atraso",
+"detalle": "Envío diario 1,5 h tarde por indisponibilidad de la interfaz de origen.",
+"estado": "Cerrado"
+},
+{
+"fecha": "2026-10-01",
+"reporte": "P37",
+"tipo": "Acuse pendiente",
+"detalle": "Acuse de la CMF no visible en el portal; conciliación pendiente con Supervisa.",
+"estado": "Abierto"
+}
+]
