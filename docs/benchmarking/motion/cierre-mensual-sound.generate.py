@@ -118,6 +118,16 @@ def charge(dur,g=1.0):
     return (n*0.6+h+sp)*env(len(t),0.05,0.03)*g
 def swish(dur=0.25,g=1.0): t=tt(dur); return lp(pink(len(t)),1600)*np.sin(np.pi*t/dur)**2*g
 def footstep(g=1.0): return mixn(modal(burst(2.5,(60,900)),[(95,0.06,0.6),(185,0.04,0.3)])*0.8,hp(burst(14),1500)*0.25)*g
+def trolley_bed(dur,g=1.0):
+    t=tt(dur); base=lp(pink(len(t)),160,3)*(0.75+0.25*np.sin(2*np.pi*3.4*t)); hiss=bp(pink(len(t)),900,2600)*0.08*(0.6+0.4*np.sin(2*np.pi*3.4*t+1))
+    y=np.zeros(len(t)); x=0.0
+    while x<dur:
+        c=modal(burst(1.2,(500,4000)),[(rng.uniform(1200,2600),0.02,0.4)]); k=int(x*SR); y[k:k+len(c)]+=fit(c,min(len(c),len(t)-k))*rng.uniform(0.2,0.6); x+=rng.exponential(0.45)
+    return (base/(np.std(base)+1e-9)*0.5+hiss+y*0.3)*env(len(t),0.8,1.0)*g
+def scan_sweep(g=1.0):
+    t=tt(0.22); n=sweep_bp(white(len(t)),1800,6500,0.6)*env(len(t),0.01,0.08); tk=glass_tick(5200)
+    return mixn(n*0.35,fit(tk,len(t))*0.5)*g
+def placement(g=1.0): return mixn(modal(burst(2,(80,1200)),[(240,0.07,0.6),(480,0.05,0.3),(900,0.03,0.15)])*0.7,lp(white(int(0.04*SR)),700)*env(int(0.04*SR),0.0005,0.035)*0.4)*g
 # ================= SCORE =================
 music=Bus(); sfx=Bus(); vault=Bus()
 A={'Am':['A2','C3','E3','A3'],'F':['F2','A2','C3','F3'],'C':['C3','E3','G3','C4'],'G':['G2','B2','D3','G3'],'Cm':['C3','E3','G3','C4'],'Gm':['G2','B2','D3','G3'],'Amaj9':['A2','C3','E3','B3']}
@@ -169,15 +179,17 @@ vault.add(21.2,hiss(1.4),gain=0.35); vault.add(21.3,servo(2.6,14,24),gain=0.45);
 vault.add(23.8,impact(40,1.8,0.7,metal=True)); vault.add(23.8,modal(burst(4,(200,4000)),[(412,1.1,0.5),(1137,0.8,0.3),(1866,0.5,0.15)]),gain=0.25)
 sfx.add(22.0,glass_tick(2600),gain=0.18); sfx.add(22.09,glass_tick(3300),gain=0.12)
 sfx.add(24.0,lp(np.sin(2*np.pi*np.cumsum(220+600*(tt(0.4)/0.4)**2)/SR)*env(int(0.4*SR),0.05,0.2),1800),gain=0.08)
-# repository
-sfx.add(28.5,(hp(pink(int(3.0*SR)),6000)*(0.5+0.5*np.sin(2*np.pi*7*tt(3.0)))*env(int(3.0*SR),0.6,0.8)),gain=0.07)
-for i in range(17): sfx.add(31.0+i*0.55,ui_click(1900*2**(rng.uniform(-0.06,0.06))),pan=((i%6)-2.5)/3.5,gain=0.5)
-sfx.add(40.2,modal(burst(3,(60,600)),[(105,0.08,0.7),(210,0.05,0.3)]),gain=0.5); sfx.add(40.28,modal(burst(3,(60,600)),[(105,0.08,0.7)]),gain=0.4)
-# capture
-sfx.add(42.0,servo(0.9,20,12),gain=0.22); sfx.add(42.9,latch(),gain=0.4)
+# aisle: trolley bed, bay signage ticks, scanner picks, placements
+sfx.add(28.2,trolley_bed(18.2),gain=0.32)
+for tb in (29.0,33.4,38.2,45.0): sfx.add(tb,glass_tick(3100),gain=0.09)
 for i in range(17):
-    pn_=((i%6)-2.5)/3.5; sfx.add(42.0+i*0.55,ui_click(3200,0.9),pan=pn_,gain=0.4); sfx.add(42.035+i*0.55,ui_click(1200,0.8),pan=pn_,gain=0.35)
-for tc in (44,47,50): sfx.add(tc,glass_tick(2600),gain=0.15)
+    tp=29.6+i*0.9; pn_=(-0.4 if i%2==0 else 0.4); sfx.add(tp-0.22,scan_sweep(),pan=pn_,gain=0.5); sfx.add(tp+0.62,placement(),pan=-0.2,gain=0.5)
+sfx.add(45.2,modal(burst(3,(60,600)),[(105,0.08,0.7),(210,0.05,0.3)]),gain=0.45); sfx.add(45.28,modal(burst(3,(60,600)),[(105,0.08,0.7)]),gain=0.35)
+# scanner gate: power-up, per-box shutter, hum, data ticks
+sfx.add(45.6,servo(1.2,10,22),gain=0.2); sfx.add(46.4,solenoid(),gain=0.35)
+for i in range(17):
+    ts_=46.6+i*0.27; pn_=((i%4)-1.5)/3; sfx.add(ts_,ui_click(3200,0.9),pan=pn_,gain=0.42); sfx.add(ts_+0.035,ui_click(1200,0.8),pan=pn_,gain=0.36)
+for tc in (47.2,50.2): sfx.add(tc,glass_tick(2600),gain=0.15)
 hm=tt(8.0); sfx.add(50.0,lp(np.sin(2*np.pi*60*hm)+0.4*np.sin(2*np.pi*120*hm)+0.2*np.sin(2*np.pi*180*hm)*(1+0.2*np.sin(2*np.pi*0.7*hm)),500)*env(len(hm),0.8,1.0),gain=0.12)
 for i in range(70): sfx.add(50.4+i*0.107+rng.uniform(-0.03,0.03),glass_tick(5000+rng.integers(-800,800)),pan=rng.uniform(-0.5,0.5),gain=0.045)
 # consolidation
@@ -187,6 +199,7 @@ x=65.0
 while x<67.5: sfx.add(x,clock_tick(),gain=0.12); x+=1/12
 sfx.add(67.5,solenoid(),gain=0.4)
 # logout
+sfx.add(68.2,swish(0.6),gain=0.25)
 sfx.add(70.0,glass_tick(2600),gain=0.16); sfx.add(70.09,glass_tick(3300),gain=0.1)
 sfx.add(72.0,ui_click(900,1.0),gain=0.7); sfx.add(72.4,swish(0.3),gain=0.3)
 vault.add(73.0,hiss(1.2),gain=0.3); vault.add(73.0,servo(2.4,24,12),gain=0.45); vault.add(73.3,rattle(1.8,8),gain=0.22)
@@ -207,6 +220,6 @@ mus_st*=duckg[:,None]
 mix=mus_st*0.9+sfx_st*1.0
 fade=np.minimum(1,np.arange(N)/SR/1.2)*np.minimum(1,np.maximum(0,DUR-np.arange(N)/SR)/2.0); mix*=fade[:,None]
 mix=np.tanh(mix*1.05); mix=mix/np.max(np.abs(mix))*0.9
-with wave.open('cierre-mensual-mix3.wav','wb') as w:
+with wave.open('cierre-mensual-mix4.wav','wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((mix*32767).astype(np.int16).tobytes())
 print('mix3 ok')

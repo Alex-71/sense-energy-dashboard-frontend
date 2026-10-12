@@ -47,7 +47,7 @@ p{margin:0}.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:upperca
 .lb.chip{font:500 .78em var(--body);padding:.25em .7em;border-radius:999px;border:1px solid var(--blue);background:rgba(74,111,165,.3);color:#DCE6F5}
 .lb.chip.ot{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:var(--fg2)}
 .lb.chip::before{content:"✦ "}.lb.chip.ot::before{content:""}
-.counter{left:50%;bottom:16%;transform:translateX(-50%);font:500 .95em var(--mono);color:#fff;letter-spacing:.1em;background:rgba(16,19,26,.7);padding:.3em .9em;border-radius:.3em;opacity:0;white-space:nowrap}
+.counter{left:50%;bottom:25%;transform:translateX(-50%);font:500 .95em var(--mono);color:#fff;letter-spacing:.1em;background:rgba(16,19,26,.7);padding:.3em .9em;border-radius:.3em;opacity:0;white-space:nowrap}
 .tabs{left:50%;top:13%;transform:translateX(-50%);display:flex;gap:.6em;opacity:0}
 .tabs span{position:static;font:500 .78em var(--mono);letter-spacing:.1em;color:var(--fg2);border:1px solid rgba(255,255,255,.25);padding:.25em .8em;border-radius:.3em}.tabs span.on{color:#fff;border-color:var(--blue);background:rgba(74,111,165,.3)}
 .rules{right:4%;top:24%;width:22%;display:grid;gap:.5em;opacity:0}
@@ -87,7 +87,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
 <header class="top">
   <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span><p class="eyebrow">Supervisión normativa · Proceso asistido · Recorrido en primera persona</p></div>
   <h1>Cierre Mensual</h1>
-  <p class="lede">Noventa segundos en primera persona, con la narrativa de un recorrido por niveles como inspiración y no como estética literal. La persona presenta su credencial, abre el portal CMF Supervisa, selecciona los 18 reportes, el asistente captura y extrae, la regla consolida, se cierra la sesión y aparece el reporte. Datos ficticios.</p>
+  <p class="lede">Noventa segundos en primera persona, con la narrativa de un recorrido por niveles como inspiración y no como estética literal. La persona presenta su credencial, abre el portal CMF Supervisa, recorre el pasillo de reportes con un carro de archivo, el escáner extrae, la regla consolida, se cierra la sesión y aparece el reporte. Datos ficticios.</p>
 </header>
 
 <div class="stage" id="stage">
@@ -97,7 +97,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
     <div class="lb gate" id="lgate">CMF SUPERVISA</div>
     <div class="lb small" id="lseal">SELLO DE ACCESO</div>
     <div class="lb orb" id="lorb">ASISTENTE · Gemini</div>
-    <div class="lb small" id="lchest">COFRE DE DATOS</div>
+    <div class="lb small" id="lscan">ESCÁNER DE EVIDENCIA</div>
     <div class="lb small" id="lcube">BigQuery</div>
     <div class="lb chip" id="chip1">Gemini Flash · lectura de pantalla</div>
     <div class="lb chip" id="chip2">Gemini Pro / Flash · esquema JSON</div>
@@ -105,7 +105,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
     <div class="obj" id="obj"><span>Abrir portal</span><span>Seleccionar 18 reportes</span><span>Capturar y extraer</span><span>Consolidar</span><span>Cerrar sesión</span><span>Entregar reporte</span></div>
     <div class="clock"><span>CIERRE</span><b id="clk">00:00</b></div>
     <div class="cross" id="cross"><i></i><i></i><i></i><i></i></div>
-    <div class="tabs" id="tabs"><span class="on">ENVÍOS</span><span>ACUSES</span><span>OBSERVACIONES</span></div>
+    
     <div class="counter" id="counter"></div>
     <div class="rules" id="rules"><h4>REGLA SQL → ESTADO</h4><span class="stamp ok">A tiempo</span><span class="stamp warn">Con atraso</span><span class="stamp bad">Observado</span><span class="stamp bad">Sin conciliar</span></div>
     <div class="xp" id="xp"><b id="xpt">Cumplimiento 0,0 %</b><div class="bar"><i id="xpi"></i></div></div>
@@ -138,8 +138,8 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
     <div class="card"><span class="k">1 · 0–6 s</span><p>Carga de nivel: HUD de arranque y lista de objetivos.</p></div>
     <div class="card"><span class="k">2 · 6–16 s</span><p>Credenciales: RUT y Clave Única, personal e intransferible, en manos de la persona.</p></div>
     <div class="card"><span class="k">3 · 16–28 s</span><p>La puerta CMF Supervisa se abre con un haz de luz; el asistente se une.</p></div>
-    <div class="card"><span class="k">4 · 28–42 s</span><p>El repositorio: 18 casillas con brillo según complejidad; D51 sin vencimiento este mes.</p></div>
-    <div class="card"><span class="k">5 · 42–58 s</span><p>Captura y extracción: destellos, fragmentos al cofre, filas con esquema.</p></div>
+    <div class="card"><span class="k">4 · 28–46 s</span><p>El pasillo: estantería de archivo por periodicidad; cada caja muestra las entregas del mes y el carro recoge la evidencia.</p></div>
+    <div class="card"><span class="k">5 · 46–58 s</span><p>Escáner: el carro cruza el portal de lectura; cada caja se convierte en filas con esquema.</p></div>
     <div class="card"><span class="k">6 · 58–68 s</span><p>Consolidación: cubo BigQuery, sellos de la regla SQL, barra al 97,1 %.</p></div>
     <div class="card"><span class="k">7 · 68–76 s</span><p>Cierre de sesión: la llave se enfunda, la puerta se cierra, 0 escrituras.</p></div>
     <div class="card"><span class="k">8 · 76–90 s</span><p>Cierre completado: el reporte con sus cifras y las tres reglas.</p></div>
@@ -157,28 +157,26 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
   if(!window.THREE){ $('#nowebgl').classList.add('on'); return; }
   let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,antialias:true}); }catch(e){ $('#nowebgl').classList.add('on'); return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.1; renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x07090d); scene.fog=new THREE.FogExp2(0x07090d,0.03);
-  const camera=new THREE.PerspectiveCamera(58,16/9,0.1,200);
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x07090d); scene.fog=new THREE.FogExp2(0x07090d,0.026);
+  const camera=new THREE.PerspectiveCamera(58,16/9,0.1,200); scene.add(camera);
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
   const ramp=(t,a,b)=>Math.max(0,Math.min(1,(t-a)/(b-a)));
   const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
-  const C={blue:0x4a6fa5,blueL:0x8fa9d3,gold:0xd9bc62,grey:0x5b6470,yellow:0xd7c66f,green:0x6a9b6e,cmf:0x1f4e8c};
-  // lights
+  const C={blue:0x4a6fa5,blueL:0x8fa9d3,gold:0xd9bc62,grey:0x5b6470,yellow:0xd7c66f,green:0x6a9b6e,cmf:0x1f4e8c,steel:0x2a313b};
   scene.add(new THREE.HemisphereLight(0x7f93b8,0x05070a,0.5));
-  const sun=new THREE.DirectionalLight(0xbfd0ec,0.9); sun.position.set(4,12,-20); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-20,right:20,top:20,bottom:-20,near:1,far:60}); scene.add(sun);
-  // floor
-  const floor=new THREE.Mesh(new THREE.PlaneGeometry(80,140),new THREE.MeshStandardMaterial({color:0x10141b,roughness:.85,metalness:.1})); floor.rotation.x=-Math.PI/2; floor.position.z=-40; floor.receiveShadow=true; scene.add(floor);
-  const grid=new THREE.GridHelper(140,70,0x1f2733,0x161c25); grid.position.set(0,0.01,-40); scene.add(grid);
-  // corridor walls + light strips
+  const sun=new THREE.DirectionalLight(0xbfd0ec,0.9); sun.position.set(4,14,-40); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-24,right:24,top:24,bottom:-24,near:1,far:80}); scene.add(sun);
+  const floor=new THREE.Mesh(new THREE.PlaneGeometry(80,180),new THREE.MeshStandardMaterial({color:0x10141b,roughness:.85,metalness:.1})); floor.rotation.x=-Math.PI/2; floor.position.z=-50; floor.receiveShadow=true; scene.add(floor);
+  const grid=new THREE.GridHelper(180,90,0x1f2733,0x161c25); grid.position.set(0,0.01,-50); scene.add(grid);
   const wallMat=new THREE.MeshStandardMaterial({color:0x151a22,roughness:.7,metalness:.2});
   [-4,4].forEach(x=>{ const w=new THREE.Mesh(new THREE.BoxGeometry(0.4,5,32),wallMat); w.position.set(x,2.5,-14); w.receiveShadow=true; w.castShadow=true; scene.add(w); });
   const ceil=new THREE.Mesh(new THREE.BoxGeometry(8.4,0.3,32),wallMat); ceil.position.set(0,5.1,-14); scene.add(ceil);
   const strips=[]; for(let z=-3;z>=-27;z-=4){ const m=new THREE.MeshStandardMaterial({color:0x8fa9d3,emissive:0x8fa9d3,emissiveIntensity:0}); const s=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.06,0.25),m); s.position.set(0,4.93,z); scene.add(s); const pl=new THREE.PointLight(0x8fa9d3,0,9,2); pl.position.set(0,4.6,z); scene.add(pl); strips.push({m,pl}); }
-  // hall beyond gate
-  [-11,11].forEach(x=>{ const w=new THREE.Mesh(new THREE.BoxGeometry(0.4,9,34),wallMat); w.position.set(x,4.5,-47); scene.add(w); });
-  const back=new THREE.Mesh(new THREE.BoxGeometry(22.4,9,0.4),wallMat); back.position.set(0,4.5,-64); scene.add(back);
-  const hallLight=new THREE.PointLight(0x8fa9d3,0,40,2); hallLight.position.set(0,7,-48); scene.add(hallLight);
-  // gate wall + doors + seal
+  // hall beyond the gate (long)
+  [-11,11].forEach(x=>{ const w=new THREE.Mesh(new THREE.BoxGeometry(0.4,9,54),wallMat); w.position.set(x,4.5,-57); scene.add(w); });
+  const back=new THREE.Mesh(new THREE.BoxGeometry(22.4,9,0.4),wallMat); back.position.set(0,4.5,-84); scene.add(back);
+  const hallLight=new THREE.PointLight(0x8fa9d3,0,40,2); hallLight.position.set(0,7,-46); scene.add(hallLight);
+  const hallLight2=new THREE.PointLight(0x8fa9d3,0,40,2); hallLight2.position.set(0,7,-66); scene.add(hallLight2);
+  // gate wall with doorway + doors + seal
   const gwm=new THREE.MeshStandardMaterial({color:0x121a28,roughness:.5,metalness:.3}); [[-7.15,4.5,8.1,9],[7.15,4.5,8.1,9],[0,7.5,6.2,3]].forEach(([x,y,w,h])=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,0.6),gwm); m.position.set(x,y,-30); m.receiveShadow=true; scene.add(m); });
   const doorMat=new THREE.MeshStandardMaterial({color:C.cmf,roughness:.35,metalness:.5,emissive:C.cmf,emissiveIntensity:.25});
   const doorL=new THREE.Mesh(new THREE.BoxGeometry(3,6,0.5),doorMat), doorR=doorL.clone(); doorL.position.set(-1.5,3,-30); doorR.position.set(1.5,3,-30); scene.add(doorL,doorR);
@@ -186,83 +184,110 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
   const seal=new THREE.Group(); seal.add(new THREE.Mesh(new THREE.TorusGeometry(1.1,0.08,12,64),sealMat)); seal.add(new THREE.Mesh(new THREE.TorusGeometry(0.7,0.05,12,48),sealMat)); for(let k=0;k<8;k++){ const b=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.35,0.08),sealMat); b.position.set(Math.cos(k*Math.PI/4)*0.9,Math.sin(k*Math.PI/4)*0.9,0); b.rotation.z=k*Math.PI/4; seal.add(b); } seal.position.set(0,2.6,-29.7); scene.add(seal);
   const gateLight=new THREE.PointLight(C.cmf,8,16,2); gateLight.position.set(0,3,-27); scene.add(gateLight); const gateBack=new THREE.PointLight(0x8fa9d3,0,18,2); gateBack.position.set(0,4,-34); scene.add(gateBack);
   const beamLight=new THREE.PointLight(C.yellow,0,10,2); beamLight.position.set(0,2.6,-28.5); scene.add(beamLight);
-  // glow texture
   const gc=document.createElement('canvas'); gc.width=gc.height=128; const gx=gc.getContext('2d'); const gr=gx.createRadialGradient(64,64,0,64,64,64); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(.3,'rgba(255,255,255,.5)'); gr.addColorStop(1,'rgba(255,255,255,0)'); gx.fillStyle=gr; gx.fillRect(0,0,128,128); const glowTex=new THREE.CanvasTexture(gc);
   const sprite=(color,size)=>{ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color,transparent:true,opacity:.6,blending:THREE.AdditiveBlending,depthWrite:false})); s.scale.set(size,size,1); scene.add(s); return s; };
-  // beam (yellow) from weapon to seal
-  const beam=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.12,1,10,1,true),new THREE.MeshBasicMaterial({color:C.yellow,transparent:true,opacity:.0,blending:THREE.AdditiveBlending,depthWrite:false})); scene.add(beam);
+  const beam=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.12,1,10,1,true),new THREE.MeshBasicMaterial({color:C.yellow,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false})); scene.add(beam);
   const beamGlow=sprite(0xf1e6a3,0); beamGlow.position.copy(seal.position);
-  // orb
   const orb=new THREE.Mesh(new THREE.SphereGeometry(0.18,24,24),new THREE.MeshStandardMaterial({color:C.blueL,emissive:C.blueL,emissiveIntensity:1.4})); orb.visible=false; scene.add(orb);
   const orbGlow=sprite(0x8fa9d3,0); const orbLight=new THREE.PointLight(C.blueL,0,8,2); scene.add(orbLight);
-  // tiles (arsenal)
-  const CODES=[['RDC40','l'],['RDC01','l'],['RDC02','l'],['D10','l'],['R05','e'],['D03','e'],['P14','e'],['P16','e'],['E23','e'],['T01','c'],['P37','c'],['P38','c'],['P39','c'],['P15','c'],['P22','c'],['D02','c'],['SERNAC','c'],['D51','x']];
-  const RC={l:C.gold,e:C.blue,c:C.grey,x:0x2b313b};
-  const tiles=[]; CODES.forEach((cd,i)=>{ const col=i%6,row=Math.floor(i/6); const x=(col-2.5)*2.3, y=3.9-row*1.45, z=-55; const col3=RC[cd[1]];
-    const m=new THREE.MeshStandardMaterial({color:col3,emissive:col3,emissiveIntensity:cd[1]==='x'?.1:.35,transparent:true,opacity:0,roughness:.4,metalness:.3});
-    const t=new THREE.Mesh(new THREE.BoxGeometry(1.8,1.1,0.12),m); t.position.set(x,y,z); scene.add(t);
-    const fr=new THREE.Mesh(new THREE.TorusGeometry(0.95,0.022,8,48),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0})); fr.position.set(x,y,z+0.1); fr.scale.set(1.15,0.75,1); scene.add(fr);
-    tiles.push({mesh:t,ring:fr,pos:V(x,y,z),code:cd[0],r:cd[1],sel:cd[1]==='x'?-1:null}); });
-  let sidx=0; tiles.forEach((tl,i)=>{ if(tl.r!=='x'){ tl.selT=31+sidx*0.55; tl.capT=42+sidx*0.55; sidx++; } });
-  // chest + beam2 + rows + cube
-  const chest=new THREE.Group(); const cm=new THREE.MeshStandardMaterial({color:0x2a3340,roughness:.4,metalness:.5}); const cb=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.9,1.1),cm); cb.position.y=0.45; cb.castShadow=true; chest.add(cb); const cl=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.12,1.2),new THREE.MeshStandardMaterial({color:C.blue,emissive:C.blue,emissiveIntensity:.6})); cl.position.y=0.96; chest.add(cl); chest.position.set(0,0,-48); chest.scale.set(0.001,0.001,0.001); scene.add(chest);
-  const chestLight=new THREE.PointLight(C.blueL,0,8,2); chestLight.position.set(0,1.6,-47.5); scene.add(chestLight);
+  // ---- aisle: shelving, bays, containers ----
+  const steel=new THREE.MeshStandardMaterial({color:C.steel,roughness:.55,metalness:.45});
+  const Z0=-35.5, Z1=-58.5;
+  [-1,1].forEach(sd=>{ const x=sd*4.25;
+    for(const y of [0.55,1.65,2.75,3.85]){ const p=new THREE.Mesh(new THREE.BoxGeometry(1.0,0.06,Z0-Z1),steel); p.position.set(x,y,(Z0+Z1)/2); p.castShadow=true; p.receiveShadow=true; scene.add(p); }
+    for(let z=Z0;z>=Z1;z-=2.3){ for(const dx of [-0.45,0.45]){ const u=new THREE.Mesh(new THREE.BoxGeometry(0.06,4.0,0.06),steel); u.position.set(x+dx,2.0,z); scene.add(u); } }
+    const strip=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.04,Z0-Z1),new THREE.MeshStandardMaterial({color:0x8fa9d3,emissive:0x8fa9d3,emissiveIntensity:.9})); strip.position.set(x-sd*0.5,3.95,(Z0+Z1)/2); scene.add(strip);
+    for(let z=Z0-2;z>=Z1;z-=4.5){ const pl=new THREE.PointLight(0x9fb4d6,0,7,2); pl.position.set(x-sd*1.2,3.7,z); scene.add(pl); strips.push({m:null,pl,aisle:true}); } });
+  const BAYS=[['DIARIO',-38.3],['SEMANAL',-42.7],['MENSUAL',-50.6],['TRIMESTRAL',-57.0]];
+  const BOX=[['R05','e',-1,-38.0,1.7,'22 / 22'],['RDC40','l',1,-38.6,1.7,'22 / 22'],['D10','l',-1,-41.5,1.7,'5 / 5'],['RDC01','l',1,-42.2,1.7,'5 / 5'],['RDC02','l',-1,-43.8,1.7,'4 / 4'],['E23','e',1,-46.0,1.7,'1 / 1'],['D02','c',-1,-46.6,2.8,'1 / 1'],['D03','e',1,-47.8,2.8,'1 / 1'],['T01','c',-1,-48.4,1.7,'1 / 1'],['P14','e',1,-49.6,1.7,'1 / 1'],['P15','c',-1,-50.2,2.8,'1 / 1'],['P16','e',1,-51.4,2.8,'1 / 1'],['P22','c',-1,-52.0,1.7,'1 / 1'],['P37','c',1,-53.2,1.7,'1 / 1'],['P38','c',-1,-53.8,2.8,'1 / 1'],['P39','c',1,-55.0,2.8,'1 / 1'],['SERNAC','c',-1,-55.4,1.7,'1 / 1'],['D51','x',1,-57.0,1.7,'sin vencimiento']];
+  const RC={l:C.gold,e:C.blueL,c:0x8a94a0,x:0x3a4049};
+  const boxes=[]; BOX.forEach((b,i)=>{ const [code,r,sd,z,y,stock]=b; const x=sd*4.05; const g=new THREE.Group();
+    const body=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.5,0.92),new THREE.MeshStandardMaterial({color:r==='x'?0x1f252e:0x323a47,roughness:.5,metalness:.3})); body.castShadow=true; g.add(body);
+    const edge=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(0.62,0.5,0.92)),new THREE.LineBasicMaterial({color:RC[r],transparent:true,opacity:r==='x'?.35:.85})); g.add(edge);
+    const gm=new THREE.MeshStandardMaterial({color:C.blueL,emissive:C.blueL,emissiveIntensity:r==='x'?0:.8}); const gauge=new THREE.Mesh(new THREE.BoxGeometry(0.03,0.05,0.7),gm); gauge.position.set(-sd*0.325,-0.14,0); g.add(gauge);
+    const gbg=new THREE.Mesh(new THREE.BoxGeometry(0.02,0.07,0.74),new THREE.MeshStandardMaterial({color:0x0c0f14,roughness:.9})); gbg.position.set(-sd*0.315,-0.14,0); g.add(gbg);
+    const sealS=new THREE.Mesh(new THREE.CircleGeometry(0.07,20),new THREE.MeshStandardMaterial({color:RC[r],emissive:RC[r],emissiveIntensity:.5,side:THREE.DoubleSide})); sealS.rotation.y=-sd*Math.PI/2; sealS.position.set(-sd*0.32,0.12,0); g.add(sealS);
+    g.position.set(x,y+0.28,z); scene.add(g);
+    boxes.push({g,body,edge,gauge,sealS,code,r,sd,home:V(x,y+0.28,z),stock,pick:null,slot:i}); });
+  let pk=0; boxes.forEach(b=>{ if(b.r!=='x'){ b.pickT=29.6+pk*0.9; b.scanT=46.6+pk*0.27; pk++; } });
+  // trolley (camera-relative)
+  const trolley=new THREE.Group(); const tm=new THREE.MeshStandardMaterial({color:0x3a4250,roughness:.4,metalness:.6});
+  [[0,-0.02,0,1.05,0.04,0.7],[-0.52,0.2,0,0.04,0.44,0.7],[0.52,0.2,0,0.04,0.44,0.7],[0,0.2,-0.35,1.05,0.44,0.04],[0,0.2,0.35,1.05,0.44,0.04]].forEach(([x,y,z,w,h,d])=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),tm); m.position.set(x,y,z); trolley.add(m); });
+  [[-0.45,-0.3],[0.45,-0.3],[-0.45,0.3],[0.45,0.3]].forEach(([x,z])=>{ const wh=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.09,0.05,16),new THREE.MeshStandardMaterial({color:0x1b1f26,roughness:.8})); wh.rotation.z=Math.PI/2; wh.position.set(x,-0.14,z); trolley.add(wh); });
+  const bar=new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,1.1,10),tm); bar.rotation.z=Math.PI/2; bar.position.set(0,0.62,0.42); trolley.add(bar);
+  const tedge=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.05,0.44,0.7)),new THREE.LineBasicMaterial({color:0x8fa9d3,transparent:true,opacity:.5})); tedge.position.y=0.2; trolley.add(tedge);
+  trolley.scale.setScalar(0.001); camera.add(trolley); trolley.position.set(-0.3,-1.05,-2.3);
+  const slotLocal=k=>V(-0.33+(k%4)*0.22,0.08+Math.floor(k/4)*0.16,-0.22+(Math.floor(k/4)%2)*0.44*0+ (k%2?0.12:-0.12));
+  // scanning gate at the end of the aisle
+  const gateM=new THREE.MeshStandardMaterial({color:0x2a313b,roughness:.5,metalness:.5}); [[-2.5,2,0.3,4.2,0.3],[2.5,2,0.3,4.2,0.3],[0,4.2,5.3,0.3,0.3]].forEach(([x,y,w,h,d])=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),gateM); m.position.set(x,y,-60); scene.add(m); });
+  const scanStrip=new THREE.Mesh(new THREE.BoxGeometry(4.9,0.06,0.08),new THREE.MeshStandardMaterial({color:C.blueL,emissive:C.blueL,emissiveIntensity:.4})); scanStrip.position.set(0,4.03,-60); scene.add(scanStrip);
+  const scanPlane=new THREE.Mesh(new THREE.PlaneGeometry(4.9,4.0),new THREE.MeshBasicMaterial({color:C.blueL,transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending})); scanPlane.position.set(0,2.0,-60); scene.add(scanPlane);
+  const scanLight=new THREE.PointLight(C.blueL,0,9,2); scanLight.position.set(0,3.5,-60); scene.add(scanLight);
+  // analysis bay: rows + cube at z=-67
+  const ZA=-67;
   const beam2=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.35,1,12,1,true),new THREE.MeshBasicMaterial({color:C.blueL,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide})); scene.add(beam2);
   const RN=96, rScat=new Float32Array(RN*3), rGrid=new Float32Array(RN*3), rCur=new Float32Array(RN*3);
-  for(let i=0;i<RN;i++){ const r=Math.floor(i/12), c=i%12; rGrid[i*3]=(c-5.5)*0.2; rGrid[i*3+1]=2.2+(3.5-r)*0.2; rGrid[i*3+2]=-48; rScat[i*3]=(Math.random()-.5)*3; rScat[i*3+1]=1.2+Math.random()*2.4; rScat[i*3+2]=-48+(Math.random()-.5)*2; }
+  for(let i=0;i<RN;i++){ const r=Math.floor(i/12), c=i%12; rGrid[i*3]=(c-5.5)*0.2; rGrid[i*3+1]=2.2+(3.5-r)*0.2; rGrid[i*3+2]=ZA; rScat[i*3]=(Math.random()-.5)*3; rScat[i*3+1]=1.2+Math.random()*2.4; rScat[i*3+2]=ZA+(Math.random()-.5)*2; }
   const rGeo=new THREE.BufferGeometry(); rGeo.setAttribute('position',new THREE.BufferAttribute(rCur,3)); const rows=new THREE.Points(rGeo,new THREE.PointsMaterial({color:C.blueL,size:0.14,map:glowTex,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false})); scene.add(rows);
-  const cube=new THREE.Mesh(new THREE.BoxGeometry(1.3,1.3,1.3),new THREE.MeshPhysicalMaterial({color:C.blueL,emissive:C.blue,emissiveIntensity:.5,transparent:true,opacity:.55,roughness:.1,metalness:.2})); cube.position.set(0,2.2,-48); cube.scale.set(0.001,0.001,0.001); scene.add(cube);
-  const cubeEdge=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.3,1.3,1.3)),new THREE.LineBasicMaterial({color:0xdce6f5,transparent:true,opacity:.9})); cube.add(cubeEdge);
-  // capture particles
-  const PN=tiles.length*14; const pPos=new Float32Array(PN*3), pSeed=new Float32Array(PN*3); for(let i=0;i<PN*3;i++) pSeed[i]=(Math.random()-.5);
+  const cube=new THREE.Mesh(new THREE.BoxGeometry(1.3,1.3,1.3),new THREE.MeshPhysicalMaterial({color:C.blueL,emissive:C.blue,emissiveIntensity:.5,transparent:true,opacity:.55,roughness:.1,metalness:.2})); cube.position.set(0,2.2,ZA); cube.scale.set(0.001,0.001,0.001); scene.add(cube);
+  cube.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.3,1.3,1.3)),new THREE.LineBasicMaterial({color:0xdce6f5,transparent:true,opacity:.9})));
+  const pedestal=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.3,0.25,40),steel); pedestal.position.set(0,0.125,ZA); scene.add(pedestal);
+  const PN=boxes.length*14; const pPos=new Float32Array(PN*3), pSeed=new Float32Array(PN*3); for(let i=0;i<PN*3;i++) pSeed[i]=(Math.random()-.5);
   const pGeo=new THREE.BufferGeometry(); pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3)); const parts=new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xffffff,size:0.16,map:glowTex,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false})); scene.add(parts);
-  const chestTop=V(0,1.1,-48);
-  // camera keyframes
-  const KF=[[0,V(0,1.6,2),V(0,1.7,-10)],[10,V(0,1.6,2),V(0,1.7,-10)],[16,V(0,1.6,-24),V(0,2.3,-30)],[25,V(0,1.6,-24.5),V(0,2.4,-30)],[28,V(0,1.6,-44),V(0,2.4,-55)],[42,V(0,1.6,-43.5),V(0,2.4,-55)],[44,V(0,1.7,-42.5),V(0,1.4,-48)],[58,V(0.4,1.7,-42.5),V(0,1.5,-48)],[60,V(0,1.6,-43),V(0,2.0,-48)],[68,V(0,1.6,-43),V(0,2.0,-48)],[70.5,V(0,1.6,-40),V(0,2.6,-30)],[76,V(0,1.6,-38),V(0,2.6,-30)],[90,V(0,1.6,-38),V(0,2.6,-30)]];
-  const camPos=new THREE.Vector3(), camTgt=new THREE.Vector3(), pA=new THREE.Vector3(), pB=new THREE.Vector3();
-  function camAt(t){ let i=0; while(i<KF.length-2&&t>=KF[i+1][0]) i++; const a=KF[i],b=KF[i+1]; const u=ease(ramp(t,a[0],b[0])); camPos.lerpVectors(a[1],b[1],u); camTgt.lerpVectors(a[2],b[2],u);
-    // head bob while moving
-    pA.lerpVectors(a[1],b[1],ease(ramp(t+0.05,a[0],b[0]))); const moving=pA.distanceTo(camPos)>0.002; if(moving){ camPos.y+=Math.sin(t*2*Math.PI*1.7)*0.035; camPos.x+=Math.sin(t*2*Math.PI*0.85)*0.02; }
-    // scene 7: turn around toward +z handled by keyframes (target at -30 while position -40..-38)
-  }
-  // HUD helpers
+  const rowsTop=V(0,2.2,ZA);
+  // camera keyframes (scene 4 handled procedurally)
+  const KF=[[0,V(0,1.6,2),V(0,1.7,-10)],[10,V(0,1.6,2),V(0,1.7,-10)],[16,V(0,1.6,-24),V(0,2.3,-30)],[25,V(0,1.6,-24.5),V(0,2.4,-30)],[28,V(0,1.6,-34),V(0,1.5,-44)],[46,V(0,1.6,-57.5),V(0,1.6,-66)],[50,V(0,1.6,-62),V(0,1.7,ZA)],[58,V(0.3,1.6,-62),V(0,1.9,ZA)],[60,V(0,1.6,-62),V(0,2.0,ZA)],[68.5,V(0,1.6,-62),V(0,2.0,ZA)],[68.52,V(0,1.6,-41),V(0,2.6,-30)],[76,V(0,1.6,-38.5),V(0,2.6,-30)],[90,V(0,1.6,-38.5),V(0,2.6,-30)]];
+  const camPos=new THREE.Vector3(), camTgt=new THREE.Vector3(), pA=new THREE.Vector3();
+  function camAt(t){ let i=0; while(i<KF.length-2&&t>=KF[i+1][0]) i++; const a=KF[i],b=KF[i+1]; const u=(b[0]-a[0]<0.1)?1:ease(ramp(t,a[0],b[0])); camPos.lerpVectors(a[1],b[1],u); camTgt.lerpVectors(a[2],b[2],u);
+    if(t>=28&&t<46){ const u2=(t-28)/18; camPos.set(Math.sin(u2*Math.PI*2)*0.15,1.6,-34-u2*23.5); camTgt.set(0,1.45,camPos.z-7);
+      // glance toward the container being picked
+      boxes.forEach(b=>{ if(b.pickT===undefined) return; const w=1-Math.min(1,Math.abs(t-(b.pickT-0.15))/0.55); if(w>0){ camTgt.lerp(V(b.home.x*0.55,b.home.y,b.home.z),ease(w)*0.5); } }); }
+    pA.lerpVectors(a[1],b[1],ease(ramp(t+0.05,a[0],b[0]))); const moving=pA.distanceTo(camPos)>0.002||(t>=28&&t<46)||(t>=46&&t<50); if(moving){ camPos.y+=Math.sin(t*2*Math.PI*1.7)*0.03; camPos.x+=Math.sin(t*2*Math.PI*0.85)*0.015; } }
   const E=id=>document.getElementById(id);
-  const subs=[[0.8,5.8,'Primer día hábil del mes.'],[7,15,'Solo la persona porta la llave. Ningún sistema la guarda.'],[16.5,23,'La llave abre el portal. La persona sigue presente.'],[24,27.5,'El asistente entra con la persona. Nunca solo.'],[29,41,'Solo los módulos que responden la pregunta: envíos, acuses, observaciones.'],[43,57,'De pantallas a filas que se pueden auditar.'],[59,67,'La regla decide. El modelo explica.'],[69,75.5,'Solo lectura. Nada enviado, nada rectificado.']];
-  const OBJ=[[6,24],[28,41],[42,57],[58,67],[68,75],[76,86]];
-  const labels=[{el:E('lgate'),pos:V(0,6.4,-30.2),show:t=>t>12&&t<28||t>70&&t<76},{el:E('lseal'),pos:V(0,1.0,-29.6),show:t=>t>16.5&&t<19},{el:E('lorb'),obj:orb,off:V(0,0.42,0),show:t=>t>24.2&&t<30},{el:E('lchest'),pos:V(0,0.2,-47.4),show:t=>t>43&&t<58},{el:E('lcube'),pos:V(0,3.35,-48),show:t=>t>60&&t<68},{el:E('chip1'),pos:V(-3.2,3.4,-50),show:t=>t>44&&t<58},{el:E('chip2'),pos:V(3.4,3.4,-50),show:t=>t>47&&t<58},{el:E('chip3'),pos:V(3.6,2.7,-50),show:t=>t>50&&t<58}];
-  tiles.forEach(tl=>{ const el=document.createElement('div'); el.className='lb code'+(tl.r==='x'?' lock':''); el.textContent=tl.r==='x'?'D51 · octubre':tl.code; hud.appendChild(el); labels.push({el,pos:tl.pos.clone().add(V(0,0,0.2)),show:t=>t>29&&t<58,tile:tl}); });
-  const proj=new THREE.Vector3();
+  const subs=[[0.8,5.8,'Primer día hábil del mes.'],[7,15,'Solo la persona porta la llave. Ningún sistema la guarda.'],[16.5,23,'La llave abre el portal. La persona sigue presente.'],[24,27.5,'El asistente entra con la persona. Nunca solo.'],[29,45.5,'Cada caja es un reporte. El indicador muestra las entregas del mes; el carro recoge la evidencia.'],[46.8,57,'En el escáner, cada caja se convierte en filas que se pueden auditar.'],[59,67,'La regla decide. El modelo explica.'],[69.4,75.5,'Solo lectura. Nada enviado, nada rectificado.']];
+  const OBJ=[[6,24],[28,45.5],[46,57],[58,67],[68,75],[76,86]];
+  const labels=[{el:E('lgate'),pos:V(0,6.4,-30.2),show:t=>t>12&&t<28||t>69&&t<76},{el:E('lseal'),pos:V(0,1.0,-29.6),show:t=>t>16.5&&t<19},{el:E('lorb'),obj:orb,off:V(0,0.42,0),show:t=>t>24.2&&t<30},{el:E('lscan'),pos:V(0,4.7,-60),show:t=>t>44.5&&t<51},{el:E('lcube'),pos:V(0,3.35,ZA),show:t=>t>60&&t<68},{el:E('chip1'),obj:orb,off:V(0,0.55,0),show:t=>t>30.5&&t<45},{el:E('chip2'),pos:V(-2.4,4.75,-60),show:t=>t>47&&t<57},{el:E('chip3'),pos:V(2.6,4.75,-60),show:t=>t>50&&t<57}];
+  BAYS.forEach(b=>{ const el=document.createElement('div'); el.className='lb small'; el.textContent=b[0]; hud.appendChild(el); labels.push({el,pos:V(0,4.45,b[1]),show:t=>t>28.3&&t<46,bay:true}); });
+  boxes.forEach(b=>{ const el=document.createElement('div'); el.className='lb code'+(b.r==='x'?' lock':''); el.innerHTML=b.code+'<br><span style="font-weight:400;opacity:.8">'+b.stock+'</span>'; hud.appendChild(el); b.el=el; labels.push({el,pos:V(b.home.x*0.84,b.home.y+0.55,b.home.z),show:t=>t>28.8&&t<46&&(b.pickT===undefined||t<b.pickT+0.25),box:b}); });
+  const proj=new THREE.Vector3(), tmpV=new THREE.Vector3();
   const fmtClock=t=>{ const m=Math.floor(t/60), s=Math.floor(t%60); return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); };
   const setOp=(el,v)=>el.style.opacity=v;
-
   function tick(t){
-    // ---- world state from time ----
-    camAt(t); camera.position.copy(camPos); camera.lookAt(camTgt);
-    strips.forEach((s,i)=>{ const on=ramp(t,2+i*0.45,2.6+i*0.45); s.m.emissiveIntensity=on*1.6; s.pl.intensity=on*6; });
-    hallLight.intensity=ramp(t,21,26)*32; gateBack.intensity=ramp(t,68,70)*22;
-    // beam & seal & doors
+    camAt(t); camera.position.copy(camPos); camera.lookAt(camTgt); camera.updateMatrixWorld();
+    strips.forEach((s,i)=>{ if(s.aisle){ s.pl.intensity=ramp(t,26,29)*5; return; } const on=ramp(t,2+i*0.45,2.6+i*0.45); s.m.emissiveIntensity=on*1.6; s.pl.intensity=on*6; });
+    hallLight.intensity=ramp(t,21,26)*26; hallLight2.intensity=ramp(t,44,48)*30; gateBack.intensity=ramp(t,68.5,70)*22;
     const b=ramp(t,19,19.4)*(1-ramp(t,20.6,21.2)); const wpos=V(0.9,0.9,0).applyQuaternion(camera.quaternion).add(camera.position); const mid=new THREE.Vector3().addVectors(wpos,seal.position).multiplyScalar(0.5); beam.position.copy(mid); beam.scale.set(1,wpos.distanceTo(seal.position),1); beam.lookAt(seal.position); beam.rotateX(Math.PI/2); beam.material.opacity=b*.85; beamLight.intensity=b*25; beamGlow.scale.setScalar(b*4+ramp(t,19,21)*1.5*(1-ramp(t,21.5,22.5)));
     seal.rotation.z=ease(ramp(t,19.4,21.2))*Math.PI*1.5; const sc=1-ease(ramp(t,21,22.2))+ease(ramp(t,73,75)); seal.scale.setScalar(Math.max(0.001,sc)); seal.rotation.z+= -ease(ramp(t,73,75))*Math.PI;
     const dopen=ease(ramp(t,21.2,24))-ease(ramp(t,73,75.5)); doorL.position.x=-1.5-dopen*3.1; doorR.position.x=1.5+dopen*3.1; doorMat.emissiveIntensity=.25+ramp(t,19,21)*.5*(1-ramp(t,24,26));
     // orb
-    let op=null; if(t>=24&&t<28){ op=V(0.9,0.2,-1.6).applyQuaternion(camera.quaternion).add(camera.position); op.y+=Math.sin(t*3)*0.05; }
-    else if(t>=28&&t<42){ op=V(0,2.6,-52.5); op.x+=Math.sin(t*0.9)*1.5; op.y+=Math.sin(t*2.2)*0.12; }
-    else if(t>=42&&t<52.5){ const act=tiles.filter(x=>x.capT!==undefined); let k=0; for(let i=0;i<act.length;i++) if(t>=act[i].capT) k=i; const a=act[k], nx=act[Math.min(act.length-1,k+1)]; const u=ease(ramp(t,a.capT,nx.capT)); op=new THREE.Vector3().lerpVectors(a.pos,nx.pos,u); op.z+=1.3; op.y+=0.9; }
-    else if(t>=52.5&&t<68){ op=V(1.8,2.9,-48); op.x+=Math.sin(t*1.3)*0.25; op.y+=Math.sin(t*2)*0.1; }
-    else if(t>=68&&t<76){ op=V(1.6,0.4,-3.4).applyQuaternion(camera.quaternion).add(camera.position); }
+    let op=null;
+    if(t>=24&&t<28){ op=V(0.9,0.2,-1.6).applyQuaternion(camera.quaternion).add(camera.position); op.y+=Math.sin(t*3)*0.05; }
+    else if(t>=28&&t<46){ op=V(0.6,2.2,camPos.z-3.2); let best=null,bw=0; boxes.forEach(bx=>{ if(bx.pickT===undefined) return; const w=1-Math.min(1,Math.abs(t-(bx.pickT-0.1))/0.6); if(w>bw){ bw=w; best=bx; } }); if(best){ op.lerp(V(best.home.x*0.72,best.home.y+0.5,best.home.z),ease(bw)); } op.y+=Math.sin(t*2.2)*0.06; }
+    else if(t>=46&&t<52.5){ op=V(0.6,3.0,-60.5); op.x+=Math.sin(t*1.3)*0.3; }
+    else if(t>=52.5&&t<68){ op=V(1.8,2.9,ZA); op.x+=Math.sin(t*1.3)*0.25; op.y+=Math.sin(t*2)*0.1; }
+    else if(t>=68.5&&t<76){ op=V(1.6,0.4,-3.4).applyQuaternion(camera.quaternion).add(camera.position); }
     orb.visible=!!op; if(op){ orb.position.copy(op); orbGlow.position.copy(op); orbLight.position.copy(op); } const oi=op?ramp(t,24,25)*(1-ramp(t,75.5,76.5)):0; orbGlow.scale.setScalar(oi*1.6); orbLight.intensity=oi*10; orb.scale.setScalar(Math.max(0.001,oi));
-    // tiles
-    tiles.forEach(tl=>{ const vis=ramp(t,28.5+Math.random()*0,31)*(1-ramp(t,58,59)); tl.mesh.material.opacity=vis*(tl.r==='x'?.5:.95); const sel=tl.selT!==undefined?ramp(t,tl.selT,tl.selT+0.3):0; tl.ring.material.opacity=sel*(1-ramp(t,58,59)); tl.ring.scale.set(1.15+(1-sel)*0.3,0.75+(1-sel)*0.2,1); tl.mesh.material.emissiveIntensity=(tl.r==='x'?.1:.35)+sel*.55+(tl.capT!==undefined?ramp(t,tl.capT,tl.capT+0.1)*(1-ramp(t,tl.capT+0.12,tl.capT+0.5))*2:0); tl.mesh.position.y=tl.pos.y+Math.sin(t*1.5+tl.pos.x)*0.04; });
-    // chest, particles, rows, cube
-    const cs=ease(ramp(t,42,43.2))*(1-ease(ramp(t,61,62.5))); chest.scale.setScalar(Math.max(0.001,cs)); chestLight.intensity=cs*8*(1+ramp(t,50,52));
-    let pi=0; tiles.forEach(tl=>{ for(let k=0;k<14;k++){ const i=pi++; let x=0,y=-100,z=0; if(tl.capT!==undefined){ const u=ramp(t,tl.capT+0.1+k*0.02,tl.capT+1.3+k*0.02); if(u>0&&u<1){ const e=ease(u); x=tl.pos.x+(chestTop.x-tl.pos.x)*e+pSeed[i*3]*1.2*(1-e); y=tl.pos.y+(chestTop.y-tl.pos.y)*e+Math.sin(e*Math.PI)*1.6+pSeed[i*3+1]*0.8*(1-e); z=tl.pos.z+(chestTop.z-tl.pos.z)*e+pSeed[i*3+2]*1.2*(1-e); } } pPos[i*3]=x; pPos[i*3+1]=y; pPos[i*3+2]=z; } }); pGeo.attributes.position.needsUpdate=true;
-    const b2=ramp(t,50,51)*(1-ramp(t,60,61)); const bp=op||V(0,3.3,-48); const mid2=new THREE.Vector3().addVectors(bp,chestTop).multiplyScalar(0.5); beam2.position.copy(mid2); beam2.scale.set(1,bp.distanceTo(chestTop),1); beam2.lookAt(chestTop); beam2.rotateX(Math.PI/2); beam2.material.opacity=b2*.5;
-    const rm=ease(ramp(t,52,57)); const ro=ramp(t,50,52)*(1-ramp(t,60,61.5)); for(let n=0;n<RN*3;n++){ rCur[n]=rScat[n]+(rGrid[n]-rScat[n])*rm+(rm<1?Math.sin(t*2+n)*0.01:0); } rGeo.attributes.position.needsUpdate=true; rows.material.opacity=ro;
+    // trolley
+    const ts=ease(ramp(t,28,28.9))*(1-ease(ramp(t,51.2,52.2)))*0.92; trolley.scale.setScalar(Math.max(0.001,ts)); trolley.position.set(-0.38,-1.16+Math.sin(t*2*Math.PI*1.7)*0.012,-2.5); trolley.rotation.z=Math.sin(t*2*Math.PI*0.85)*0.01; trolley.updateMatrixWorld();
+    // containers: pick animation, gauges, scan
+    boxes.forEach((bx,i)=>{ const g=bx.g;
+      if(bx.pickT===undefined){ g.position.copy(bx.home); g.scale.setScalar(1); return; }
+      const u=ease(ramp(t,bx.pickT,bx.pickT+0.75)); const pre=ramp(t,bx.pickT-0.5,bx.pickT);
+      bx.gauge.material.emissiveIntensity=0.8+pre*1.4; bx.sealS.material.emissiveIntensity=0.5+pre*1.5;
+      if(u<=0){ g.position.copy(bx.home); g.scale.setScalar(1); g.rotation.set(0,0,0); }
+      else { const slot=slotLocal(bx.slot); trolley.localToWorld(slot); const p=new THREE.Vector3().lerpVectors(bx.home,slot,u); p.y+=Math.sin(u*Math.PI)*0.9; g.position.copy(p); const s=1-u*0.62; g.scale.setScalar(s); g.rotation.y=u*Math.PI*0.5*bx.sd; g.quaternion.copy(camera.quaternion).multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(0,u*Math.PI*0.5*bx.sd,0))); if(u<1) g.rotation.set(0,u*0.4*bx.sd,0); }
+      const sv=ramp(t,bx.scanT,bx.scanT+0.08)*(1-ramp(t,bx.scanT+0.1,bx.scanT+0.6)); bx.body.material.emissive=new THREE.Color(C.blueL); bx.body.material.emissiveIntensity=sv*1.5; const dis=ramp(t,bx.scanT+0.15,bx.scanT+0.6); if(dis>0) g.scale.setScalar(Math.max(0.001,(1-0.62)*(1-dis))); });
+    // scanning gate
+    const sg=ramp(t,45.5,46.6)*(1-ramp(t,51.5,52.5)); scanStrip.material.emissiveIntensity=.4+sg*1.4; let sfl=0; boxes.forEach(bx=>{ if(bx.scanT!==undefined) sfl=Math.max(sfl,ramp(t,bx.scanT,bx.scanT+0.03)*(1-ramp(t,bx.scanT+0.05,bx.scanT+0.25))); }); scanPlane.material.opacity=sg*0.08+sfl*0.35; scanLight.intensity=sg*8+sfl*30;
+    // particles: scanned containers -> rows
+    let pi=0; boxes.forEach(bx=>{ for(let k=0;k<14;k++){ const i=pi++; let x=0,y=-100,z=0; if(bx.scanT!==undefined){ const u=ramp(t,bx.scanT+0.1+k*0.02,bx.scanT+1.2+k*0.02); if(u>0&&u<1){ const e=ease(u); const from=bx.g.position; x=from.x+(rowsTop.x-from.x)*e+pSeed[i*3]*1.2*(1-e); y=from.y+(rowsTop.y-from.y)*e+Math.sin(e*Math.PI)*1.2+pSeed[i*3+1]*0.8*(1-e); z=from.z+(rowsTop.z-from.z)*e+pSeed[i*3+2]*1.2*(1-e); } } pPos[i*3]=x; pPos[i*3+1]=y; pPos[i*3+2]=z; } }); pGeo.attributes.position.needsUpdate=true;
+    const b2=ramp(t,50,51)*(1-ramp(t,60,61)); const bp=op||V(0,3.3,ZA); const mid2=new THREE.Vector3().addVectors(bp,rowsTop).multiplyScalar(0.5); beam2.position.copy(mid2); beam2.scale.set(1,bp.distanceTo(rowsTop),1); beam2.lookAt(rowsTop); beam2.rotateX(Math.PI/2); beam2.material.opacity=b2*.5;
+    const rm=ease(ramp(t,51,56.5)); const ro=ramp(t,47,49)*(1-ramp(t,60,61.5)); for(let n=0;n<RN*3;n++){ rCur[n]=rScat[n]+(rGrid[n]-rScat[n])*rm+(rm<1?Math.sin(t*2+n)*0.01:0); } rGeo.attributes.position.needsUpdate=true; rows.material.opacity=ro;
     const cu=ease(ramp(t,59,61.5)); cube.scale.setScalar(Math.max(0.001,cu)); cube.rotation.y=t*0.5; cube.rotation.x=0.42+Math.sin(t*0.4)*0.1; cube.position.y=2.2+Math.sin(t*1.2)*0.08;
     renderer.render(scene,camera);
-    // ---- HUD from time ----
+    // ---- HUD ----
     const w=stage.clientWidth,h=stage.clientHeight;
-    labels.forEach(l=>{ let p=l.pos; if(l.obj){ p=l.obj.position.clone().add(l.off); } proj.copy(p).project(camera); const vis=proj.z<1&&Math.abs(proj.x)<1.1&&Math.abs(proj.y)<1.1&&l.show(t); l.el.style.left=((proj.x+1)/2*w)+'px'; l.el.style.top=((1-proj.y)/2*h)+'px'; l.el.style.opacity=vis?1:0; });
+    labels.forEach(l=>{ let p=l.pos; if(l.obj){ p=l.obj.position.clone().add(l.off); } proj.copy(p).project(camera); const vis=proj.z<1&&Math.abs(proj.x)<1.1&&Math.abs(proj.y)<1.1&&l.show(t); let op=vis?1:0; if(vis&&(l.box||l.bay)){ const d=camera.position.distanceTo(p); op=l.box?Math.max(0,Math.min(1,(10.5-d)/3)):Math.max(0,Math.min(1,(16-d)/5)); } l.el.style.left=((proj.x+1)/2*w)+'px'; l.el.style.top=((1-proj.y)/2*h)+'px'; l.el.style.opacity=op; });
     E('fadein').style.opacity=1-ramp(t,0.3,1.8);
     setOp(E('boot'),ramp(t,0.5,1.2)*(1-ramp(t,5.6,6.2))); E('booti').style.width=(ramp(t,1,5.4)*100)+'%';
     let sub=''; subs.forEach(s=>{ if(t>=s[0]&&t<s[1]) sub=s[2]; }); const se=E('subs'); se.textContent=sub; setOp(se,sub?1:0);
@@ -272,23 +297,19 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
     const wp=E('weapon'); const win=ease(ramp(t,10,11.2)), wout=ease(ramp(t,72.4,73.6)); const recoil=ramp(t,19,19.08)*(1-ramp(t,19.1,19.5)); wp.style.bottom=(-40+win*44-wout*44+recoil*3-Math.sin(t*2*Math.PI*1.7)*0.6)+'%';
     setOp(E('load'),ramp(t,7,7.8)*(1-ramp(t,14.6,15.4)));
     const bd=E('badge'); if(t<74.5){ bd.textContent='SESIÓN INICIADA · MODO LECTURA'; bd.className='badge'; setOp(bd,ramp(t,22,22.6)*(1-ramp(t,72,72.6))); } else { bd.textContent='SESIÓN CERRADA · 7 MIN EN EL PORTAL · 0 ESCRITURAS'; bd.className='badge off'; setOp(bd,ramp(t,74.8,75.4)*(1-ramp(t,76.2,76.8))); }
-    const tb=E('tabs'); setOp(tb,ramp(t,29,30)*(1-ramp(t,41.5,42.2))); [...tb.children].forEach((s,i)=>s.classList.toggle('on',Math.floor(ramp(t,30,41)*2.999)===i));
-    const ct=E('counter'); if(t>=31&&t<42){ let n=0; tiles.forEach(tl=>{ if(tl.selT!==undefined&&t>=tl.selT) n++; }); ct.textContent=n+'/18 SELECCIONADOS'+(t>40?' · D51 SIN VENCIMIENTO ESTE MES':''); setOp(ct,1); } else if(t>=42.5&&t<58.5){ const n=Math.round(ramp(t,42.5,56)*70); ct.textContent='EXTRAÍDOS '+n+' / 70 · VALIDADOS '+n+' · RECHAZADOS 0'; setOp(ct,1); } else setOp(ct,0);
-    const fl=E('flash'); let f=0; tiles.forEach(tl=>{ if(tl.capT!==undefined) f=Math.max(f,ramp(t,tl.capT,tl.capT+0.03)*(1-ramp(t,tl.capT+0.04,tl.capT+0.16))); }); fl.style.opacity=f*0.3;
+    const ct=E('counter'); if(t>=29.4&&t<46){ let n=0; boxes.forEach(bx=>{ if(bx.pickT!==undefined&&t>=bx.pickT) n++; }); ct.textContent=n+'/18 EN EL CARRO'+(t>45.1?' · D51 SIN VENCIMIENTO ESTE MES':''); setOp(ct,1); } else if(t>=46.6&&t<58.5){ const n=Math.round(ramp(t,46.6,56)*70); ct.textContent='EXTRAÍDOS '+n+' / 70 · VALIDADOS '+n+' · RECHAZADOS 0'; setOp(ct,1); } else setOp(ct,0);
+    E('flash').style.opacity=sfl*0.16;
     const ru=E('rules'); setOp(ru,ramp(t,59.5,60.2)*(1-ramp(t,67.4,68))); [...ru.querySelectorAll('.stamp')].forEach((s,i)=>{ const u=ease(ramp(t,60+i*1.5,60.35+i*1.5)); s.style.opacity=u; s.style.transform='scale('+(2-u)+') rotate('+(-3+i*2)+'deg)'; });
     const xp=E('xp'); setOp(xp,ramp(t,64.6,65.2)*(1-ramp(t,67.4,68))); const xv=ease(ramp(t,65,67.5))*97.1; E('xpi').style.width=xv+'%'; E('xpt').textContent='CUMPLIMIENTO '+xv.toFixed(1).replace('.',',')+' %';
     const dg=E('dlg'); setOp(dg,ramp(t,70,70.5)*(1-ramp(t,72.3,72.8))); E('dlgbtn').classList.toggle('pressed',t>=72&&t<72.8);
-    // end sequence
     const en=E('end'); setOp(en,ramp(t,76,77)); setOp(E('mc'),ramp(t,77.2,78)*(1-ramp(t,79.6,80.4))); E('mc').style.transform='scale('+(0.96+ramp(t,77.2,80.4)*0.06)+')';
     const rp=E('rep'); setOp(rp,ramp(t,80.4,81.2)); const kc=ease(ramp(t,81,83.5)); E('k1').textContent=Math.round(70*kc); E('k2').textContent=(97.1*kc).toFixed(1).replace('.',',')+' %'; E('k3').textContent=Math.round(2*kc); E('k4').textContent=Math.round(1*kc); E('k5').textContent=Math.round(1*kc);
     const fo=ease(ramp(t,84.5,84.9)); const fr=E('four'); fr.style.opacity=fo; fr.style.transform='rotate(-4deg) scale('+(2-fo)+')';
     [...E('lines').children].forEach((s,i)=>{ const u=ease(ramp(t,86+i*0.9,86.6+i*0.9)); s.style.opacity=u; s.style.transform='translateY('+((1-u)*0.4)+'em)'; });
-    E('fadeout').style.opacity=ramp(t,89,90);
+    E('fadeout').style.opacity=Math.max(ramp(t,68,68.5)*(1-ramp(t,68.6,69.4)),ramp(t,89,90));
   }
-
-  // ---- timeline control ----
   const TOTAL=90; let time=0, playing=false, last=performance.now();
-  const CH=[[0,'Inicio'],[6,'Credenciales'],[16,'Portal'],[28,'Repositorio'],[42,'Captura'],[58,'Consolidación'],[68,'Cierre de sesión'],[76,'Reporte']];
+  const CH=[[0,'Inicio'],[6,'Credenciales'],[16,'Portal'],[28,'Pasillo'],[46,'Escáner'],[58,'Consolidación'],[68.6,'Cierre de sesión'],[76,'Reporte']];
   const chapters=$('#chapters'), scrub=$('#scrub');
   CH.forEach((c,i)=>{ const b=document.createElement('button'); b.type='button'; b.innerHTML='<b>'+(i+1)+'</b>'+c[1]; b.addEventListener('click',()=>{ time=c[0]+0.01; sync(); }); chapters.appendChild(b); });
   const playBtn=document.createElement('button'); playBtn.type='button'; playBtn.className='pl'; playBtn.textContent='▶ Reproducir'; playBtn.addEventListener('click',()=>playing?pause():play()); chapters.appendChild(playBtn);
