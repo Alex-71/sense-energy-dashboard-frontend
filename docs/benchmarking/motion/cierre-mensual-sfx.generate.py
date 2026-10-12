@@ -1,81 +1,106 @@
-# Synthesized sound-effects layer for "Cierre Mensual" (90 s), aligned to the animation timeline.
+# Sound design v2 for "Cierre Mensual": mechanical / electronic palette (vault, servos, hydraulics, relays, UI clicks).
 import numpy as np, wave
-SR=44100; DUR=90.0; N=int(SR*DUR); t=np.arange(N)/SR
-L=np.zeros(N); Rr=np.zeros(N); rng=np.random.default_rng(11)
-def add(start,sig,pan=0.0,gain=1.0):
-    s0=int(start*SR); s1=min(N,s0+len(sig)); 
-    if s0>=N: return
-    seg=sig[:s1-s0]*gain; L[s0:s1]+=seg*(1-max(0,pan)); Rr[s0:s1]+=seg*(1+min(0,pan))
-def env(n,a,d,s=0.0,r=0.05,sus=0.0):
-    e=np.ones(n); ia=int(a*SR); idd=int(d*SR); ir=int(r*SR)
-    e[:ia]=np.linspace(0,1,ia) if ia>0 else 1
-    if idd>0: e[ia:ia+idd]=np.linspace(1,sus if sus else 1,idd)
-    if ir>0 and ir<n: e[-ir:]*=np.linspace(1,0,ir)
+from scipy.signal import butter, lfilter
+SR=44100; DUR=90.0; N=int(SR*DUR)
+L=np.zeros(N); R=np.zeros(N); rng=np.random.default_rng(23)
+def bp(x,lo,hi,o=2): b,a=butter(o,[lo/(SR/2),hi/(SR/2)],btype='band'); return lfilter(b,a,x)
+def lp(x,fc,o=2): b,a=butter(o,fc/(SR/2)); return lfilter(b,a,x)
+def hp(x,fc,o=2): b,a=butter(o,fc/(SR/2),btype='high'); return lfilter(b,a,x)
+def env(n,a,r,hold=None):
+    e=np.ones(n); ia=max(1,int(a*SR)); ir=max(1,int(r*SR))
+    e[:ia]=np.linspace(0,1,ia)
+    if ir<n: e[-ir:]*=np.linspace(1,0,ir)
     return e
-def tone(f,dur,wave_='sine',a=0.005,r=0.05,f2=None):
-    n=int(dur*SR); tt=np.arange(n)/SR
-    ff=f if f2 is None else f+(f2-f)*(tt/dur)
-    ph=2*np.pi*np.cumsum(ff)/SR
-    s=np.sin(ph) if wave_=='sine' else (2*(ph/(2*np.pi)%1)-1)
-    return s*env(n,a,0,r=r)
-def noise(dur,a=0.002,r=0.05,lp=0):
-    n=int(dur*SR); s=rng.normal(0,1,n)
-    if lp>1: s=np.convolve(s,np.ones(lp)/lp,mode='same')
-    return s*env(n,a,0,r=r)
-def click(f=1800,dur=0.05,g=1): return tone(f,dur,a=0.001,r=0.03)*g
-def blip(f=880,dur=0.12,g=1): return tone(f,dur,a=0.003,r=0.08,f2=f*1.5)*g
-def thump(dur=0.5,g=1):
-    a=tone(70,dur,a=0.002,r=0.3,f2=40)*0.9; b=noise(0.08,r=0.06,lp=8)*0.5; a[:len(b)]+=b; return a*g
-def chime(f=1320,g=1):
-    s=tone(f,0.9,r=0.6)*0.6+tone(f*1.5,0.9,r=0.6)*0.35+tone(f*2,0.9,r=0.5)*0.2; return s*g
-def whoosh(dur=0.6,g=1): return noise(dur,a=0.25,r=0.3,lp=40)*g
-def rumble(dur,g=1): return (noise(dur,a=0.3,r=0.6,lp=300)*0.8+tone(38,dur,a=0.3,r=0.6)*0.6)*g
-def steps(t0,t1,period=0.59,g=0.25):
-    tt=t0
-    while tt<t1:
-        pn=(-0.3 if int(tt/period)%2 else 0.3); add(tt,noise(0.08,a=0.002,r=0.06,lp=24)*0.8,pan=pn,gain=g); add(tt,tone(90,0.09,a=0.002,r=0.07,f2=60)*0.6,pan=pn,gain=g); tt+=period
-# 1 boot: data ticks 1-5.4, objectives appear
-for i in range(26): add(1.0+i*0.17,click(2200+rng.integers(-300,300),0.025),gain=0.12)
-add(5.4,chime(990),gain=0.35)
-# 2 credentials: panel whoosh at 7, key slide-in 10-11.2, steps 10-16
-add(7.0,whoosh(0.5),gain=0.5); add(7.1,blip(660,0.15),gain=0.25); add(7.45,blip(880,0.15),gain=0.25)
-add(10.0,whoosh(0.9),gain=0.45); add(10.9,click(1200,0.06),gain=0.4)
-steps(10.3,16.0)
-# 3 gate: beam 19-20.6 rising, unlock 21, doors 21.2-24 rumble+slide, orb join 24
-add(19.0,tone(220,1.7,wave_='saw',a=0.1,r=0.3,f2=880)*0.35); add(19.0,noise(1.7,a=0.2,r=0.3,lp=6)*0.08)
-add(20.9,chime(1560),gain=0.5); add(21.0,tone(110,0.4,a=0.002,r=0.3,f2=55),gain=0.6)
-add(21.2,rumble(3.0),gain=0.7); add(21.4,noise(2.4,a=0.4,r=0.5,lp=120)*np.linspace(0.3,1,len(noise(2.4))),gain=0.35); add(23.9,thump(0.5),gain=0.6)
-add(22.0,blip(1046,0.2),gain=0.3)
-add(24.1,chime(1760),gain=0.3); add(24.0,tone(440,0.6,a=0.05,r=0.4,f2=880),gain=0.12)
+def nz(dur): return rng.normal(0,1,int(dur*SR))
+def tt(dur): return np.arange(int(dur*SR))/SR
+def add(start,sig,pan=0.0,gain=1.0):
+    s0=int(start*SR); s1=min(N,s0+len(sig))
+    if s0>=N or s1<=s0: return
+    seg=sig[:s1-s0]*gain; L[s0:s1]+=seg*(1-max(0,pan)*0.8); R[s0:s1]+=seg*(1+min(0,pan)*0.8)
+# ---- primitives ----
+def ui_click(dur=0.012,lo=2200,hi=5200,g=1.0):          # crisp interface click
+    s=bp(nz(dur+0.01),lo,hi,2)*env(int((dur+0.01)*SR),0.0005,dur); return s/ (np.max(np.abs(s))+1e-9)*g
+def key_click(g=1.0):                                   # mechanical key / button
+    a=bp(nz(0.03),900,3500)*env(int(0.03*SR),0.0005,0.025); b=np.sin(2*np.pi*420*tt(0.04))*env(int(0.04*SR),0.001,0.035)*0.4
+    s=np.zeros(max(len(a),len(b))); s[:len(a)]+=a/(np.max(np.abs(a))+1e-9); s[:len(b)]+=b; return s*g
+def relay(g=1.0):                                       # relay / bolt clunk
+    a=lp(nz(0.05),900)*env(int(0.05*SR),0.0005,0.045); t=tt(0.12); b=np.sin(2*np.pi*(95-40*t/0.12)*t)*np.exp(-t*28)
+    s=np.zeros(max(len(a),len(b))); s[:len(a)]+=a/(np.max(np.abs(a))+1e-9)*0.8; s[:len(b)]+=b*0.9; return s*g
+def thud(f0=48,dur=0.6,g=1.0):                          # sub impact
+    t=tt(dur); s=np.sin(2*np.pi*(f0-f0*0.4*t/dur)*t)*np.exp(-t*7); n=lp(nz(0.12),300)*env(int(0.12*SR),0.0005,0.1)*0.25
+    s[:len(n)]+=n; return s*g
+def metal_settle(g=1.0):                                # short inharmonic ring, lowpassed
+    t=tt(0.45); s=sum(np.sin(2*np.pi*f*t)*np.exp(-t*d)*a for f,d,a in ((412,9,1),(1137,14,.5),(1866,18,.3),(2733,22,.15)))
+    return lp(s,2600)*g*0.5
+def servo(dur,f1,f2,g=1.0):                             # motor whine with slight vibrato
+    t=tt(dur); f=f1+(f2-f1)*t/dur; ph=2*np.pi*np.cumsum(f)/SR; s=(2*((ph/(2*np.pi))%1)-1)*0.5+np.sin(ph*2)*0.2
+    s*= (1+0.03*np.sin(2*np.pi*27*t)); return lp(s,1400)*env(len(t),0.12,0.2)*g
+def hydraulic(dur,g=1.0):                               # hiss with slow decay
+    t=tt(dur); s=hp(nz(dur),1800)*np.exp(-t*2.2)*env(len(t),0.02,0.3); return s*g*0.6
+def rumble(dur,g=1.0):                                  # low mechanical bed
+    s=lp(nz(dur),120,3)*env(int(dur*SR),0.25,0.5); return s/(np.max(np.abs(s))+1e-9)*g
+def hum(dur,f=58,g=1.0):                                # electrical hum
+    t=tt(dur); s=np.sin(2*np.pi*f*t)+0.35*np.sin(2*np.pi*f*2*t)+0.15*np.sin(2*np.pi*f*3*t); return lp(s,400)*env(len(t),0.6,0.8)*g*0.3
+def charge(dur,g=1.0):                                  # electrical charge-up
+    t=tt(dur); n=bp(nz(dur),300+3000*(t/dur),400+6000*(t/dur)+1,2) if False else hp(nz(dur),400)*(t/dur)**2
+    h=np.sin(2*np.pi*np.cumsum(70+180*(t/dur)**2)/SR)*(t/dur); return (n*0.5+h*0.5)*env(len(t),0.05,0.05)*g
+def shimmer(dur,g=1.0):                                 # holographic texture
+    t=tt(dur); s=hp(nz(dur),5000)*(0.5+0.5*np.sin(2*np.pi*6*t))*env(len(t),0.6,0.8); return s*g*0.35
+def shutter(g=1.0):                                     # two-part mechanical shutter
+    a=ui_click(0.009,1500,5000); b=ui_click(0.011,1200,4200); s=np.zeros(int(0.06*SR)); s[:len(a)]+=a; s[int(0.038*SR):int(0.038*SR)+len(b)]+=b*0.8; return s*g
+def tick(g=1.0): return ui_click(0.006,3000,7000,g)
+def denied(g=1.0):
+    t=tt(0.14); s=np.sign(np.sin(2*np.pi*110*t))*env(len(t),0.003,0.08); return lp(s,500)*g*0.5
+def steps(t0,t1,period=0.59,g=0.18):
+    k=0; x=t0
+    while x<t1:
+        s=lp(nz(0.07),420)*env(int(0.07*SR),0.001,0.06); s=s/(np.max(np.abs(s))+1e-9)
+        add(x,s,pan=(-0.25 if k%2 else 0.25),gain=g); add(x,thud(60,0.12,0.35),pan=(-0.25 if k%2 else 0.25),gain=g); x+=period; k+=1
+# ---- scene 1: boot ----
+add(0.8,hum(5.2,55),gain=0.35)
+for i in range(14): add(1.2+i*0.3,tick(),gain=0.08)
+add(5.4,relay(),gain=0.35); add(5.45,hydraulic(0.5),gain=0.25)
+# ---- scene 2: credentials ----
+add(7.0,hydraulic(0.35),gain=0.3); add(7.05,ui_click(0.012),gain=0.2); add(7.45,relay(),gain=0.4)
+add(10.0,hydraulic(0.6),gain=0.3); add(10.95,relay(),gain=0.5)
+steps(10.4,16.0)
+# ---- scene 3: vault ----
+add(19.0,charge(1.9),gain=0.45)
+for k,ts in enumerate((20.9,21.05,21.2)): add(ts,relay(),pan=(-0.4,0,0.4)[k],gain=0.75)
+add(21.0,thud(42,0.8),gain=0.6)
+add(21.2,rumble(3.2),gain=0.55); add(21.3,servo(2.6,85,130),gain=0.28); add(21.3,hydraulic(1.6),gain=0.35)
+add(23.8,thud(45,0.6),gain=0.5); add(23.85,metal_settle(),gain=0.5)
+add(22.0,ui_click(0.012),gain=0.22); add(22.08,ui_click(0.012),gain=0.15)
+add(24.0,hp(nz(0.5),2500)*np.linspace(0,1,int(0.5*SR))**2*env(int(0.5*SR),0.05,0.1),gain=0.12); add(24.4,hum(1.2,120),gain=0.2)
 steps(25.0,28.0)
-# 4 repository: tiles reveal 28.5-31 shimmer, selection ticks 31+i*0.55, D51 locked buzz 40.2
-add(28.5,tone(660,2.5,a=0.8,r=1.0,f2=1320)*0.08); add(28.5,noise(2.5,a=0.8,r=1.0,lp=3)*0.04)
-for i in range(17):
-    add(31.0+i*0.55,click(1500+i*40,0.04)*0.7,pan=((i%6)-2.5)/4,gain=0.45); add(31.0+i*0.55,blip(700+i*30,0.09)*0.5,pan=((i%6)-2.5)/4,gain=0.45)
-add(40.2,tone(180,0.25,wave_='saw',a=0.005,r=0.1)*0.25)
-# 5 capture: shutter+flash at 42+i*0.55; chest appears 42; beam hum 50-58; chips 44/47/50
-add(42.0,whoosh(0.5),gain=0.4); add(42.2,thump(0.4),gain=0.4)
-for i in range(17):
-    pn=((i%6)-2.5)/4; add(42.0+i*0.55,noise(0.06,a=0.001,r=0.05,lp=2)*0.9,pan=pn,gain=0.5); add(42.0+i*0.55,click(3000,0.02)*0.6,pan=pn,gain=0.5); add(42.0+i*0.55,tone(520,0.25,a=0.01,r=0.2,f2=1400)*0.25,pan=pn,gain=0.5)
-for tc in (44,47,50): add(tc,blip(990,0.14),gain=0.3)
-add(50.0,tone(110,8.0,a=0.8,r=1.2)*0.12); add(50.0,tone(220.5,8.0,a=0.8,r=1.2)*0.08); add(50.0,noise(8.0,a=1,r=1,lp=60)*0.06)
-for i in range(40): add(52.2+i*0.12,click(2600,0.02),gain=0.12)
-# 6 consolidation: cube rise 59-61.5, stamps 60+1.5k, bar 65-67.5
-add(59.0,tone(55,2.5,a=0.5,r=1.0,f2=110)*0.3); add(59.0,tone(330,2.5,a=0.5,r=1.0,f2=660)*0.1)
-for k in range(4):
-    add(60.0+k*1.5,thump(0.45),gain=0.8); add(60.0+k*1.5,click(900,0.05)*0.5,gain=0.8)
-for i in range(30): add(65.0+i*0.083,click(1800+i*40,0.025),gain=0.15)
-add(67.5,chime(1320),gain=0.4)
-# 7 logout: dialog 70, press 72, holster 72.4, doors close 73-75.5, badge 75
-add(70.0,blip(784,0.18),gain=0.35); add(72.0,click(1400,0.05)*0.8,gain=0.6); add(72.0,tone(600,0.12,a=0.002,r=0.1)*0.4,gain=0.6)
-add(72.4,whoosh(0.8),gain=0.4); add(73.0,rumble(2.6),gain=0.7); add(75.4,thump(0.6),gain=0.9)
-add(75.0,chime(880),gain=0.3)
-# 8 report: complete 77 chime, tiles count 81-83.5 ticks, four-eyes stamp 84.5, lines 86-88
-add(77.0,chime(1046)*0.8,gain=0.6); add(77.0,chime(1568)*0.5,gain=0.6); add(77.0,tone(65,1.2,a=0.01,r=0.9),gain=0.5)
-for i in range(30): add(81.0+i*0.083,click(2000+i*20,0.02),gain=0.12)
-add(84.5,thump(0.4)*0.8,gain=0.8); add(84.5,click(1000,0.05)*0.5,gain=0.8)
-for i in range(3): add(86.0+i*0.9,blip(660+i*110,0.16),gain=0.3)
-mix=np.stack([L,Rr],axis=1); mix=np.tanh(mix*1.2); mix=mix/np.max(np.abs(mix))*0.8
-with wave.open('cierre-mensual-sfx.wav','wb') as w:
+# ---- scene 4: repository ----
+add(28.5,shimmer(3.0),gain=0.5)
+for i in range(17): add(31.0+i*0.55,ui_click(0.012,2000+rng.integers(-200,200),5000),pan=((i%6)-2.5)/3.5,gain=0.55)
+add(40.2,denied(),gain=0.4)
+# ---- scene 5: capture ----
+add(42.0,servo(1.0,110,70),gain=0.22); add(42.9,relay(),gain=0.45)
+for i in range(17): add(42.0+i*0.55,shutter(),pan=((i%6)-2.5)/3.5,gain=0.5)
+for tc in (44,47,50): add(tc,ui_click(0.012),gain=0.2)
+add(50.0,hum(8.0,62),gain=0.6)
+for i in range(60): add(50.4+i*0.125+rng.uniform(-0.02,0.02),tick(),pan=rng.uniform(-0.5,0.5),gain=0.07)
+# ---- scene 6: consolidation ----
+add(59.0,rumble(2.8),gain=0.35); add(59.0,servo(2.4,60,120),gain=0.18)
+for k in range(4): add(60.0+k*1.5,relay(),gain=0.8); add(60.0+k*1.5,thud(50,0.45),gain=0.45)
+for i in range(30): add(65.0+i*0.083,tick(),gain=0.1)
+add(67.5,relay(),gain=0.5)
+# ---- scene 7: logout ----
+add(70.0,ui_click(0.012),gain=0.25); add(70.08,ui_click(0.012),gain=0.15)
+add(72.0,key_click(),gain=0.7); add(72.4,hydraulic(0.5),gain=0.3)
+add(73.0,rumble(2.8),gain=0.55); add(73.0,servo(2.3,130,80),gain=0.28); add(73.1,hydraulic(1.4),gain=0.3)
+for k,ts in enumerate((75.2,75.35,75.5)): add(ts,relay(),pan=(0.4,0,-0.4)[k],gain=0.75)
+add(75.5,thud(42,0.8),gain=0.6); add(75.55,metal_settle(),gain=0.45)
+add(75.0,ui_click(0.012),gain=0.2)
+# ---- scene 8: report ----
+add(77.0,thud(40,1.4),gain=0.8); add(77.0,lp(nz(1.8),500)*np.exp(-tt(1.8)*2.5),gain=0.12)
+for i in range(30): add(81.0+i*0.083,tick(),gain=0.08)
+add(84.5,relay(),gain=0.7); add(84.5,thud(50,0.4),gain=0.4)
+for i in range(3): add(86.0+i*0.9,ui_click(0.012),gain=0.2)
+mix=np.stack([L,R],axis=1); mix=np.tanh(mix*1.1); mix=mix/np.max(np.abs(mix))*0.8
+with wave.open('cierre-mensual-sfx2.wav','wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((mix*32767).astype(np.int16).tobytes())
-print('sfx ok')
+print('sfx2 ok')
