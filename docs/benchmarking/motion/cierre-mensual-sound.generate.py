@@ -1,6 +1,7 @@
 # Sound design v3 for "Cierre Mensual" (90 s). Temp score + effects with a real DSP chain:
 # convolution reverb, modal resonators, time-varying filters, Karplus-Strong, compression, ducking.
-import numpy as np, wave
+import numpy as np, wave, os
+VAR=os.environ.get('VAR','P')
 from scipy.signal import butter, lfilter, lfilter_zi, fftconvolve
 SR=48000; DUR=90.0; N=int(SR*DUR); rng=np.random.default_rng(5)
 BPM=100; BEAT=60/BPM; BAR=4*BEAT
@@ -179,11 +180,22 @@ vault.add(21.2,hiss(1.4),gain=0.35); vault.add(21.3,servo(2.6,14,24),gain=0.45);
 vault.add(23.8,impact(40,1.8,0.7,metal=True)); vault.add(23.8,modal(burst(4,(200,4000)),[(412,1.1,0.5),(1137,0.8,0.3),(1866,0.5,0.15)]),gain=0.25)
 sfx.add(22.0,glass_tick(2600),gain=0.18); sfx.add(22.09,glass_tick(3300),gain=0.12)
 sfx.add(24.0,lp(np.sin(2*np.pi*np.cumsum(220+600*(tt(0.4)/0.4)**2)/SR)*env(int(0.4*SR),0.05,0.2),1800),gain=0.08)
-# aisle: trolley bed, bay signage ticks, scanner picks, placements
-sfx.add(28.2,trolley_bed(18.2),gain=0.32)
-for tb in (29.0,33.4,38.2,45.0): sfx.add(tb,glass_tick(3100),gain=0.09)
+# selection beds per variant
+if VAR in ('P','B'):
+    sfx.add(28.2,trolley_bed(18.2),gain=0.32 if VAR=='P' else 0.22)
+if VAR=='A':
+    sfx.add(28.2,lp(pink(int(18.5*SR)),220,3)*env(int(18.5*SR),1.0,1.2)/3,gain=0.12)
+    for i in range(12): sfx.add(28.6+i*1.5+rng.uniform(0,0.4),glass_tick(2400+rng.integers(-400,400)),pan=rng.uniform(-0.6,0.6),gain=0.05)
+if VAR=='C':
+    t_=tt(18.5); sfx.add(28.2,hp(pink(len(t_)),2600)*(0.6+0.4*np.sin(2*np.pi*0.23*t_))*env(len(t_),1.5,1.5),gain=0.05)
+    sfx.add(28.2,lp(np.sin(2*np.pi*110*t_)+0.3*np.sin(2*np.pi*220.4*t_),300)*env(len(t_),2,2),gain=0.05)
+for tb in (29.0,33.4,38.2,45.0): sfx.add(tb,glass_tick(3100),gain=0.09 if VAR!='C' else 0.0)
 for i in range(17):
-    tp=29.6+i*0.9; pn_=(-0.4 if i%2==0 else 0.4); sfx.add(tp-0.22,scan_sweep(),pan=pn_,gain=0.5); sfx.add(tp+0.62,placement(),pan=-0.2,gain=0.5)
+    tp=29.6+i*0.9; pn_=(-0.4 if i%2==0 else 0.4)
+    if VAR=='P': sfx.add(tp-0.22,scan_sweep(),pan=pn_,gain=0.5); sfx.add(tp+0.62,placement(),pan=-0.2,gain=0.5)
+    if VAR=='A': sfx.add(tp-0.2,scan_sweep(),pan=pn_*0.6,gain=0.35); sfx.add(tp+0.05,ui_click(1900,0.9),pan=pn_*0.6,gain=0.4); sfx.add(tp+0.6,swish(0.18),pan=-0.3,gain=0.25); sfx.add(tp+0.72,placement(),pan=-0.3,gain=0.3)
+    if VAR=='B': sfx.add(tp-0.3,solenoid(),pan=pn_,gain=0.35); sfx.add(tp-0.25,lp(pink(int(0.5*SR)),500)*env(int(0.5*SR),0.05,0.25)/3,pan=pn_,gain=0.35); sfx.add(tp+0.65,placement(),pan=0.0,gain=0.45)
+    if VAR=='C': sfx.add(tp-0.2,glass_tick(2600+i*40),pan=pn_,gain=0.3); sfx.add(tp+0.1,hp(pink(int(0.5*SR)),1800)*env(int(0.5*SR),0.2,0.25)/3,pan=pn_,gain=0.25); sfx.add(tp+0.7,glass_tick(1800),pan=0,gain=0.2)
 sfx.add(45.2,modal(burst(3,(60,600)),[(105,0.08,0.7),(210,0.05,0.3)]),gain=0.45); sfx.add(45.28,modal(burst(3,(60,600)),[(105,0.08,0.7)]),gain=0.35)
 # scanner gate: power-up, per-box shutter, hum, data ticks
 sfx.add(45.6,servo(1.2,10,22),gain=0.2); sfx.add(46.4,solenoid(),gain=0.35)
@@ -220,6 +232,6 @@ mus_st*=duckg[:,None]
 mix=mus_st*0.9+sfx_st*1.0
 fade=np.minimum(1,np.arange(N)/SR/1.2)*np.minimum(1,np.maximum(0,DUR-np.arange(N)/SR)/2.0); mix*=fade[:,None]
 mix=np.tanh(mix*1.05); mix=mix/np.max(np.abs(mix))*0.9
-with wave.open('cierre-mensual-mix4.wav','wb') as w:
+with wave.open('cierre-mensual-mix-'+VAR+'.wav','wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((mix*32767).astype(np.int16).tobytes())
 print('mix3 ok')
